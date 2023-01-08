@@ -1,1 +1,0 @@
-<template><div>This is the first page</div></template>

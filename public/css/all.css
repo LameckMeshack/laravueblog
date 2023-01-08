@@ -3077,3 +3077,9 @@ i.cross_icon{
 .catagory_main_inputs {
     width: 319px;
 }
+
+.router-link-exact-active{
+    color: #0099ff!important;
+    border-right: 2px solid #0099ff !important;
+    background-color: #eaeeea;
+}

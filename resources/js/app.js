@@ -2,7 +2,10 @@ import './bootstrap';
 
 import Vue from 'vue';
 import router from './router';
-// window.Vue = require('vue');
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
+
+Vue.use(ViewUI);
 
 Vue.component('mainapp', require('./components/mainapp.vue').default)
 const app = new Vue({ 
