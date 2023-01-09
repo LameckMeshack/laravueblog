@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('blogtags', function (Blueprint $table) {
             $table->id();
-            $table->string('tag_id');
-            $table->string('blog_id');
+            $table->unsignedInteger('tag_id');
+            $table->unsignedInteger('blog_id');
             $table->timestamps();
         });
     }
