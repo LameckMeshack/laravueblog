@@ -361,159 +361,36 @@ var render = function render() {
     staticClass: "content"
   }, [_c("div", {
     staticClass: "container-fluid"
-  }, [_vm._m(0), _vm._v(" "), _c("Page", {
+  }, [_c("div", {
+    staticClass: "_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
+  }, [_c("p", {
+    staticClass: "_title0"
+  }, [_vm._v("\n                    Tags"), _c("Button", [_c("Icon", {
     attrs: {
-      total: 100
+      type: "md-add"
     }
-  })], 1)])]);
+  }), _vm._v("Add Tag")], 1)], 1), _vm._v(" "), _c("div", {
+    staticClass: "_overflow _table_div"
+  }, [_c("table", {
+    staticClass: "_table"
+  }, [_vm._m(0), _vm._v(" "), _c("tr", [_c("td", [_vm._v("1")]), _vm._v(" "), _c("td", {
+    staticClass: "_table_name"
+  }, [_vm._v('\n                                Manhattan\'s art center "Shed" opening\n                                ceremony\n                            ')]), _vm._v(" "), _c("td", [_vm._v("Economy")]), _vm._v(" "), _c("td", [_c("Button", {
+    attrs: {
+      type: "info",
+      size: "small"
+    }
+  }, [_vm._v("Error")]), _vm._v(" "), _c("Button", {
+    attrs: {
+      type: "error",
+      size: "small"
+    }
+  }, [_vm._v("Error")])], 1)])])])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
-  }, [_c("p", {
-    staticClass: "_title0"
-  }, [_vm._v("Recent News")]), _vm._v(" "), _c("div", {
-    staticClass: "_overflow _table_div"
-  }, [_c("table", {
-    staticClass: "_table"
-  }, [_c("tr", [_c("th", [_vm._v("Date")]), _vm._v(" "), _c("th", [_vm._v("Title")]), _vm._v(" "), _c("th", [_vm._v("Category")]), _vm._v(" "), _c("th", [_vm._v("Action")])]), _vm._v(" "), _c("tr", [_c("td", [_vm._v("25-05-19")]), _vm._v(" "), _c("td", {
-    staticClass: "_table_name"
-  }, [_vm._v('\n                                Manhattan\'s art center "Shed" opening\n                                ceremony\n                            ')]), _vm._v(" "), _c("td", [_vm._v("Economy")]), _vm._v(" "), _c("td", [_c("button", {
-    staticClass: "_btn _action_btn view_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    View\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn edit_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Edit\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn2",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Features\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn3",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Card\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Delete\n                                ")])])]), _vm._v(" "), _c("tr", [_c("td", [_vm._v("25-05-19")]), _vm._v(" "), _c("td", {
-    staticClass: "_table_name"
-  }, [_vm._v("\n                                Are Trump era is having an impact on what 's\n                                future voters\n                            ")]), _vm._v(" "), _c("td", [_vm._v("Social")]), _vm._v(" "), _c("td", [_c("button", {
-    staticClass: "_btn _action_btn view_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    View\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn edit_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Edit\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn2",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Features\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn3",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Card\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Delete\n                                ")])])]), _vm._v(" "), _c("tr", [_c("td", [_vm._v("25-05-19")]), _vm._v(" "), _c("td", {
-    staticClass: "_table_name"
-  }, [_vm._v('\n                                Manhattan\'s art center "Shed" opening\n                                ceremony\n                            ')]), _vm._v(" "), _c("td", [_vm._v("Economy")]), _vm._v(" "), _c("td", [_c("button", {
-    staticClass: "_btn _action_btn view_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    View\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn edit_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Edit\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn2",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Features\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn3",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Card\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Delete\n                                ")])])]), _vm._v(" "), _c("tr", [_c("td", [_vm._v("25-05-19")]), _vm._v(" "), _c("td", {
-    staticClass: "_table_name"
-  }, [_vm._v("\n                                Are Trump era is having an impact on what 's\n                                future voters\n                            ")]), _vm._v(" "), _c("td", [_vm._v("Social")]), _vm._v(" "), _c("td", [_c("button", {
-    staticClass: "_btn _action_btn view_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    View\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn edit_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Edit\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn2",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Features\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn3",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Card\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Delete\n                                ")])])]), _vm._v(" "), _c("tr", [_c("td", [_vm._v("25-05-19")]), _vm._v(" "), _c("td", {
-    staticClass: "_table_name"
-  }, [_vm._v("\n                                Are Trump era is having an impact on what 's\n                                future voters\n                            ")]), _vm._v(" "), _c("td", [_vm._v("Social")]), _vm._v(" "), _c("td", [_c("button", {
-    staticClass: "_btn _action_btn view_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    View\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn edit_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Edit\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn2",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Features\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn3",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Make Card\n                                ")]), _vm._v(" "), _c("button", {
-    staticClass: "_btn _action_btn make_btn1",
-    attrs: {
-      type: "button"
-    }
-  }, [_vm._v("\n                                    Delete\n                                ")])])])])])]);
+  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Tag name")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
 }];
 render._withStripped = true;
 
