@@ -11,14 +11,14 @@ class TestController extends Controller
         return view('welcome');
     }
 
-    public function test()
-    {
-        return response()->json(
-            [
-                'message' => 'Error occurres',
+    // public function test()
+    // {
+    //     return response()->json(
+    //         [
+    //             'message' => 'Error occurres',
 
-            ],
-            422
-        );
-    }
+    //         ],
+    //         422
+    //     );
+    // }
 }

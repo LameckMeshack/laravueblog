@@ -24,13 +24,16 @@
                             <!-- TABLE TITLE -->
 
                             <!-- ITEMS -->
-                            <tr>
-                                <td>1</td>
+                            <tr
+                                v-for="(tag, i) in tags"
+                                :key="i"
+                                v-if="tags.length"
+                            >
+                                <td>{{ tag.id }}</td>
                                 <td class="_table_name">
-                                    Manhattan's art center "Shed" opening
-                                    ceremony
+                                    {{ tag.tagName }}
                                 </td>
-                                <td>Economy</td>
+                                <td>{{ tag.created_at }}</td>
                                 <td>
                                     <Button type="info" size="small"
                                         >Error</Button
@@ -50,18 +53,23 @@
                     :mask-closable="false"
                     :closable="false"
                 >
-                    <!-- <Input
-                        v-model="addModal.name"
-                        placeholder="Enter the name of the modal"
+                    <Input
+                        v-model="data.tagName"
+                        placeholder="Add a tag name"
                         class="modal_input"
                         @on-keyup.enter="addModal = false"
-                    ></Input> -->
-                    <p>This is the contett</p>
+                    ></Input>
                     <div slot="footer">
                         <Button type="default" @click="addModal = false"
                             >Close</Button
                         >
-                        <Button type="primary">Add Tag</Button>
+                        <Button
+                            type="primary"
+                            @click="addTag"
+                            :disabled="isAdding"
+                            :loading="isAdding"
+                            >{{ isAdding ? "Adding" : "Add Tag" }}</Button
+                        >
                     </div>
                 </Modal>
             </div>
@@ -77,12 +85,31 @@ export default {
             },
             addModal: false,
             isAdding: false,
+            tags: [],
         };
     },
 
-    methods: { 
-        addTag(){
-            
+    methods: {
+        async addTag() {
+            if (this.data.tagName.trim() == "")
+                return this.e("Tag name is required");
+            const res = await this.callApi("post", "app/create_tag", this.data);
+            if (res.status == 201) {
+                this.tags.unshift(res.data);
+                this.s("Tag added successfully");
+                this.addModal = false;
+                this.data.tagName = "";
+            } else {
+                this.swr();
+            }
+        },
+    },
+    async created() {
+        const res = await this.callApi("get", "app/get_tags");
+        if (res.status == 200) {
+            this.tags = res.data;
+        } else {
+            this.swr();
         }
     },
 };
