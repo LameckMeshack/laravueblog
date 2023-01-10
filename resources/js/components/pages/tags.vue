@@ -45,3 +45,16 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    async created() {
+        const res = await this.callApi("post", "/app/create_tag", {
+            tagName: "testtag",
+        });
+        console.log(res);
+        if (res.status === 200) {
+            // console.log(res);
+        }
+    },
+};
+</script>

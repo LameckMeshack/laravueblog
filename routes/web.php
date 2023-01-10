@@ -23,7 +23,13 @@ Route::get('/test', function () {
 
 
 
-Route::get('/', 'TestController@controllerMethod');
+Route::post('app/create_tag', 'TestController@test');
+Route::get(
+    '/',
+    function () {
+        return view('welcome');
+    }
+);
 
 Route::any('{slug}', function () {
     return view('welcome');
