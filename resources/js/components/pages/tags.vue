@@ -7,7 +7,9 @@
                     class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
                 >
                     <p class="_title0">
-                        Tags<Button><Icon type="md-add" />Add Tag</Button>
+                        Tags<Button @click="addModal = true"
+                            ><Icon type="md-add" />Add Tag</Button
+                        >
                     </p>
 
                     <div class="_overflow _table_div">
@@ -41,19 +43,46 @@
                         </table>
                     </div>
                 </div>
+                <!-- tag adding modal -->
+                <Modal
+                    v-model="addModal"
+                    title="Add Tag"
+                    :mask-closable="false"
+                    :closable="false"
+                >
+                    <!-- <Input
+                        v-model="addModal.name"
+                        placeholder="Enter the name of the modal"
+                        class="modal_input"
+                        @on-keyup.enter="addModal = false"
+                    ></Input> -->
+                    <p>This is the contett</p>
+                    <div slot="footer">
+                        <Button type="default" @click="addModal = false"
+                            >Close</Button
+                        >
+                        <Button type="primary">Add Tag</Button>
+                    </div>
+                </Modal>
             </div>
         </div>
     </div>
 </template>
 <script>
 export default {
-    async created() {
-        const res = await this.callApi("post", "/app/create_tag", {
-            tagName: "testtag",
-        });
-        console.log(res);
-        if (res.status === 200) {
-            // console.log(res);
+    data() {
+        return {
+            data: {
+                tagName: "",
+            },
+            addModal: false,
+            isAdding: false,
+        };
+    },
+
+    methods: { 
+        addTag(){
+            
         }
     },
 };
