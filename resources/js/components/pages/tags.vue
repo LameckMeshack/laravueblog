@@ -24,6 +24,7 @@
                             <!-- TABLE TITLE -->
 
                             <!-- ITEMS -->
+
                             <tr
                                 v-for="(tag, i) in tags"
                                 :key="i"
@@ -35,11 +36,14 @@
                                 </td>
                                 <td>{{ tag.created_at }}</td>
                                 <td>
-                                    <Button type="info" size="small"
-                                        >Error</Button
+                                    <Button
+                                        type="info"
+                                        size="small"
+                                        @click="showEditModal(tag)"
+                                        >Edit</Button
                                     >
                                     <Button type="error" size="small"
-                                        >Error</Button
+                                        >Delete</Button
                                     >
                                 </td>
                             </tr>
@@ -57,7 +61,7 @@
                         v-model="data.tagName"
                         placeholder="Add a tag name"
                         class="modal_input"
-                        @on-keyup.enter="addModal = false"
+                        @on-keyup.enter="addTag"
                     ></Input>
                     <div slot="footer">
                         <Button type="default" @click="addModal = false"
@@ -69,6 +73,32 @@
                             :disabled="isAdding"
                             :loading="isAdding"
                             >{{ isAdding ? "Adding" : "Add Tag" }}</Button
+                        >
+                    </div>
+                </Modal>
+                <!-- tag editing modal -->
+                <Modal
+                    v-model="editModal"
+                    title="Edit Tag"
+                    :mask-closable="false"
+                    :closable="false"
+                >
+                    <Input
+                        v-model="editData.tagName"
+                        placeholder="Edit a tag name"
+                        class="modal_input"
+                        @on-keyup.enter="editTag"
+                    ></Input>
+                    <div slot="footer">
+                        <Button type="default" @click="editModal = false"
+                            >Close</Button
+                        >
+                        <Button
+                            type="primary"
+                            @click="editTag"
+                            :disabled="isEditing"
+                            :loading="isEditing"
+                            >{{ isEditing ? "Editing" : "Edit Tag" }}</Button
                         >
                     </div>
                 </Modal>
@@ -85,7 +115,12 @@ export default {
             },
             addModal: false,
             isAdding: false,
+            isEditing: false,
+            editModal: false,
             tags: [],
+            editData: {
+                tagName: "",
+            },
         };
     },
 
@@ -100,8 +135,44 @@ export default {
                 this.addModal = false;
                 this.data.tagName = "";
             } else {
-                this.swr();
+                if (res.status == 422) {
+                    if (res.data.errors.tagName) {
+                        this.i(res.data.errors.tagName);
+                    }
+                } else {
+                    this.swr();
+                }
             }
+        },
+        //edit tags
+        async editTag() {
+            if (this.editData.tagName.trim() == "")
+                return this.e("Tag name is required");
+            const res = await this.callApi(
+                "post",
+                "app/edit_tag",
+                this.editData
+            );
+            if (res.status == 200) {
+                this.s("Tag edited successfully");
+                this.editModal = false;
+                this.editData.tagName = "";
+            } else {
+                if (res.status == 422) {
+                    if (res.data.errors.tagName)
+                        this.i(res.data.errors.tagName);
+                } else {
+                    this.swr();
+                }
+            }
+        },
+        showEditModal(tag) {
+            let obj = {
+                id: tag.id,
+                tagName: tag.tagName,
+            };
+            this.editModal = true;
+            this.editData = obj;
         },
     },
     async created() {

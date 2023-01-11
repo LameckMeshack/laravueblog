@@ -24,7 +24,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       addModal: false,
       isAdding: false,
-      tags: []
+      isEditing: false,
+      editModal: false,
+      tags: [],
+      editData: {
+        tagName: ""
+      }
     };
   },
   methods: {
@@ -51,7 +56,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.addModal = false;
                 _this.data.tagName = "";
               } else {
-                _this.swr();
+                if (res.status == 422) {
+                  if (res.data.errors.tagName) {
+                    _this.i(res.data.errors.tagName);
+                  }
+                } else {
+                  _this.swr();
+                }
               }
             case 6:
             case "end":
@@ -59,29 +70,73 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    //edit tags
+    editTag: function editTag() {
+      var _this2 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var res;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!(_this2.editData.tagName.trim() == "")) {
+                _context2.next = 2;
+                break;
+              }
+              return _context2.abrupt("return", _this2.e("Tag name is required"));
+            case 2:
+              _context2.next = 4;
+              return _this2.callApi("post", "app/edit_tag", _this2.editData);
+            case 4:
+              res = _context2.sent;
+              if (res.status == 200) {
+                _this2.s("Tag edited successfully");
+                _this2.editModal = false;
+                _this2.editData.tagName = "";
+              } else {
+                if (res.status == 422) {
+                  if (res.data.errors.tagName) _this2.i(res.data.errors.tagName);
+                } else {
+                  _this2.swr();
+                }
+              }
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }))();
+    },
+    showEditModal: function showEditModal(tag) {
+      var obj = {
+        id: tag.id,
+        tagName: tag.tagName
+      };
+      this.editModal = true;
+      this.editData = obj;
     }
   },
   created: function created() {
-    var _this2 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+    var _this3 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
       var res;
-      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-        while (1) switch (_context2.prev = _context2.next) {
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.next = 2;
-            return _this2.callApi("get", "app/get_tags");
+            _context3.next = 2;
+            return _this3.callApi("get", "app/get_tags");
           case 2:
-            res = _context2.sent;
+            res = _context3.sent;
             if (res.status == 200) {
-              _this2.tags = res.data;
+              _this3.tags = res.data;
             } else {
-              _this2.swr();
+              _this3.swr();
             }
           case 4:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
-      }, _callee2);
+      }, _callee3);
     }))();
   }
 });
@@ -475,13 +530,18 @@ var render = function render() {
       attrs: {
         type: "info",
         size: "small"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.showEditModal(tag);
+        }
       }
-    }, [_vm._v("Error")]), _vm._v(" "), _c("Button", {
+    }, [_vm._v("Edit")]), _vm._v(" "), _c("Button", {
       attrs: {
         type: "error",
         size: "small"
       }
-    }, [_vm._v("Error")])], 1)]) : _vm._e();
+    }, [_vm._v("Delete")])], 1)]) : _vm._e();
   })], 2)])]), _vm._v(" "), _c("Modal", {
     attrs: {
       title: "Add Tag",
@@ -503,7 +563,7 @@ var render = function render() {
     on: {
       "on-keyup": function onKeyup($event) {
         if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        _vm.addModal = false;
+        return _vm.addTag.apply(null, arguments);
       }
     },
     model: {
@@ -536,7 +596,61 @@ var render = function render() {
     on: {
       click: _vm.addTag
     }
-  }, [_vm._v(_vm._s(_vm.isAdding ? "Adding" : "Add Tag"))])], 1)], 1)], 1)])]);
+  }, [_vm._v(_vm._s(_vm.isAdding ? "Adding" : "Add Tag"))])], 1)], 1), _vm._v(" "), _c("Modal", {
+    attrs: {
+      title: "Edit Tag",
+      "mask-closable": false,
+      closable: false
+    },
+    model: {
+      value: _vm.editModal,
+      callback: function callback($$v) {
+        _vm.editModal = $$v;
+      },
+      expression: "editModal"
+    }
+  }, [_c("Input", {
+    staticClass: "modal_input",
+    attrs: {
+      placeholder: "Edit a tag name"
+    },
+    on: {
+      "on-keyup": function onKeyup($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+        return _vm.editTag.apply(null, arguments);
+      }
+    },
+    model: {
+      value: _vm.editData.tagName,
+      callback: function callback($$v) {
+        _vm.$set(_vm.editData, "tagName", $$v);
+      },
+      expression: "editData.tagName"
+    }
+  }), _vm._v(" "), _c("div", {
+    attrs: {
+      slot: "footer"
+    },
+    slot: "footer"
+  }, [_c("Button", {
+    attrs: {
+      type: "default"
+    },
+    on: {
+      click: function click($event) {
+        _vm.editModal = false;
+      }
+    }
+  }, [_vm._v("Close")]), _vm._v(" "), _c("Button", {
+    attrs: {
+      type: "primary",
+      disabled: _vm.isEditing,
+      loading: _vm.isEditing
+    },
+    on: {
+      click: _vm.editTag
+    }
+  }, [_vm._v(_vm._s(_vm.isEditing ? "Editing" : "Edit Tag"))])], 1)], 1)], 1)])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
