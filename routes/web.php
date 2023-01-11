@@ -25,6 +25,7 @@ Route::get('/test', function () {
 
 Route::post('app/create_tag', 'AdminController@addTag');
 Route::get('app/get_tags', 'AdminController@getTag');
+Route::post('app/edit_tag', 'AdminController@editTag');
 Route::get(
     '/',
     function () {
