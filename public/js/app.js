@@ -29,7 +29,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       tags: [],
       editData: {
         tagName: ""
-      }
+      },
+      index: -1
     };
   },
   methods: {
@@ -90,6 +91,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               res = _context2.sent;
               if (res.status == 200) {
+                _this2.tags[_this2.index].tagName = _this2.editData.tagName;
                 _this2.s("Tag edited successfully");
                 _this2.editModal = false;
                 _this2.editData.tagName = "";
@@ -107,12 +109,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    showEditModal: function showEditModal(tag) {
+    showEditModal: function showEditModal(tag, index) {
       var obj = {
         id: tag.id,
         tagName: tag.tagName
       };
       this.editModal = true;
+      this.index = index;
       this.editData = obj;
     }
   },
@@ -533,7 +536,7 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.showEditModal(tag);
+          return _vm.showEditModal(tag, i);
         }
       }
     }, [_vm._v("Edit")]), _vm._v(" "), _c("Button", {

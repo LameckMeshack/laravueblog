@@ -39,7 +39,7 @@
                                         <Button
                                             type="info"
                                             size="small"
-                                            @click="showEditModal(tag)"
+                                            @click="showEditModal(tag, i)"
                                             >Edit</Button
                                         >
                                         <Button type="error" size="small"
@@ -122,6 +122,7 @@ export default {
             editData: {
                 tagName: "",
             },
+            index: -1,
         };
     },
 
@@ -155,6 +156,7 @@ export default {
                 this.editData
             );
             if (res.status == 200) {
+                this.tags[this.index].tagName = this.editData.tagName;
                 this.s("Tag edited successfully");
                 this.editModal = false;
                 this.editData.tagName = "";
@@ -167,12 +169,13 @@ export default {
                 }
             }
         },
-        showEditModal(tag) {
+        showEditModal(tag, index) {
             let obj = {
                 id: tag.id,
                 tagName: tag.tagName,
             };
             this.editModal = true;
+            this.index = index;
             this.editData = obj;
         },
     },
