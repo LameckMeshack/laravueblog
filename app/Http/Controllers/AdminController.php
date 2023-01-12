@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+
+    // Add tag
     public function addTag(Request $request)
     {
         // validate
@@ -18,10 +20,13 @@ class AdminController extends Controller
         ]);
     }
 
+    // Get all tags
     public function getTag()
     {
         return Tag::orderBy('id', 'desc')->get();
     }
+
+    // Edit tag
     public function editTag(Request $request)
     {
         $this->validate($request, [
@@ -31,8 +36,21 @@ class AdminController extends Controller
         Tag::where('id', $request->id)->update([
             'tagName' => $request->tagName
         ]);
-        // return response()->json([
-        //     'tagName' => $request->tagName
-        // ]);
+        return response()->json([
+            'tagName' => $request->tagName
+        ]);
+    }
+    // Delete tag
+    public function deleteTag(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        Tag::where('id', $request->id)->delete();
+        return response()->json(
+            [
+                'msg' => 'Tag deleted successfully'
+            ]
+        );
     }
 }

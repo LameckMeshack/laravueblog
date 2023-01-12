@@ -39,10 +39,13 @@
                                         <Button
                                             type="info"
                                             size="small"
-                                            @click="showEditModal(tag, i)"
+                                            @click="showEditingModal(tag, i)"
                                             >Edit</Button
                                         >
-                                        <Button type="error" size="small"
+                                        <Button
+                                            type="error"
+                                            size="small"
+                                            @click="showDeletingModal(tag, i)"
                                             >Delete</Button
                                         >
                                     </td>
@@ -78,8 +81,9 @@
                     </div>
                 </Modal>
                 <!-- tag editing modal -->
+
                 <Modal
-                    v-model="editModal"
+                    v-model="showEditModal"
                     title="Edit Tag"
                     :mask-closable="false"
                     :closable="false"
@@ -91,7 +95,7 @@
                         @on-keyup.enter="editTag"
                     ></Input>
                     <div slot="footer">
-                        <Button type="default" @click="editModal = false"
+                        <Button type="default" @click="showEditModal = false"
                             >Close</Button
                         >
                         <Button
@@ -102,6 +106,29 @@
                             >{{ isEditing ? "Editing" : "Edit Tag" }}</Button
                         >
                     </div>
+                </Modal>
+                <!-- delete alert modal -->
+                <Modal v-model="showDeleteModal" width="360">
+                    <template #header>
+                        <p style="color: #f60; text-align: center">
+                            <Icon type="ios-information-circle"></Icon>
+                            <span>Delete confirmation</span>
+                        </p>
+                    </template>
+                    <div style="text-align: center">
+                        <p>Are you sure you want to delete tag?</p>
+                    </div>
+                    <template #footer>
+                        <Button
+                            type="error"
+                            size="large"
+                            long
+                            :loading="isDeleting"
+                            :disabled="isDeleting"
+                            @click="deleteTag()"
+                            >Delete</Button
+                        >
+                    </template>
                 </Modal>
             </div>
         </div>
@@ -117,12 +144,16 @@ export default {
             addModal: false,
             isAdding: false,
             isEditing: false,
-            editModal: false,
+            showEditModal: false,
             tags: [],
             editData: {
                 tagName: "",
             },
             index: -1,
+            isDeleting: false,
+            deleteItem: {},
+            showDeleteModal: false,
+            deletingIndex: -1,
         };
     },
 
@@ -158,7 +189,7 @@ export default {
             if (res.status == 200) {
                 this.tags[this.index].tagName = this.editData.tagName;
                 this.s("Tag edited successfully");
-                this.editModal = false;
+                this.showEditModal = false;
                 this.editData.tagName = "";
             } else {
                 if (res.status == 422) {
@@ -169,14 +200,37 @@ export default {
                 }
             }
         },
-        showEditModal(tag, index) {
+        //delete tag
+        async deleteTag() {
+            this.isDeleting = true;
+            const res = await this.callApi(
+                "post",
+                "app/delete_tag",
+                this.deleteItem
+            );
+            if (res.status == 200) {
+                this.tags.splice(this.deletingIndex, 1);
+                this.s("Tag deleted successfully");
+                this.isDeleting = false;
+                this.showDeleteModal = false;
+            } else {
+                this.swr();
+            }
+            this.isDeleting = false;
+        },
+        showEditingModal(tag, index) {
             let obj = {
                 id: tag.id,
                 tagName: tag.tagName,
             };
-            this.editModal = true;
+            this.showEditModal = true;
             this.index = index;
             this.editData = obj;
+        },
+        showDeletingModal(tag, index) {
+            this.deleteItem = tag;
+            this.deletingIndex = index;
+            this.showDeleteModal = true;
         },
     },
     async created() {
