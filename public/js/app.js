@@ -522,11 +522,11 @@ var render = function render() {
   }, [_c("table", {
     staticClass: "_table"
   }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.tags, function (tag, i) {
-    return _vm.tags.length ? _c("tr", {
+    return _c("tr", {
       key: i
-    }, [_c("td", [_vm._v(_vm._s(tag.id))]), _vm._v(" "), _c("td", {
+    }, [_vm.tags.length ? [_c("td", [_vm._v(_vm._s(tag.id))]), _vm._v(" "), _c("td", {
       staticClass: "_table_name"
-    }, [_vm._v("\n                                " + _vm._s(tag.tagName) + "\n                            ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(tag.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
+    }, [_vm._v("\n                                    " + _vm._s(tag.tagName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(tag.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
       attrs: {
         type: "info",
         size: "small"
@@ -541,7 +541,7 @@ var render = function render() {
         type: "error",
         size: "small"
       }
-    }, [_vm._v("Delete")])], 1)]) : _vm._e();
+    }, [_vm._v("Delete")])], 1)] : _vm._e()], 2);
   })], 2)])]), _vm._v(" "), _c("Modal", {
     attrs: {
       title: "Add Tag",
