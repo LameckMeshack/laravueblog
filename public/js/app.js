@@ -390,7 +390,7 @@ var render = function render() {
     staticClass: "_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
   }, [_c("p", {
     staticClass: "_title0"
-  }, [_vm._v("\n                    Tags"), _c("Button", {
+  }, [_vm._v("\n                    Categories"), _c("Button", {
     on: {
       click: function click($event) {
         _vm.addModal = true;
@@ -400,7 +400,7 @@ var render = function render() {
     attrs: {
       type: "md-add"
     }
-  }), _vm._v("Add Tag")], 1)], 1), _vm._v(" "), _c("div", {
+  }), _vm._v("Add Category")], 1)], 1), _vm._v(" "), _c("div", {
     staticClass: "_overflow _table_div"
   }, [_c("table", {
     staticClass: "_table"
@@ -432,7 +432,7 @@ var render = function render() {
     }, [_vm._v("Delete")])], 1)] : _vm._e()], 2);
   })], 2)])]), _vm._v(" "), _c("Modal", {
     attrs: {
-      title: "Add Tag",
+      title: "Add category",
       "mask-closable": false,
       closable: false
     },
@@ -443,10 +443,27 @@ var render = function render() {
       },
       expression: "addModal"
     }
-  }, [_c("Input", {
+  }, [_c("Upload", {
+    attrs: {
+      type: "drag",
+      action: "//jsonplaceholder.typicode.com/posts/"
+    }
+  }, [_c("div", {
+    staticStyle: {
+      padding: "20px 0"
+    }
+  }, [_c("Icon", {
+    staticStyle: {
+      color: "#3399ff"
+    },
+    attrs: {
+      type: "ios-cloud-upload",
+      size: "52"
+    }
+  }), _vm._v(" "), _c("p", [_vm._v("Click or drag files here to upload")])], 1)]), _vm._v(" "), _c("Input", {
     staticClass: "modal_input",
     attrs: {
-      placeholder: "Add a tag name"
+      placeholder: "Add catogory name"
     },
     on: {
       "on-keyup": function onKeyup($event) {
@@ -588,12 +605,12 @@ var render = function render() {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_c("p", [_vm._v("Are you sure you want to delete tag?")])])])], 1)])]);
+  }, [_c("p", [_vm._v("Are you sure you want to delete category?")])])])], 1)])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Tag name")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
+  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Category name")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
 }];
 render._withStripped = true;
 

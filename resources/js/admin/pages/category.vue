@@ -7,8 +7,8 @@
                     class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
                 >
                     <p class="_title0">
-                        Tags<Button @click="addModal = true"
-                            ><Icon type="md-add" />Add Tag</Button
+                        Categories<Button @click="addModal = true"
+                            ><Icon type="md-add" />Add Category</Button
                         >
                     </p>
 
@@ -17,7 +17,7 @@
                             <!-- TABLE TITLE -->
                             <tr>
                                 <th>ID</th>
-                                <th>Tag name</th>
+                                <th>Category name</th>
                                 <th>Created at</th>
                                 <th>Action</th>
                             </tr>
@@ -54,16 +54,29 @@
                         </table>
                     </div>
                 </div>
-                <!-- tag adding modal -->
+                <!-- category adding modal -->
                 <Modal
                     v-model="addModal"
-                    title="Add Tag"
+                    title="Add category"
                     :mask-closable="false"
                     :closable="false"
                 >
+                    <Upload
+                        type="drag"
+                        action="//jsonplaceholder.typicode.com/posts/"
+                    >
+                        <div style="padding: 20px 0">
+                            <Icon
+                                type="ios-cloud-upload"
+                                size="52"
+                                style="color: #3399ff"
+                            ></Icon>
+                            <p>Click or drag files here to upload</p>
+                        </div>
+                    </Upload>
                     <Input
                         v-model="data.tagName"
-                        placeholder="Add a tag name"
+                        placeholder="Add catogory name"
                         class="modal_input"
                         @on-keyup.enter="addTag"
                     ></Input>
@@ -116,7 +129,7 @@
                         </p>
                     </template>
                     <div style="text-align: center">
-                        <p>Are you sure you want to delete tag?</p>
+                        <p>Are you sure you want to delete category?</p>
                     </div>
                     <template #footer>
                         <Button
