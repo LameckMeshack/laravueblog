@@ -34,7 +34,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isDeleting: false,
       deleteItem: {},
       showDeleteModal: false,
-      deletingIndex: -1
+      deletingIndex: -1,
+      token: ""
     };
   },
   methods: {
@@ -164,16 +165,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return _regeneratorRuntime().wrap(function _callee4$(_context4) {
         while (1) switch (_context4.prev = _context4.next) {
           case 0:
-            _context4.next = 2;
+            _this4.token = window.Laravel.csrfToken;
+            _context4.next = 3;
             return _this4.callApi("get", "app/get_tags");
-          case 2:
+          case 3:
             res = _context4.sent;
             if (res.status == 200) {
               _this4.tags = res.data;
             } else {
               _this4.swr();
             }
-          case 4:
+          case 5:
           case "end":
             return _context4.stop();
         }
@@ -443,10 +445,15 @@ var render = function render() {
       },
       expression: "addModal"
     }
-  }, [_c("Upload", {
+  }, [_c("div", {
+    staticClass: "space"
+  }), _vm._v(" "), _c("Upload", {
     attrs: {
       type: "drag",
-      action: "//jsonplaceholder.typicode.com/posts/"
+      action: "/app/upload",
+      headers: {
+        "x-csrf-token": _vm.token
+      }
     }
   }, [_c("div", {
     staticStyle: {

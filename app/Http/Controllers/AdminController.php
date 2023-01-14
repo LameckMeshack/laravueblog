@@ -40,6 +40,16 @@ class AdminController extends Controller
             'tagName' => $request->tagName
         ]);
     }
+    //upload category
+    public function upload(Request $request)
+    {
+        $picName = time() . '.' . $request->file->extension();
+        $request->file->move(public_path("uploads"), $picName);
+        return response()->json([
+            'msg' => 'File uploaded successfully',
+            'file' => $picName
+        ]);
+    }
     // Delete tag
     public function deleteTag(Request $request)
     {

@@ -61,9 +61,11 @@
                     :mask-closable="false"
                     :closable="false"
                 >
+                    <div class="space"></div>
                     <Upload
                         type="drag"
-                        action="//jsonplaceholder.typicode.com/posts/"
+                        action="/app/upload"
+                        :headers="{ 'x-csrf-token': token }"
                     >
                         <div style="padding: 20px 0">
                             <Icon
@@ -167,6 +169,7 @@ export default {
             deleteItem: {},
             showDeleteModal: false,
             deletingIndex: -1,
+            token: "",
         };
     },
 
@@ -247,6 +250,8 @@ export default {
         },
     },
     async created() {
+        this.token = window.Laravel.csrfToken;
+
         const res = await this.callApi("get", "app/get_tags");
         if (res.status == 200) {
             this.tags = res.data;
