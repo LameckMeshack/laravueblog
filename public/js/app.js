@@ -20,7 +20,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       data: {
-        tagName: ""
+        iconImage: "",
+        categoryName: ""
       },
       addModal: false,
       isAdding: false,
@@ -156,6 +157,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.deleteItem = tag;
       this.deletingIndex = index;
       this.showDeleteModal = true;
+    },
+    handleSuccess: function handleSuccess(res, file) {
+      this.data.iconImage = res.file;
+    },
+    handleFormatError: function handleFormatError(file) {
+      this.$Notice.warning({
+        title: "The file format is incorrect",
+        desc: "File format of " + file.name + " is incorrect, please select jpg or png."
+      });
+    },
+    handleMaxSize: function handleMaxSize(file) {
+      this.$Notice.warning({
+        title: "Exceeding file size limit",
+        desc: "File  " + file.name + " is too large, no more than 2M."
+      });
     }
   },
   created: function created() {
@@ -452,8 +468,14 @@ var render = function render() {
       type: "drag",
       action: "/app/upload",
       headers: {
-        "x-csrf-token": _vm.token
-      }
+        "x-csrf-token": _vm.token,
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      format: ["jpg", "jpeg", "png"],
+      "on-success": _vm.handleSuccess,
+      "max-size": 2048,
+      "on-format-error": _vm.handleFormatError,
+      "on-exceeded-size": _vm.handleMaxSize
     }
   }, [_c("div", {
     staticStyle: {
@@ -467,7 +489,15 @@ var render = function render() {
       type: "ios-cloud-upload",
       size: "52"
     }
-  }), _vm._v(" "), _c("p", [_vm._v("Click or drag files here to upload")])], 1)]), _vm._v(" "), _c("Input", {
+  }), _vm._v(" "), _c("p", [_vm._v("Click or drag files here to upload")])], 1)]), _vm._v(" "), _vm.data.iconImage ? _c("div", {
+    staticClass: "image_thumb"
+  }, [_c("img", {
+    attrs: {
+      src: "/uploads/".concat(_vm.data.iconImage),
+      alt: "",
+      srcset: ""
+    }
+  })]) : _vm._e(), _vm._v(" "), _c("Input", {
     staticClass: "modal_input",
     attrs: {
       placeholder: "Add catogory name"

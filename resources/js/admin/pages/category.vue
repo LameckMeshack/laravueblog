@@ -65,7 +65,15 @@
                     <Upload
                         type="drag"
                         action="/app/upload"
-                        :headers="{ 'x-csrf-token': token }"
+                        :headers="{
+                            'x-csrf-token': token,
+                            'X-Requested-With': 'XMLHttpRequest',
+                        }"
+                        :format="['jpg', 'jpeg', 'png']"
+                        :on-success="handleSuccess"
+                        :max-size="2048"
+                        :on-format-error="handleFormatError"
+                        :on-exceeded-size="handleMaxSize"
                     >
                         <div style="padding: 20px 0">
                             <Icon
@@ -76,6 +84,13 @@
                             <p>Click or drag files here to upload</p>
                         </div>
                     </Upload>
+                    <div class="image_thumb" v-if="data.iconImage">
+                        <img
+                            :src="`/uploads/${data.iconImage}`"
+                            alt=""
+                            srcset=""
+                        />
+                    </div>
                     <Input
                         v-model="data.tagName"
                         placeholder="Add catogory name"
@@ -154,7 +169,8 @@ export default {
     data() {
         return {
             data: {
-                tagName: "",
+                iconImage: "",
+                categoryName: "",
             },
             addModal: false,
             isAdding: false,
@@ -248,7 +264,26 @@ export default {
             this.deletingIndex = index;
             this.showDeleteModal = true;
         },
+        handleSuccess(res, file) {
+            this.data.iconImage = res.file;
+        },
+        handleFormatError(file) {
+            this.$Notice.warning({
+                title: "The file format is incorrect",
+                desc:
+                    "File format of " +
+                    file.name +
+                    " is incorrect, please select jpg or png.",
+            });
+        },
+        handleMaxSize(file) {
+            this.$Notice.warning({
+                title: "Exceeding file size limit",
+                desc: "File  " + file.name + " is too large, no more than 2M.",
+            });
+        },
     },
+
     async created() {
         this.token = window.Laravel.csrfToken;
 

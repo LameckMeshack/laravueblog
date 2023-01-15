@@ -43,6 +43,9 @@ class AdminController extends Controller
     //upload category
     public function upload(Request $request)
     {
+        $this->validate($request, [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
         $picName = time() . '.' . $request->file->extension();
         $request->file->move(public_path("uploads"), $picName);
         return response()->json([
