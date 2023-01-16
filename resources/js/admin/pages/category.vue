@@ -94,7 +94,7 @@
                         <div class="demo-upload-list-cover">
                             <Icon
                                 type="ios-eye-outline"
-                                @click="handleView(item.name)"
+                                @click="handleView()"
                             ></Icon>
                             <Icon
                                 type="ios-trash-outline"
@@ -102,6 +102,10 @@
                             ></Icon>
                         </div>
                     </div>
+                    <ImagePreview
+                        v-model="visible"
+                        :preview-list="[data.iconImage]"
+                    />
 
                     <div slot="footer">
                         <Button type="default" @click="addModal = false"
@@ -192,6 +196,7 @@ export default {
             showDeleteModal: false,
             deletingIndex: -1,
             token: "",
+            visible: false,
         };
     },
 
@@ -288,6 +293,10 @@ export default {
                 desc: "File  " + file.name + " is too large, no more than 2M.",
             });
         },
+        handleView(name) {
+            this.data.iconImage = name;
+            this.visible = true;
+        },
         async handleRemove() {
             let image = this.data.iconImage;
             this.data.iconImage = "";
@@ -305,7 +314,6 @@ export default {
 
     async created() {
         this.token = window.Laravel.csrfToken;
-
         const res = await this.callApi("get", "app/get_tags");
         if (res.status == 200) {
             this.tags = res.data;

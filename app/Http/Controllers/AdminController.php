@@ -53,6 +53,26 @@ class AdminController extends Controller
             'file' => $picName
         ]);
     }
+    //delete image
+    public function deleteImage(Request $request)
+    {
+        $fileName = $request->imageName;
+        $this->deleteFileFromServer($fileName);
+        return response()->json([
+            'msg' => 'File deleted successfully',
+        ]);
+    }
+    //delete file from the server
+    public function deleteFileFromServer($fileName)
+    {
+        $filePath = public_path() . '/uploads/' . $fileName;
+        if (file_exists($filePath)) {
+            @unlink($filePath);
+        }
+        return response()->json([
+            'msg' => 'File deleted from the server successfully',
+        ]);
+    }
     // Delete tag
     public function deleteTag(Request $request)
     {

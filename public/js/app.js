@@ -36,7 +36,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       deleteItem: {},
       showDeleteModal: false,
       deletingIndex: -1,
-      token: ""
+      token: "",
+      visible: false
     };
   },
   methods: {
@@ -172,6 +173,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: "Exceeding file size limit",
         desc: "File  " + file.name + " is too large, no more than 2M."
       });
+    },
+    handleView: function handleView(name) {
+      this.data.iconImage = name;
+      this.visible = true;
     },
     handleRemove: function handleRemove() {
       var _this4 = this;
@@ -533,7 +538,7 @@ var render = function render() {
     },
     on: {
       click: function click($event) {
-        return _vm.handleView(_vm.item.name);
+        return _vm.handleView();
       }
     }
   }), _vm._v(" "), _c("Icon", {
@@ -545,7 +550,18 @@ var render = function render() {
         return _vm.handleRemove();
       }
     }
-  })], 1)]) : _vm._e(), _vm._v(" "), _c("div", {
+  })], 1)]) : _vm._e(), _vm._v(" "), _c("ImagePreview", {
+    attrs: {
+      "preview-list": [_vm.data.iconImage]
+    },
+    model: {
+      value: _vm.visible,
+      callback: function callback($$v) {
+        _vm.visible = $$v;
+      },
+      expression: "visible"
+    }
+  }), _vm._v(" "), _c("div", {
     attrs: {
       slot: "footer"
     },
