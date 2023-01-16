@@ -17,6 +17,7 @@
                             <!-- TABLE TITLE -->
                             <tr>
                                 <th>ID</th>
+                                <th>Icon image</th>
                                 <th>Category name</th>
                                 <th>Created at</th>
                                 <th>Action</th>
@@ -25,27 +26,34 @@
 
                             <!-- ITEMS -->
 
-                            <tr v-for="(tag, i) in tags" :key="i">
+                            <tr v-for="(category, i) in categoryList" :key="i">
                                 <template
                                     style="position: inherit"
-                                    v-if="tags.length"
+                                    v-if="categoryList.length"
                                 >
-                                    <td>{{ tag.id }}</td>
-                                    <td class="_table_name">
-                                        {{ tag.tagName }}
+                                    <td>{{ category.id }}</td>
+                                    <td class="table_image">
+                                        <img :src="category.iconImage" />
                                     </td>
-                                    <td>{{ tag.created_at }}</td>
+                                    <td class="_table_name">
+                                        {{ category.categoryName }}
+                                    </td>
+                                    <td>{{ category.created_at }}</td>
                                     <td>
                                         <Button
                                             type="info"
                                             size="small"
-                                            @click="showEditingModal(tag, i)"
+                                            @click="
+                                                showEditingModal(category, i)
+                                            "
                                             >Edit</Button
                                         >
                                         <Button
                                             type="error"
                                             size="small"
-                                            @click="showDeletingModal(tag, i)"
+                                            @click="
+                                                showDeletingModal(category, i)
+                                            "
                                             >Delete</Button
                                         >
                                     </td>
@@ -61,6 +69,12 @@
                     :mask-closable="false"
                     :closable="false"
                 >
+                    <Input
+                        v-model="data.categoryName"
+                        placeholder="Add  category name"
+                        class="modal_input"
+                        @on-keyup.enter="addCategory"
+                    ></Input>
                     <div class="space"></div>
                     <Upload
                         ref="uploads"
@@ -114,26 +128,26 @@
                         >
                         <Button
                             type="primary"
-                            @click="addTag"
+                            @click="addCategory"
                             :disabled="isAdding"
                             :loading="isAdding"
-                            >{{ isAdding ? "Adding" : "Add Tag" }}</Button
+                            >{{ isAdding ? "Adding" : "Add category" }}</Button
                         >
                     </div>
                 </Modal>
-                <!-- tag editing modal -->
+                <!-- category editing modal -->
 
                 <Modal
                     v-model="showEditModal"
-                    title="Edit Tag"
+                    title="Edit category"
                     :mask-closable="false"
                     :closable="false"
                 >
                     <Input
-                        v-model="editData.tagName"
-                        placeholder="Edit a tag name"
+                        v-model="editData.categoryName"
+                        placeholder="Edit a category name"
                         class="modal_input"
-                        @on-keyup.enter="editTag"
+                        @on-keyup.enter="editCategory"
                     ></Input>
                     <div slot="footer">
                         <Button type="default" @click="showEditModal = false"
@@ -141,10 +155,12 @@
                         >
                         <Button
                             type="primary"
-                            @click="editTag"
+                            @click="editCategory"
                             :disabled="isEditing"
                             :loading="isEditing"
-                            >{{ isEditing ? "Editing" : "Edit Tag" }}</Button
+                            >{{
+                                isEditing ? "Editing" : "Edit category"
+                            }}</Button
                         >
                     </div>
                 </Modal>
@@ -166,7 +182,7 @@
                             long
                             :loading="isDeleting"
                             :disabled="isDeleting"
-                            @click="deleteTag()"
+                            @click="deleteCategory()"
                             >Delete</Button
                         >
                     </template>
@@ -187,9 +203,9 @@ export default {
             isAdding: false,
             isEditing: false,
             showEditModal: false,
-            tags: [],
+            categoryList: [],
             editData: {
-                tagName: "",
+                categoryName: "",
             },
             index: -1,
             isDeleting: false,
@@ -202,59 +218,71 @@ export default {
     },
 
     methods: {
-        async addTag() {
-            if (this.data.tagName.trim() == "")
-                return this.e("Tag name is required");
-            const res = await this.callApi("post", "app/create_tag", this.data);
+        async addCategory() {
+            if (this.data.categoryName.trim() == "")
+                return this.e("Category name is required");
+            if (this.data.iconImage.trim() == "")
+                return this.e("Icon image is required");
+            this.data.iconImage = `/uploads/${this.data.iconImage}`;
+
+            const res = await this.callApi(
+                "post",
+                "app/create_category",
+                this.data
+            );
             if (res.status == 201) {
-                this.tags.unshift(res.data);
-                this.s("Tag added successfully");
+                this.categoryList.unshift(res.data);
+                this.s("Category has been added successfully");
                 this.addModal = false;
-                this.data.tagName = "";
+                this.data.categoryName = "";
             } else {
                 if (res.status == 422) {
-                    if (res.data.errors.tagName) {
-                        this.i(res.data.errors.tagName);
+                    if (res.data.errors.categoryName) {
+                        this.i(res.data.errors.categoryName);
+                    }
+                    if (res.data.errors.iconImage) {
+                        this.i(res.data.errors.iconImage);
                     }
                 } else {
                     this.swr();
                 }
             }
         },
-        //edit tags
-        async editTag() {
-            if (this.editData.tagName.trim() == "")
-                return this.e("Tag name is required");
+        //edit category
+        async editCategory() {
+            if (this.editData.categoryName.trim() == "")
+                return this.e("category name is required");
             const res = await this.callApi(
                 "post",
-                "app/edit_tag",
+                "app/edit_category",
                 this.editData
             );
             if (res.status == 200) {
-                this.tags[this.index].tagName = this.editData.tagName;
-                this.s("Tag edited successfully");
+                this.categoryList[this.index].categoryName =
+                    this.editData.categoryName;
+                this.s("category edited successfully");
                 this.showEditModal = false;
-                this.editData.tagName = "";
+                this.editData.categoryName = "";
             } else {
                 if (res.status == 422) {
-                    if (res.data.errors.tagName)
-                        this.i(res.data.errors.tagName);
+                    if (res.data.errors.categoryName)
+                        this.i(res.data.errors.categoryName);
                 } else {
                     this.swr();
                 }
             }
         },
-        //delete tag
-        async deleteTag() {
+        //delete category
+        async deleteCategory() {
             this.isDeleting = true;
             const res = await this.callApi(
                 "post",
-                "app/delete_tag",
+                "app/delete_category",
                 this.deleteItem
             );
             if (res.status == 200) {
-                this.tags.splice(this.deletingIndex, 1);
-                this.s("Tag deleted successfully");
+                this.categoryList.splice(this.deletingIndex, 1);
+                this.s("category deleted successfully");
                 this.isDeleting = false;
                 this.showDeleteModal = false;
             } else {
@@ -262,17 +290,17 @@ export default {
             }
             this.isDeleting = false;
         },
-        showEditingModal(tag, index) {
+        showEditingModal(category, index) {
             let obj = {
-                id: tag.id,
-                tagName: tag.tagName,
+                id: category.id,
+                categoryName: category.categoryName,
             };
             this.showEditModal = true;
             this.index = index;
             this.editData = obj;
         },
-        showDeletingModal(tag, index) {
-            this.deleteItem = tag;
+        showDeletingModal(category, index) {
+            this.deleteItem = category;
             this.deletingIndex = index;
             this.showDeleteModal = true;
         },
@@ -316,50 +344,13 @@ export default {
 
     async created() {
         this.token = window.Laravel.csrfToken;
-        const res = await this.callApi("get", "app/get_tags");
+        const res = await this.callApi("get", "app/get_categories");
         if (res.status == 200) {
-            this.tags = res.data;
+            this.categoryList = res.data;
         } else {
             this.swr();
         }
     },
 };
 </script>
-<style>
-.demo-upload-list {
-    display: inline-block;
-    width: 60px;
-    height: 60px;
-    text-align: center;
-    line-height: 60px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    overflow: hidden;
-    background: #fff;
-    position: relative;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    margin-right: 4px;
-}
-.demo-upload-list img {
-    width: 100%;
-    height: 100%;
-}
-.demo-upload-list-cover {
-    display: none;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.6);
-}
-.demo-upload-list:hover .demo-upload-list-cover {
-    display: block;
-}
-.demo-upload-list-cover i {
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-    margin: 0 2px;
-}
-</style>
+

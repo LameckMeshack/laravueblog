@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -85,5 +86,49 @@ class AdminController extends Controller
                 'msg' => 'Tag deleted successfully'
             ]
         );
+    }
+
+    // categories
+    //create category
+    public function addCategory(Request $request)
+    {
+        $this->validate($request, [
+            'categoryName' => 'required',
+            'iconImage' => 'required',
+        ]);
+        return Category::create([
+            'categoryName' => $request->categoryName,
+            'iconImage' => $request->iconImage
+        ]);
+    }
+
+    // Get all categories
+    public function getCategory()
+    {
+        return Category::orderBy('id', 'desc')->get();
+    }
+
+    // edit category
+    public function editCategory(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required',
+            'name' => 'required'
+        ]);
+        Category::where('id', $request->id)->update([
+            'categoryName' => $request->name
+        ]);
+    }
+
+    // delete category
+    public function deleteCategory(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        Category::where('id', $request->id)->delete();
+        return response()->json([
+            'msg' => 'Category deleted successfully'
+        ]);
     }
 }

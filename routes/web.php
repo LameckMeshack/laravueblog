@@ -29,6 +29,12 @@ Route::post('app/edit_tag', 'AdminController@editTag');
 Route::post('app/delete_tag', 'AdminController@deleteTag');
 Route::post('app/upload', 'AdminController@upload');
 Route::post('app/delete_image', 'AdminController@deleteImage');
+
+// category
+Route::post('app/create_category', 'AdminController@addCategory');
+Route::get('app/get_categories', 'AdminController@getCategory');
+Route::post('app/edit_category', 'AdminController@editCategory');
+Route::post('app/delete_category', 'AdminController@deleteCategory');
 Route::get(
     '/',
     function () {
