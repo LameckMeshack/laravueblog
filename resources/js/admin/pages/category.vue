@@ -63,6 +63,7 @@
                 >
                     <div class="space"></div>
                     <Upload
+                        ref="uploads"
                         type="drag"
                         action="/app/upload"
                         :headers="{
@@ -92,10 +93,10 @@
                             srcset=""
                         />
                         <div class="demo-upload-list-cover">
-                            <Icon
+                            <!-- <Icon
                                 type="ios-eye-outline"
                                 @click="handleView()"
-                            ></Icon>
+                            ></Icon> -->
                             <Icon
                                 type="ios-trash-outline"
                                 @click="handleRemove()"
@@ -300,6 +301,7 @@ export default {
         async handleRemove() {
             let image = this.data.iconImage;
             this.data.iconImage = "";
+            this.$refs.uploads.clearFiles();
             const res = await this.callApi("post", "app/delete_image", {
                 imageName: image,
             });

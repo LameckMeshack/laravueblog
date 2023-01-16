@@ -187,11 +187,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               image = _this4.data.iconImage;
               _this4.data.iconImage = "";
-              _context4.next = 4;
+              _this4.$refs.uploads.clearFiles();
+              _context4.next = 5;
               return _this4.callApi("post", "app/delete_image", {
                 imageName: image
               });
-            case 4:
+            case 5:
               res = _context4.sent;
               if (res.status == 200) {
                 _this4.s("Image deleted successfully");
@@ -199,7 +200,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this4.data.iconImage = image;
                 _this4.swr();
               }
-            case 6:
+            case 7:
             case "end":
               return _context4.stop();
           }
@@ -497,6 +498,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "space"
   }), _vm._v(" "), _c("Upload", {
+    ref: "uploads",
     attrs: {
       type: "drag",
       action: "/app/upload",
@@ -533,15 +535,6 @@ var render = function render() {
   }), _vm._v(" "), _c("div", {
     staticClass: "demo-upload-list-cover"
   }, [_c("Icon", {
-    attrs: {
-      type: "ios-eye-outline"
-    },
-    on: {
-      click: function click($event) {
-        return _vm.handleView();
-      }
-    }
-  }), _vm._v(" "), _c("Icon", {
     attrs: {
       type: "ios-trash-outline"
     },
