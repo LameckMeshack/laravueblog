@@ -186,12 +186,12 @@
                             ></Icon>
                         </div>
                     </div>
-                    <ImagePreview
+                    <!-- <ImagePreview
                         v-model="visible"
                         :preview-list="[editData.iconImage]"
-                    />
+                    /> -->
                     <div slot="footer">
-                        <Button type="default" @click="showEditModal = false"
+                        <Button type="default" @click="closeEditModal"
                             >Close</Button
                         >
                         <Button
@@ -257,6 +257,7 @@ export default {
             token: "",
             visible: false,
             isIconNewImage: false,
+            isEditingItem: false,
         };
     },
 
@@ -293,12 +294,14 @@ export default {
         },
         //edit category
         async editCategory() {
-            console.log(this.editData, "editData2");
+            // console.log(this.editData, "editData2");
             if (this.editData.categoryName.trim() == "")
                 return this.e("Category name is required");
 
             if (this.editData.iconImage.trim() == "")
                 return this.e("Image Icon name is required");
+
+            // this.editData.iconImage = `/uploads/${this.editData.iconImage}`;
 
             const res = await this.callApi(
                 "post",
@@ -343,9 +346,10 @@ export default {
             //     id: category.id,
             //     categoryName: category.categoryName,
             // };
+            this.editData = category;
             this.showEditModal = true;
             this.index = index;
-            this.editData = category;
+            this.isEditingItem = true;
 
             console.log(this.editData, "editData");
         },
@@ -355,6 +359,9 @@ export default {
             this.showDeleteModal = true;
         },
         handleSuccess(res, file) {
+            if (this.isEditingItem) {
+                return (this.edit.iconImage = res);
+            }
             this.data.iconImage = res.file;
         },
         handleFormatError(file) {
@@ -393,12 +400,14 @@ export default {
             const res = await this.callApi("post", "app/delete_image", {
                 imageName: image,
             });
-            if (res.status == 200) {
-                this.s("Image deleted successfully");
-            } else {
+            if (res.status != 200) {
                 this.data.iconImage = image;
                 this.swr();
             }
+        },
+        closeEditModal() {
+            this.isEditingItem = false;
+            this.showEditModal = false;
         },
     },
 

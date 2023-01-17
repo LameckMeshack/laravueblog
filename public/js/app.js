@@ -39,7 +39,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       deletingIndex: -1,
       token: "",
       visible: false,
-      isIconNewImage: false
+      isIconNewImage: false,
+      isEditingItem: false
     };
   },
   methods: {
@@ -99,22 +100,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              console.log(_this2.editData, "editData2");
               if (!(_this2.editData.categoryName.trim() == "")) {
-                _context2.next = 3;
+                _context2.next = 2;
                 break;
               }
               return _context2.abrupt("return", _this2.e("Category name is required"));
-            case 3:
+            case 2:
               if (!(_this2.editData.iconImage.trim() == "")) {
-                _context2.next = 5;
+                _context2.next = 4;
                 break;
               }
               return _context2.abrupt("return", _this2.e("Image Icon name is required"));
-            case 5:
-              _context2.next = 7;
+            case 4:
+              _context2.next = 6;
               return _this2.callApi("post", "app/edit_category", _this2.editData);
-            case 7:
+            case 6:
               res = _context2.sent;
               if (res.status == 200) {
                 _this2.categoryList[_this2.index].categoryName = _this2.editData.categoryName;
@@ -128,7 +128,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.swr();
                 }
               }
-            case 9:
+            case 8:
             case "end":
               return _context2.stop();
           }
@@ -169,9 +169,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       //     id: category.id,
       //     categoryName: category.categoryName,
       // };
+      this.editData = category;
       this.showEditModal = true;
       this.index = index;
-      this.editData = category;
+      this.isEditingItem = true;
       console.log(this.editData, "editData");
     },
     showDeletingModal: function showDeletingModal(category, index) {
@@ -180,6 +181,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.showDeleteModal = true;
     },
     handleSuccess: function handleSuccess(res, file) {
+      if (this.isEditingItem) {
+        return this.edit.iconImage = res;
+      }
       this.data.iconImage = res.file;
     },
     handleFormatError: function handleFormatError(file) {
@@ -226,9 +230,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
             case 5:
               res = _context4.sent;
-              if (res.status == 200) {
-                _this4.s("Image deleted successfully");
-              } else {
+              if (res.status != 200) {
                 _this4.data.iconImage = image;
                 _this4.swr();
               }
@@ -238,6 +240,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee4);
       }))();
+    },
+    closeEditModal: function closeEditModal() {
+      this.isEditingItem = false;
+      this.showEditModal = false;
     }
   },
   created: function created() {
@@ -706,18 +712,7 @@ var render = function render() {
         return _vm.handleRemove(false);
       }
     }
-  })], 1)]) : _vm._e(), _vm._v(" "), _c("ImagePreview", {
-    attrs: {
-      "preview-list": [_vm.editData.iconImage]
-    },
-    model: {
-      value: _vm.visible,
-      callback: function callback($$v) {
-        _vm.visible = $$v;
-      },
-      expression: "visible"
-    }
-  }), _vm._v(" "), _c("div", {
+  })], 1)]) : _vm._e(), _vm._v(" "), _c("div", {
     attrs: {
       slot: "footer"
     },
@@ -727,9 +722,7 @@ var render = function render() {
       type: "default"
     },
     on: {
-      click: function click($event) {
-        _vm.showEditModal = false;
-      }
+      click: _vm.closeEditModal
     }
   }, [_vm._v("Close")]), _vm._v(" "), _c("Button", {
     attrs: {
