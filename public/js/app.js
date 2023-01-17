@@ -29,7 +29,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showEditModal: false,
       categoryList: [],
       editData: {
-        categoryName: ""
+        categoryName: "",
+        iconImage: ""
       },
       index: -1,
       isDeleting: false,
@@ -37,7 +38,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showDeleteModal: false,
       deletingIndex: -1,
       token: "",
-      visible: false
+      visible: false,
+      isIconNewImage: false
     };
   },
   methods: {
@@ -97,15 +99,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
+              console.log(_this2.editData, "editData2");
               if (!(_this2.editData.categoryName.trim() == "")) {
-                _context2.next = 2;
+                _context2.next = 3;
                 break;
               }
-              return _context2.abrupt("return", _this2.e("category name is required"));
-            case 2:
-              _context2.next = 4;
+              return _context2.abrupt("return", _this2.e("Category name is required"));
+            case 3:
+              if (!(_this2.editData.iconImage.trim() == "")) {
+                _context2.next = 5;
+                break;
+              }
+              return _context2.abrupt("return", _this2.e("Image Icon name is required"));
+            case 5:
+              _context2.next = 7;
               return _this2.callApi("post", "app/edit_category", _this2.editData);
-            case 4:
+            case 7:
               res = _context2.sent;
               if (res.status == 200) {
                 _this2.categoryList[_this2.index].categoryName = _this2.editData.categoryName;
@@ -119,7 +128,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.swr();
                 }
               }
-            case 6:
+            case 9:
             case "end":
               return _context2.stop();
           }
@@ -156,13 +165,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     showEditingModal: function showEditingModal(category, index) {
-      var obj = {
-        id: category.id,
-        categoryName: category.categoryName
-      };
+      // let obj = {
+      //     id: category.id,
+      //     categoryName: category.categoryName,
+      // };
       this.showEditModal = true;
       this.index = index;
-      this.editData = obj;
+      this.editData = category;
+      console.log(this.editData, "editData");
     },
     showDeletingModal: function showDeletingModal(category, index) {
       this.deleteItem = category;
@@ -189,15 +199,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.visible = true;
     },
     handleRemove: function handleRemove() {
-      var _this4 = this;
+      var _arguments = arguments,
+        _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var image, res;
+        var isAdd, image, res;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              image = _this4.data.iconImage;
-              _this4.data.iconImage = "";
-              _this4.$refs.uploads.clearFiles();
+              isAdd = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : true;
+              image = null;
+              if (!isAdd) {
+                // for editing
+                _this4.isIconNewImage = true;
+                image = _this4.editData.iconImage;
+                _this4.editData.iconImage = "";
+                _this4.$refs.editDataUploads.clearFiles();
+              } else {
+                // for adding
+                image = _this4.data.iconImage;
+                _this4.data.iconImage = "";
+                _this4.$refs.uploads.clearFiles();
+              }
               _context4.next = 5;
               return _this4.callApi("post", "app/delete_image", {
                 imageName: image
@@ -516,12 +538,6 @@ var render = function render() {
     attrs: {
       placeholder: "Add  category name"
     },
-    on: {
-      "on-keyup": function onKeyup($event) {
-        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.addCategory.apply(null, arguments);
-      }
-    },
     model: {
       value: _vm.data.categoryName,
       callback: function callback($$v) {
@@ -627,13 +643,7 @@ var render = function render() {
   }, [_c("Input", {
     staticClass: "modal_input",
     attrs: {
-      placeholder: "Edit a category name"
-    },
-    on: {
-      "on-keyup": function onKeyup($event) {
-        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.editCategory.apply(null, arguments);
-      }
+      placeholder: "Edit Category name"
     },
     model: {
       value: _vm.editData.categoryName,
@@ -641,6 +651,71 @@ var render = function render() {
         _vm.$set(_vm.editData, "categoryName", $$v);
       },
       expression: "editData.categoryName"
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "space"
+  }), _vm._v(" "), _c("Upload", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.isIconNewImage,
+      expression: "isIconNewImage"
+    }],
+    ref: "editDataUploads",
+    attrs: {
+      type: "drag",
+      action: "/app/upload",
+      headers: {
+        "x-csrf-token": _vm.token,
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      format: ["jpg", "jpeg", "png"],
+      "on-success": _vm.handleSuccess,
+      "max-size": 2048,
+      "on-format-error": _vm.handleFormatError,
+      "on-exceeded-size": _vm.handleMaxSize
+    }
+  }, [_c("div", {
+    staticStyle: {
+      padding: "20px 0"
+    }
+  }, [_c("Icon", {
+    staticStyle: {
+      color: "#3399ff"
+    },
+    attrs: {
+      type: "ios-cloud-upload",
+      size: "52"
+    }
+  }), _vm._v(" "), _c("p", [_vm._v("Click or drag files here to upload")])], 1)]), _vm._v(" "), _vm.editData.iconImage ? _c("div", {
+    staticClass: "demo-upload-list"
+  }, [_c("img", {
+    attrs: {
+      src: "".concat(_vm.editData.iconImage),
+      alt: "",
+      srcset: ""
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "demo-upload-list-cover"
+  }, [_c("Icon", {
+    attrs: {
+      type: "ios-trash-outline"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.handleRemove(false);
+      }
+    }
+  })], 1)]) : _vm._e(), _vm._v(" "), _c("ImagePreview", {
+    attrs: {
+      "preview-list": [_vm.editData.iconImage]
+    },
+    model: {
+      value: _vm.visible,
+      callback: function callback($$v) {
+        _vm.visible = $$v;
+      },
+      expression: "visible"
     }
   }), _vm._v(" "), _c("div", {
     attrs: {

@@ -94,11 +94,11 @@ class AdminController extends Controller
     {
         $this->validate($request, [
             'categoryName' => 'required',
-            'iconImage' => 'required',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         return Category::create([
             'categoryName' => $request->categoryName,
-            'iconImage' => $request->iconImage
+            'iconImage' => $request->file
         ]);
     }
 
@@ -113,10 +113,13 @@ class AdminController extends Controller
     {
         $this->validate($request, [
             'id' => 'required',
-            'name' => 'required'
+            'categoryName' => 'required',
+            'iconImage' => 'required|',
         ]);
         Category::where('id', $request->id)->update([
-            'categoryName' => $request->name
+            'categoryName' => $request->categoryName,
+            'iconImage' => $request->iconImage
+
         ]);
     }
 

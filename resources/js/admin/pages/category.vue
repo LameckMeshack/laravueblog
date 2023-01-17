@@ -73,7 +73,6 @@
                         v-model="data.categoryName"
                         placeholder="Add  category name"
                         class="modal_input"
-                        @on-keyup.enter="addCategory"
                     ></Input>
                     <div class="space"></div>
                     <Upload
@@ -145,10 +144,52 @@
                 >
                     <Input
                         v-model="editData.categoryName"
-                        placeholder="Edit a category name"
+                        placeholder="Edit Category name"
                         class="modal_input"
-                        @on-keyup.enter="editCategory"
                     ></Input>
+                    <div class="space"></div>
+                    <Upload
+                        v-show="isIconNewImage"
+                        ref="editDataUploads"
+                        type="drag"
+                        action="/app/upload"
+                        :headers="{
+                            'x-csrf-token': token,
+                            'X-Requested-With': 'XMLHttpRequest',
+                        }"
+                        :format="['jpg', 'jpeg', 'png']"
+                        :on-success="handleSuccess"
+                        :max-size="2048"
+                        :on-format-error="handleFormatError"
+                        :on-exceeded-size="handleMaxSize"
+                    >
+                        <div style="padding: 20px 0">
+                            <Icon
+                                type="ios-cloud-upload"
+                                size="52"
+                                style="color: #3399ff"
+                            ></Icon>
+                            <p>Click or drag files here to upload</p>
+                        </div>
+                    </Upload>
+
+                    <div class="demo-upload-list" v-if="editData.iconImage">
+                        <img :src="`${editData.iconImage}`" alt="" srcset="" />
+                        <div class="demo-upload-list-cover">
+                            <!-- <Icon
+                                type="ios-eye-outline"
+                                @click="handleView()"
+                            ></Icon> -->
+                            <Icon
+                                type="ios-trash-outline"
+                                @click="handleRemove(false)"
+                            ></Icon>
+                        </div>
+                    </div>
+                    <ImagePreview
+                        v-model="visible"
+                        :preview-list="[editData.iconImage]"
+                    />
                     <div slot="footer">
                         <Button type="default" @click="showEditModal = false"
                             >Close</Button
@@ -206,6 +247,7 @@ export default {
             categoryList: [],
             editData: {
                 categoryName: "",
+                iconImage: "",
             },
             index: -1,
             isDeleting: false,
@@ -214,6 +256,7 @@ export default {
             deletingIndex: -1,
             token: "",
             visible: false,
+            isIconNewImage: false,
         };
     },
 
@@ -250,8 +293,13 @@ export default {
         },
         //edit category
         async editCategory() {
+            console.log(this.editData, "editData2");
             if (this.editData.categoryName.trim() == "")
-                return this.e("category name is required");
+                return this.e("Category name is required");
+
+            if (this.editData.iconImage.trim() == "")
+                return this.e("Image Icon name is required");
+
             const res = await this.callApi(
                 "post",
                 "app/edit_category",
@@ -291,13 +339,15 @@ export default {
             this.isDeleting = false;
         },
         showEditingModal(category, index) {
-            let obj = {
-                id: category.id,
-                categoryName: category.categoryName,
-            };
+            // let obj = {
+            //     id: category.id,
+            //     categoryName: category.categoryName,
+            // };
             this.showEditModal = true;
             this.index = index;
-            this.editData = obj;
+            this.editData = category;
+
+            console.log(this.editData, "editData");
         },
         showDeletingModal(category, index) {
             this.deleteItem = category;
@@ -326,10 +376,20 @@ export default {
             this.data.iconImage = name;
             this.visible = true;
         },
-        async handleRemove() {
-            let image = this.data.iconImage;
-            this.data.iconImage = "";
-            this.$refs.uploads.clearFiles();
+        async handleRemove(isAdd = true) {
+            let image = null;
+            if (!isAdd) {
+                // for editing
+                this.isIconNewImage = true;
+                image = this.editData.iconImage;
+                this.editData.iconImage = "";
+                this.$refs.editDataUploads.clearFiles();
+            } else {
+                // for adding
+                image = this.data.iconImage;
+                this.data.iconImage = "";
+                this.$refs.uploads.clearFiles();
+            }
             const res = await this.callApi("post", "app/delete_image", {
                 imageName: image,
             });
@@ -353,4 +413,3 @@ export default {
     },
 };
 </script>
-
