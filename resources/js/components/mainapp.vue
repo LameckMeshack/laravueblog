@@ -36,6 +36,12 @@
                                     Category</router-link
                                 >
                             </li>
+                            <li>
+                                <router-link to="admin"
+                                    ><Icon type="ios-speedometer" />
+                                    Admin</router-link
+                                >
+                            </li>
                         </ul>
                     </div>
                 </div>
