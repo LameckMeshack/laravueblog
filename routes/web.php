@@ -35,6 +35,13 @@ Route::post('app/create_category', 'AdminController@addCategory');
 Route::get('app/get_categories', 'AdminController@getCategory');
 Route::post('app/edit_category', 'AdminController@editCategory');
 Route::post('app/delete_category', 'AdminController@deleteCategory');
+
+//user
+Route::post('app/create_user', 'AdminController@addUser');
+Route::get('app/get_users', 'AdminController@getUser');
+Route::post('app/edit_user', 'AdminController@editUser');
+Route::post('app/delete_user', 'AdminController@deleteUser');
+
 Route::get(
     '/',
     function () {

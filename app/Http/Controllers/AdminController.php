@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -131,7 +133,7 @@ class AdminController extends Controller
 
         //delete original file from then serve
         $this->deleteFileFromServer($request->iconImage, true);
-        
+
         $this->validate($request, [
             'id' => 'required'
         ]);
@@ -139,5 +141,29 @@ class AdminController extends Controller
         return response()->json([
             'msg' => 'Category deleted successfully'
         ]);
+    }
+
+    //Users
+    //Create user
+    public function addUser(Request $request)
+    {
+        $this->validate($request, [
+            'fullName' => 'required',
+            'email' => 'bail|required|email:rfc,dns|unique:users,email',
+            'password' => 'required|min:6',
+            'userType' => 'required',
+        ]);
+        return User::create([
+            'fullName' => $request->fullName,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'userType' => $request->userType,
+        ]);
+    }
+
+    // Get all users
+    public function getUser()
+    {
+        return User::where('userType', '!=', 'User')->get();
     }
 }

@@ -17,7 +17,9 @@
                             <!-- TABLE TITLE -->
                             <tr>
                                 <th>ID</th>
-                                <th>Admin name</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>User type</th>
                                 <th>Created at</th>
                                 <th>Action</th>
                             </tr>
@@ -25,27 +27,29 @@
 
                             <!-- ITEMS -->
 
-                            <tr v-for="(tag, i) in tags" :key="i">
+                            <tr v-for="(user, i) in users" :key="i">
                                 <template
                                     style="position: inherit"
-                                    v-if="tags.length"
+                                    v-if="users.length"
                                 >
-                                    <td>{{ tag.id }}</td>
+                                    <td>{{ user.id }}</td>
                                     <td class="_table_name">
-                                        {{ tag.tagName }}
+                                        {{ user.fullName }}
                                     </td>
-                                    <td>{{ tag.created_at }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.userType }}</td>
+                                    <td>{{ user.created_at }}</td>
                                     <td>
                                         <Button
                                             type="info"
                                             size="small"
-                                            @click="showEditingModal(tag, i)"
+                                            @click="showEditingModal(email, i)"
                                             >Edit</Button
                                         >
                                         <Button
                                             type="error"
                                             size="small"
-                                            @click="showDeletingModal(tag, i)"
+                                            @click="showDeletingModal(email, i)"
                                             >Delete</Button
                                         >
                                     </td>
@@ -64,30 +68,33 @@
                     <div class="space">
                         <Input
                             type="text"
-                            v-model="data.tagName"
-                            placeholder="Add a tag name"
-                            class="modal_input"
-                            @on-keyup.enter="addTag"
+                            v-model="data.fullName"
+                            placeholder="Full Name"
                         />
                     </div>
 
                     <div class="space">
                         <Input
                             type="email"
-                            v-model="data.tagName"
-                            placeholder="Add a tag name"
-                            class="modal_input"
-                            @on-keyup.enter="addTag"
+                            v-model="data.email"
+                            placeholder="email"
                         />
                     </div>
                     <div class="space">
                         <Input
                             type="password"
-                            v-model="data.tagName"
-                            placeholder="Add a tag name"
-                            class="modal_input"
-                            @on-keyup.enter="addTag"
+                            v-model="data.password"
+                            placeholder="password"
                         />
+                    </div>
+                    <div class="space">
+                        <Select
+                            v-model="data.userType"
+                            placeholder="select user type"
+                        >
+                            <Option value="Admin">Admin</Option>
+                            <Option value="Editor">Editor</Option>
+                        </Select>
                     </div>
                     <div slot="footer">
                         <Button type="default" @click="addModal = false"
@@ -95,10 +102,10 @@
                         >
                         <Button
                             type="primary"
-                            @click="addTag"
+                            @click="addAdmin"
                             :disabled="isAdding"
                             :loading="isAdding"
-                            >{{ isAdding ? "Adding" : "Add Tag" }}</Button
+                            >{{ isAdding ? "Adding" : "Add Admin" }}</Button
                         >
                     </div>
                 </Modal>
@@ -143,13 +150,16 @@ export default {
     data() {
         return {
             data: {
-                tagName: "",
+                fullName: "",
+                email: "",
+                password: "",
+                userType: "",
             },
             addModal: false,
             isAdding: false,
             isEditing: false,
             showEditModal: false,
-            tags: [],
+            users: [],
             editData: {
                 tagName: "",
             },
@@ -162,26 +172,38 @@ export default {
     },
     components: { DeleteModal },
     methods: {
-        async addTag() {
-            if (this.data.tagName.trim() == "")
-                return this.e("Tag name is required");
-            const res = await this.callApi("post", "app/create_tag", this.data);
+        async addAdmin() {
+            const { fullName, email, password, userType } = this.data;
+            if (!fullName.trim()) return this.e("Full name is required");
+            if (!email.trim()) return this.e("email is required");
+            if (!password.trim()) return this.e("password is required");
+            if (!userType.trim()) return this.e("userType is required");
+            const res = await this.callApi(
+                "post",
+                "app/create_user",
+                this.data
+            );
             if (res.status == 201) {
-                this.tags.unshift(res.data);
-                this.s("Tag added successfully");
+                this.users.unshift(res.data);
+                this.s("Admin has been added successfully");
                 this.addModal = false;
-                this.data.tagName = "";
+                this.data = {
+                    fullName: "",
+                    email: "",
+                    password: "",
+                    userType: "",
+                };
             } else {
                 if (res.status == 422) {
-                    if (res.data.errors.tagName) {
-                        this.i(res.data.errors.tagName);
+                    for (let i in res.data.errors) {
+                        this.e(res.data.errors[i][0]);
                     }
                 } else {
                     this.swr();
                 }
             }
         },
-        //edit tags
+        //edit users
         async editTag() {
             if (this.editData.tagName.trim() == "")
                 return this.e("Tag name is required");
@@ -191,14 +213,15 @@ export default {
                 this.editData
             );
             if (res.status == 200) {
-                this.tags[this.index].tagName = this.editData.tagName;
+                this.users[this.index].tagName = this.editData.tagName;
                 this.s("Tag edited successfully");
                 this.showEditModal = false;
                 this.editData.tagName = "";
             } else {
                 if (res.status == 422) {
-                    if (res.data.errors.tagName)
-                        this.i(res.data.errors.tagName);
+                    for (let i in res.data.errors) {
+                        this.e(res.data.errors[i][0]);
+                    }
                 } else {
                     this.swr();
                 }
@@ -226,9 +249,9 @@ export default {
         },
     },
     async created() {
-        const res = await this.callApi("get", "app/get_tags");
+        const res = await this.callApi("get", "app/get_users");
         if (res.status == 200) {
-            this.tags = res.data;
+            this.users = res.data;
         } else {
             this.swr();
         }
@@ -239,7 +262,7 @@ export default {
     watch: {
         getDeleteModalObj(obj) {
             if (obj.isDeleted) {
-                this.tags.splice(this.deletingIndex, 1);
+                this.users.splice(this.deletingIndex, 1);
             }
         },
     },

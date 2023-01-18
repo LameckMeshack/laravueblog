@@ -95,13 +95,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       data: {
-        tagName: ""
+        fullName: "",
+        email: "",
+        password: "",
+        userType: ""
       },
       addModal: false,
       isAdding: false,
       isEditing: false,
       showEditModal: false,
-      tags: [],
+      users: [],
       editData: {
         tagName: ""
       },
@@ -116,49 +119,73 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     DeleteModal: _components_deleteModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
-    addTag: function addTag() {
+    addAdmin: function addAdmin() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var res;
+        var _this$data, fullName, email, password, userType, res, i;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (!(_this.data.tagName.trim() == "")) {
-                _context.next = 2;
+              _this$data = _this.data, fullName = _this$data.fullName, email = _this$data.email, password = _this$data.password, userType = _this$data.userType;
+              if (fullName.trim()) {
+                _context.next = 3;
                 break;
               }
-              return _context.abrupt("return", _this.e("Tag name is required"));
-            case 2:
-              _context.next = 4;
-              return _this.callApi("post", "app/create_tag", _this.data);
-            case 4:
+              return _context.abrupt("return", _this.e("Full name is required"));
+            case 3:
+              if (email.trim()) {
+                _context.next = 5;
+                break;
+              }
+              return _context.abrupt("return", _this.e("email is required"));
+            case 5:
+              if (password.trim()) {
+                _context.next = 7;
+                break;
+              }
+              return _context.abrupt("return", _this.e("password is required"));
+            case 7:
+              if (userType.trim()) {
+                _context.next = 9;
+                break;
+              }
+              return _context.abrupt("return", _this.e("userType is required"));
+            case 9:
+              _context.next = 11;
+              return _this.callApi("post", "app/create_user", _this.data);
+            case 11:
               res = _context.sent;
               if (res.status == 201) {
-                _this.tags.unshift(res.data);
-                _this.s("Tag added successfully");
+                _this.users.unshift(res.data);
+                _this.s("Admin has been added successfully");
                 _this.addModal = false;
-                _this.data.tagName = "";
+                _this.data = {
+                  fullName: "",
+                  email: "",
+                  password: "",
+                  userType: ""
+                };
               } else {
                 if (res.status == 422) {
-                  if (res.data.errors.tagName) {
-                    _this.i(res.data.errors.tagName);
+                  for (i in res.data.errors) {
+                    _this.e(res.data.errors[i][0]);
                   }
                 } else {
                   _this.swr();
                 }
               }
-            case 6:
+            case 13:
             case "end":
               return _context.stop();
           }
         }, _callee);
       }))();
     },
-    //edit tags
+    //edit users
     editTag: function editTag() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var res;
+        var res, i;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
@@ -173,13 +200,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               res = _context2.sent;
               if (res.status == 200) {
-                _this2.tags[_this2.index].tagName = _this2.editData.tagName;
+                _this2.users[_this2.index].tagName = _this2.editData.tagName;
                 _this2.s("Tag edited successfully");
                 _this2.showEditModal = false;
                 _this2.editData.tagName = "";
               } else {
                 if (res.status == 422) {
-                  if (res.data.errors.tagName) _this2.i(res.data.errors.tagName);
+                  for (i in res.data.errors) {
+                    _this2.e(res.data.errors[i][0]);
+                  }
                 } else {
                   _this2.swr();
                 }
@@ -219,11 +248,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return _this3.callApi("get", "app/get_tags");
+            return _this3.callApi("get", "app/get_users");
           case 2:
             res = _context3.sent;
             if (res.status == 200) {
-              _this3.tags = res.data;
+              _this3.users = res.data;
             } else {
               _this3.swr();
             }
@@ -238,7 +267,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   watch: {
     getDeleteModalObj: function getDeleteModalObj(obj) {
       if (obj.isDeleted) {
-        this.tags.splice(this.deletingIndex, 1);
+        this.users.splice(this.deletingIndex, 1);
       }
     }
   }
@@ -835,19 +864,19 @@ var render = function render() {
     staticClass: "_overflow _table_div"
   }, [_c("table", {
     staticClass: "_table"
-  }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.tags, function (tag, i) {
+  }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.users, function (user, i) {
     return _c("tr", {
       key: i
-    }, [_vm.tags.length ? [_c("td", [_vm._v(_vm._s(tag.id))]), _vm._v(" "), _c("td", {
+    }, [_vm.users.length ? [_c("td", [_vm._v(_vm._s(user.id))]), _vm._v(" "), _c("td", {
       staticClass: "_table_name"
-    }, [_vm._v("\n                                    " + _vm._s(tag.tagName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(tag.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
+    }, [_vm._v("\n                                    " + _vm._s(user.fullName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.userType))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
       attrs: {
         type: "info",
         size: "small"
       },
       on: {
         click: function click($event) {
-          return _vm.showEditingModal(tag, i);
+          return _vm.showEditingModal(_vm.email, i);
         }
       }
     }, [_vm._v("Edit")]), _vm._v(" "), _c("Button", {
@@ -857,7 +886,7 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.showDeletingModal(tag, i);
+          return _vm.showDeletingModal(_vm.email, i);
         }
       }
     }, [_vm._v("Delete")])], 1)] : _vm._e()], 2);
@@ -877,67 +906,67 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "space"
   }, [_c("Input", {
-    staticClass: "modal_input",
     attrs: {
       type: "text",
-      placeholder: "Add a tag name"
-    },
-    on: {
-      "on-keyup": function onKeyup($event) {
-        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.addTag.apply(null, arguments);
-      }
+      placeholder: "Full Name"
     },
     model: {
-      value: _vm.data.tagName,
+      value: _vm.data.fullName,
       callback: function callback($$v) {
-        _vm.$set(_vm.data, "tagName", $$v);
+        _vm.$set(_vm.data, "fullName", $$v);
       },
-      expression: "data.tagName"
+      expression: "data.fullName"
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "space"
   }, [_c("Input", {
-    staticClass: "modal_input",
     attrs: {
       type: "email",
-      placeholder: "Add a tag name"
-    },
-    on: {
-      "on-keyup": function onKeyup($event) {
-        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.addTag.apply(null, arguments);
-      }
+      placeholder: "email"
     },
     model: {
-      value: _vm.data.tagName,
+      value: _vm.data.email,
       callback: function callback($$v) {
-        _vm.$set(_vm.data, "tagName", $$v);
+        _vm.$set(_vm.data, "email", $$v);
       },
-      expression: "data.tagName"
+      expression: "data.email"
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "space"
   }, [_c("Input", {
-    staticClass: "modal_input",
     attrs: {
       type: "password",
-      placeholder: "Add a tag name"
-    },
-    on: {
-      "on-keyup": function onKeyup($event) {
-        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.addTag.apply(null, arguments);
-      }
+      placeholder: "password"
     },
     model: {
-      value: _vm.data.tagName,
+      value: _vm.data.password,
       callback: function callback($$v) {
-        _vm.$set(_vm.data, "tagName", $$v);
+        _vm.$set(_vm.data, "password", $$v);
       },
-      expression: "data.tagName"
+      expression: "data.password"
     }
   })], 1), _vm._v(" "), _c("div", {
+    staticClass: "space"
+  }, [_c("Select", {
+    attrs: {
+      placeholder: "select user type"
+    },
+    model: {
+      value: _vm.data.userType,
+      callback: function callback($$v) {
+        _vm.$set(_vm.data, "userType", $$v);
+      },
+      expression: "data.userType"
+    }
+  }, [_c("Option", {
+    attrs: {
+      value: "Admin"
+    }
+  }, [_vm._v("Admin")]), _vm._v(" "), _c("Option", {
+    attrs: {
+      value: "Editor"
+    }
+  }, [_vm._v("Editor")])], 1)], 1), _vm._v(" "), _c("div", {
     attrs: {
       slot: "footer"
     },
@@ -958,9 +987,9 @@ var render = function render() {
       loading: _vm.isAdding
     },
     on: {
-      click: _vm.addTag
+      click: _vm.addAdmin
     }
-  }, [_vm._v(_vm._s(_vm.isAdding ? "Adding" : "Add Tag"))])], 1)]), _vm._v(" "), _c("Modal", {
+  }, [_vm._v(_vm._s(_vm.isAdding ? "Adding" : "Add Admin"))])], 1)]), _vm._v(" "), _c("Modal", {
     attrs: {
       title: "Edit Tag",
       "mask-closable": false,
@@ -1019,7 +1048,7 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Admin name")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
+  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Name")]), _vm._v(" "), _c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", [_vm._v("User type")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
 }];
 render._withStripped = true;
 
