@@ -206,7 +206,7 @@
                     </div>
                 </Modal>
                 <!-- delete alert modal -->
-                <Modal v-model="showDeleteModal" width="360">
+                <!-- <Modal v-model="showDeleteModal" width="360">
                     <template #header>
                         <p style="color: #f60; text-align: center">
                             <Icon type="ios-information-circle"></Icon>
@@ -227,12 +227,14 @@
                             >Delete</Button
                         >
                     </template>
-                </Modal>
+                </Modal> -->
+                <deleteModal />
             </div>
         </div>
     </div>
 </template>
 <script>
+import deleteModal from "../components/deleteModal.vue";
 export default {
     data() {
         return {
@@ -252,13 +254,17 @@ export default {
             index: -1,
             isDeleting: false,
             deleteItem: {},
-            showDeleteModal: false,
             deletingIndex: -1,
+            showDeleteModal: false,
             token: "",
             visible: false,
             isIconNewImage: false,
             isEditingItem: false,
         };
+    },
+
+    components: {
+        deleteModal,
     },
 
     methods: {
@@ -354,9 +360,16 @@ export default {
             console.log(this.editData, "editData");
         },
         showDeletingModal(category, index) {
-            this.deleteItem = category;
-            this.deletingIndex = index;
-            this.showDeleteModal = true;
+            const deleteObj = {
+                showDeleteModal: false,
+                deleteUrl: "app/delete_category",
+                data: category,
+                deletingIndex: index,
+                isDeleted: false,
+            };
+            // this.deleteItem = category;
+            // this.deletingIndex = index;
+            // this.showDeleteModal = true;
         },
         handleSuccess(res, file) {
             if (this.isEditingItem) {

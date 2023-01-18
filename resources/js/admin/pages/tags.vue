@@ -108,7 +108,7 @@
                     </div>
                 </Modal>
                 <!-- delete alert modal -->
-                <Modal v-model="showDeleteModal" width="360">
+                <!-- <Modal v-model="showDeleteModal" width="360">
                     <template #header>
                         <p style="color: #f60; text-align: center">
                             <Icon type="ios-information-circle"></Icon>
@@ -129,12 +129,16 @@
                             >Delete</Button
                         >
                     </template>
-                </Modal>
+                </Modal> -->
+                <DeleteModal />
             </div>
         </div>
     </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import DeleteModal from "../components/deleteModal.vue";
+
 export default {
     data() {
         return {
@@ -156,7 +160,7 @@ export default {
             deletingIndex: -1,
         };
     },
-
+    components: { DeleteModal },
     methods: {
         async addTag() {
             if (this.data.tagName.trim() == "")
@@ -228,9 +232,17 @@ export default {
             this.editData = obj;
         },
         showDeletingModal(tag, index) {
-            this.deleteItem = tag;
-            this.deletingIndex = index;
-            this.showDeleteModal = true;
+            // this.deleteItem = tag;
+            // this.deletingIndex = index;
+            // this.showDeleteModal = true;
+            const deleteObj = {
+                showDeleteModal: true,
+                deleteUrl: "app/delete_tag",
+                data: tag,
+                deletingIndex: index,
+                isDeleted: false,
+            };
+            this.$store.commit("setDeleteModalObj", deleteObj);
         },
     },
     async created() {
@@ -240,6 +252,17 @@ export default {
         } else {
             this.swr();
         }
+    },
+    computed: {
+        ...mapGetters(["getDeleteModalObj"]),
+    },
+    watch: {
+        getDeleteModalObj(obj) {
+            console.log(obj);
+            if (obj.isDeleted) {
+                this.tags.splice(this.deletingIndex, 1);
+            }
+        },
     },
 };
 </script>
