@@ -212,6 +212,7 @@
     </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import DeleteModal from "../components/deleteModal.vue";
 export default {
     data() {
@@ -262,7 +263,7 @@ export default {
                 this.categoryList.unshift(res.data);
                 this.s("Category has been added successfully");
                 this.addModal = false;
-                this.data.categoryName = "";
+                this.data = { categoryName: "", iconImage: "" };
             } else {
                 if (res.status == 422) {
                     if (res.data.errors.categoryName) {
@@ -401,6 +402,16 @@ export default {
         } else {
             this.swr();
         }
+    },
+    computed: {
+        ...mapGetters(["getDeleteModalObj"]),
+    },
+    watch: {
+        getDeleteModalObj(obj) {
+            if (obj.isDeleted) {
+                this.categoryList.splice(this.deletingIndex, 1);
+            }
+        },
     },
 };
 </script>
