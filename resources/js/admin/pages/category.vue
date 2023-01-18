@@ -206,35 +206,13 @@
                     </div>
                 </Modal>
                 <!-- delete alert modal -->
-                <!-- <Modal v-model="showDeleteModal" width="360">
-                    <template #header>
-                        <p style="color: #f60; text-align: center">
-                            <Icon type="ios-information-circle"></Icon>
-                            <span>Delete confirmation</span>
-                        </p>
-                    </template>
-                    <div style="text-align: center">
-                        <p>Are you sure you want to delete category?</p>
-                    </div>
-                    <template #footer>
-                        <Button
-                            type="error"
-                            size="large"
-                            long
-                            :loading="isDeleting"
-                            :disabled="isDeleting"
-                            @click="deleteCategory()"
-                            >Delete</Button
-                        >
-                    </template>
-                </Modal> -->
-                <deleteModal />
+                <DeleteModal />
             </div>
         </div>
     </div>
 </template>
 <script>
-import deleteModal from "../components/deleteModal.vue";
+import DeleteModal from "../components/deleteModal.vue";
 export default {
     data() {
         return {
@@ -264,7 +242,7 @@ export default {
     },
 
     components: {
-        deleteModal,
+        DeleteModal,
     },
 
     methods: {
@@ -300,7 +278,6 @@ export default {
         },
         //edit category
         async editCategory() {
-            // console.log(this.editData, "editData2");
             if (this.editData.categoryName.trim() == "")
                 return this.e("Category name is required");
 
@@ -348,28 +325,20 @@ export default {
             this.isDeleting = false;
         },
         showEditingModal(category, index) {
-            // let obj = {
-            //     id: category.id,
-            //     categoryName: category.categoryName,
-            // };
             this.editData = category;
             this.showEditModal = true;
             this.index = index;
             this.isEditingItem = true;
-
-            console.log(this.editData, "editData");
         },
         showDeletingModal(category, index) {
-            const deleteObj = {
-                showDeleteModal: false,
+            const deleteModalObj = {
+                showDeleteModal: true,
                 deleteUrl: "app/delete_category",
                 data: category,
                 deletingIndex: index,
                 isDeleted: false,
             };
-            // this.deleteItem = category;
-            // this.deletingIndex = index;
-            // this.showDeleteModal = true;
+            this.$store.commit("setDeleteModalObj", deleteModalObj);
         },
         handleSuccess(res, file) {
             if (this.isEditingItem) {

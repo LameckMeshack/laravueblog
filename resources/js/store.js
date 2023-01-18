@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        deleteObj: {
+        deleteModalObj: {
             showDeleteModal: false,
             deleteUrl: "",
             data: null,
@@ -15,7 +15,7 @@ export default new Vuex.Store({
     },
     mutations: {
         setDeleteModalObj(state, data) {
-            state.deleteObj = data;
+            state.deleteModalObj = data;
         },
         setDeleteModal(state, data) {
             const deleteModalObj = {
@@ -25,12 +25,12 @@ export default new Vuex.Store({
                 deletingIndex: -1,
                 isDeleted: data,
             };
-            state.deleteObj = deleteModalObj;
+            state.deleteModalObj = deleteModalObj;
         },
     },
     getters: {
         getDeleteModalObj(state) {
-            return state.deleteObj;
+            return state.deleteModalObj;
         },
     },
     actions: {},

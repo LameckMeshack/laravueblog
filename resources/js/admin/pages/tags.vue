@@ -107,29 +107,7 @@
                         >
                     </div>
                 </Modal>
-                <!-- delete alert modal -->
-                <!-- <Modal v-model="showDeleteModal" width="360">
-                    <template #header>
-                        <p style="color: #f60; text-align: center">
-                            <Icon type="ios-information-circle"></Icon>
-                            <span>Delete confirmation</span>
-                        </p>
-                    </template>
-                    <div style="text-align: center">
-                        <p>Are you sure you want to delete tag?</p>
-                    </div>
-                    <template #footer>
-                        <Button
-                            type="error"
-                            size="large"
-                            long
-                            :loading="isDeleting"
-                            :disabled="isDeleting"
-                            @click="deleteTag()"
-                            >Delete</Button
-                        >
-                    </template>
-                </Modal> -->
+                <!-- tag deleting modal -->
                 <DeleteModal />
             </div>
         </div>
@@ -204,24 +182,7 @@ export default {
                 }
             }
         },
-        //delete tag
-        async deleteTag() {
-            this.isDeleting = true;
-            const res = await this.callApi(
-                "post",
-                "app/delete_tag",
-                this.deleteItem
-            );
-            if (res.status == 200) {
-                this.tags.splice(this.deletingIndex, 1);
-                this.s("Tag deleted successfully");
-                this.isDeleting = false;
-                this.showDeleteModal = false;
-            } else {
-                this.swr();
-            }
-            this.isDeleting = false;
-        },
+
         showEditingModal(tag, index) {
             let obj = {
                 id: tag.id,
@@ -232,17 +193,14 @@ export default {
             this.editData = obj;
         },
         showDeletingModal(tag, index) {
-            // this.deleteItem = tag;
-            // this.deletingIndex = index;
-            // this.showDeleteModal = true;
-            const deleteObj = {
+            const deleteModalObj = {
                 showDeleteModal: true,
                 deleteUrl: "app/delete_tag",
                 data: tag,
                 deletingIndex: index,
                 isDeleted: false,
             };
-            this.$store.commit("setDeleteModalObj", deleteObj);
+            this.$store.commit("setDeleteModalObj", deleteModalObj);
         },
     },
     async created() {
@@ -258,7 +216,6 @@ export default {
     },
     watch: {
         getDeleteModalObj(obj) {
-            console.log(obj);
             if (obj.isDeleted) {
                 this.tags.splice(this.deletingIndex, 1);
             }

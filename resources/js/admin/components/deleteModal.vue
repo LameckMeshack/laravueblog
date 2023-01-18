@@ -15,10 +15,11 @@
             <p>Are you sure you want to delete category?</p>
         </div>
         <template #footer>
+            <Button size="large" @click="closeModal()">Close</Button>
+
             <Button
                 type="error"
                 size="large"
-                long
                 :loading="isDeleting"
                 :disabled="isDeleting"
                 @click="deleteTag()"
@@ -53,7 +54,9 @@ export default {
                 this.swr();
                 this.$store.commit("setDeleteModal", false);
             }
-            
+        },
+        closeModal() {
+            this.$store.commit("setDeleteModal", false);
         },
     },
     computed: {
