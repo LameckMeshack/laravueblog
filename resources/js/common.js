@@ -44,5 +44,11 @@ export default {
                 desc,
             });
         },
+        //check if inputs are empty
+        checkInput(val){
+            if(!val){
+                this.i(`${val} is required`)
+            }
+        }
     },
 };
