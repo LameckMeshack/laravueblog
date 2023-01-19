@@ -173,11 +173,9 @@ export default {
     components: { DeleteModal },
     methods: {
         async addAdmin() {
-            const { fullName, email, password, userType } = this.data;
-            if (!fullName.trim()) return this.e("Full name is required");
-            if (!email.trim()) return this.e("email is required");
-            if (!password.trim()) return this.e("password is required");
-            if (!userType.trim()) return this.e("userType is required");
+            for(let val in this.data){
+                this.checkInput(val)
+            }
             const res = await this.callApi(
                 "post",
                 "app/create_user",
