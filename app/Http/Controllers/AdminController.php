@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -170,17 +171,28 @@ class AdminController extends Controller
     //Edit user
     public function editUser(Request $request)
     {
+        $user = User::find($request->id);
         $this->validate($request, [
             'fullName' => 'required',
-            'email' => 'bail|required|email:rfc,dns|unique:users,email',
-            'password' => 'required|min:6',
-            'userTYpe' => 'required',
+            'email' => [
+                'required', 'email:rfc',
+                Rule::unique("users")->ignore($user->id),
+            ],
+            'password' => 'min:6',
+            'userType' => 'required',
         ]);
-        return User::where('id', $request->id)->update([
+        $data = [
             'fullName' => $request->fullName,
             'email' => $request->email,
-            "password" => $request->password,
             'userType' => $request->userType,
-        ]);
+        ];
+
+        if ($request->password) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        return User::where('id', $request->id)->update(
+            $data
+        );
     }
 }

@@ -43,13 +43,13 @@
                                         <Button
                                             type="info"
                                             size="small"
-                                            @click="showEditingModal(email, i)"
+                                            @click="showEditingModal(user, i)"
                                             >Edit</Button
                                         >
                                         <Button
                                             type="error"
                                             size="small"
-                                            @click="showDeletingModal(email, i)"
+                                            @click="showDeletingModal(user, i)"
                                             >Delete</Button
                                         >
                                     </td>
@@ -113,23 +113,33 @@
 
                 <Modal
                     v-model="showEditModal"
-                    title="Edit Tag"
+                    title="Edit Admin"
                     :mask-closable="false"
                     :closable="false"
                 >
-                    <Input
-                        v-model="editData.tagName"
-                        placeholder="Edit a tag name"
-                        class="modal_input"
-                        @on-keyup.enter="editTag"
-                    ></Input>
+                    <div class="space">
+                        <Input type="text" v-model="editData.fullName" />
+                    </div>
+
+                    <div class="space">
+                        <Input type="email" v-model="editData.email" />
+                    </div>
+                    <div class="space">
+                        <Input type="password" v-model="editData.password" />
+                    </div>
+                    <div class="space">
+                        <Select v-model="editData.userType">
+                            <Option value="Admin">Admin</Option>
+                            <Option value="Editor">Editor</Option>
+                        </Select>
+                    </div>
                     <div slot="footer">
                         <Button type="default" @click="showEditModal = false"
                             >Close</Button
                         >
                         <Button
                             type="primary"
-                            @click="editTag"
+                            @click="editAdmin"
                             :disabled="isEditing"
                             :loading="isEditing"
                             >{{ isEditing ? "Editing" : "Edit Tag" }}</Button
@@ -161,8 +171,12 @@ export default {
             showEditModal: false,
             users: [],
             editData: {
-                tagName: "",
+                fullName: "",
+                email: "",
+                password: "",
+                userType: "",
             },
+            editIndex: -1,
             index: -1,
             isDeleting: false,
             deleteItem: {},
@@ -173,8 +187,8 @@ export default {
     components: { DeleteModal },
     methods: {
         async addAdmin() {
-            for(let val in this.data){
-                this.checkInput(val)
+            for (let val in this.data) {
+                this.checkInput(val);
             }
             const res = await this.callApi(
                 "post",
@@ -202,19 +216,28 @@ export default {
             }
         },
         //edit users
-        async editTag() {
-            if (this.editData.tagName.trim() == "")
-                return this.e("Tag name is required");
+        async editAdmin() {
+            for (let val in this.editData) {
+                this.checkInput(val);
+            }
             const res = await this.callApi(
                 "post",
-                "app/edit_tag",
+                "app/edit_user",
                 this.editData
             );
             if (res.status == 200) {
-                this.users[this.index].tagName = this.editData.tagName;
-                this.s("Tag edited successfully");
+                // this.users[this.editIndex] = this.editData;
+                this.callApi("get", "app/get_users");
+
+                this.s("Admin edited successfully");
                 this.showEditModal = false;
-                this.editData.tagName = "";
+                this.editData = {
+                    fullName: "",
+                    email: "",
+                    password: "",
+                    userType: "",
+                };
+                //set editIndex
             } else {
                 if (res.status == 422) {
                     for (let i in res.data.errors) {
@@ -226,13 +249,15 @@ export default {
             }
         },
 
-        showEditingModal(tag, index) {
+        showEditingModal(user, index) {
             let obj = {
-                id: tag.id,
-                tagName: tag.tagName,
+                id: user.id,
+                fullName: user.fullName,
+                email: user.email,
+                userType: user.userType,
             };
             this.showEditModal = true;
-            this.index = index;
+            this.editIndex = index;
             this.editData = obj;
         },
         showDeletingModal(tag, index) {

@@ -106,8 +106,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showEditModal: false,
       users: [],
       editData: {
-        tagName: ""
+        fullName: "",
+        email: "",
+        password: "",
+        userType: ""
       },
+      editIndex: -1,
       index: -1,
       isDeleting: false,
       deleteItem: {},
@@ -160,28 +164,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     //edit users
-    editTag: function editTag() {
+    editAdmin: function editAdmin() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var res, i;
+        var val, res, i;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this2.editData.tagName.trim() == "")) {
-                _context2.next = 2;
-                break;
+              for (val in _this2.editData) {
+                _this2.checkInput(val);
               }
-              return _context2.abrupt("return", _this2.e("Tag name is required"));
-            case 2:
-              _context2.next = 4;
-              return _this2.callApi("post", "app/edit_tag", _this2.editData);
-            case 4:
+              _context2.next = 3;
+              return _this2.callApi("post", "app/edit_user", _this2.editData);
+            case 3:
               res = _context2.sent;
               if (res.status == 200) {
-                _this2.users[_this2.index].tagName = _this2.editData.tagName;
-                _this2.s("Tag edited successfully");
+                // this.users[this.editIndex] = this.editData;
+                _this2.callApi("get", "app/get_users");
+                _this2.s("Admin edited successfully");
                 _this2.showEditModal = false;
-                _this2.editData.tagName = "";
+                _this2.editData = {
+                  fullName: "",
+                  email: "",
+                  password: "",
+                  userType: ""
+                };
+                //set editIndex
               } else {
                 if (res.status == 422) {
                   for (i in res.data.errors) {
@@ -191,20 +199,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.swr();
                 }
               }
-            case 6:
+            case 5:
             case "end":
               return _context2.stop();
           }
         }, _callee2);
       }))();
     },
-    showEditingModal: function showEditingModal(tag, index) {
+    showEditingModal: function showEditingModal(user, index) {
       var obj = {
-        id: tag.id,
-        tagName: tag.tagName
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+        userType: user.userType
       };
       this.showEditModal = true;
-      this.index = index;
+      this.editIndex = index;
       this.editData = obj;
     },
     showDeletingModal: function showDeletingModal(tag, index) {
@@ -854,7 +864,7 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.showEditingModal(_vm.email, i);
+          return _vm.showEditingModal(user, i);
         }
       }
     }, [_vm._v("Edit")]), _vm._v(" "), _c("Button", {
@@ -864,7 +874,7 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.showDeletingModal(_vm.email, i);
+          return _vm.showDeletingModal(user, i);
         }
       }
     }, [_vm._v("Delete")])], 1)] : _vm._e()], 2);
@@ -969,7 +979,7 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.isAdding ? "Adding" : "Add Admin"))])], 1)]), _vm._v(" "), _c("Modal", {
     attrs: {
-      title: "Edit Tag",
+      title: "Edit Admin",
       "mask-closable": false,
       closable: false
     },
@@ -980,25 +990,64 @@ var render = function render() {
       },
       expression: "showEditModal"
     }
+  }, [_c("div", {
+    staticClass: "space"
   }, [_c("Input", {
-    staticClass: "modal_input",
     attrs: {
-      placeholder: "Edit a tag name"
-    },
-    on: {
-      "on-keyup": function onKeyup($event) {
-        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.editTag.apply(null, arguments);
-      }
+      type: "text"
     },
     model: {
-      value: _vm.editData.tagName,
+      value: _vm.editData.fullName,
       callback: function callback($$v) {
-        _vm.$set(_vm.editData, "tagName", $$v);
+        _vm.$set(_vm.editData, "fullName", $$v);
       },
-      expression: "editData.tagName"
+      expression: "editData.fullName"
     }
-  }), _vm._v(" "), _c("div", {
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "space"
+  }, [_c("Input", {
+    attrs: {
+      type: "email"
+    },
+    model: {
+      value: _vm.editData.email,
+      callback: function callback($$v) {
+        _vm.$set(_vm.editData, "email", $$v);
+      },
+      expression: "editData.email"
+    }
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "space"
+  }, [_c("Input", {
+    attrs: {
+      type: "password"
+    },
+    model: {
+      value: _vm.editData.password,
+      callback: function callback($$v) {
+        _vm.$set(_vm.editData, "password", $$v);
+      },
+      expression: "editData.password"
+    }
+  })], 1), _vm._v(" "), _c("div", {
+    staticClass: "space"
+  }, [_c("Select", {
+    model: {
+      value: _vm.editData.userType,
+      callback: function callback($$v) {
+        _vm.$set(_vm.editData, "userType", $$v);
+      },
+      expression: "editData.userType"
+    }
+  }, [_c("Option", {
+    attrs: {
+      value: "Admin"
+    }
+  }, [_vm._v("Admin")]), _vm._v(" "), _c("Option", {
+    attrs: {
+      value: "Editor"
+    }
+  }, [_vm._v("Editor")])], 1)], 1), _vm._v(" "), _c("div", {
     attrs: {
       slot: "footer"
     },
@@ -1019,9 +1068,9 @@ var render = function render() {
       loading: _vm.isEditing
     },
     on: {
-      click: _vm.editTag
+      click: _vm.editAdmin
     }
-  }, [_vm._v(_vm._s(_vm.isEditing ? "Editing" : "Edit Tag"))])], 1)], 1), _vm._v(" "), _c("DeleteModal")], 1)])]);
+  }, [_vm._v(_vm._s(_vm.isEditing ? "Editing" : "Edit Tag"))])], 1)]), _vm._v(" "), _c("DeleteModal")], 1)])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
