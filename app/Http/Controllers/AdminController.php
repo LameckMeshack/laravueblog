@@ -166,4 +166,21 @@ class AdminController extends Controller
     {
         return User::where('userType', '!=', 'User')->get();
     }
+
+    //Edit user
+    public function editUser(Request $request)
+    {
+        $this->validate($request, [
+            'fullName' => 'required',
+            'email' => 'bail|required|email:rfc,dns|unique:users,email',
+            'password' => 'required|min:6',
+            'userTYpe' => 'required',
+        ]);
+        return User::where('id', $request->id)->update([
+            'fullName' => $request->fullName,
+            'email' => $request->email,
+            "password" => $request->password,
+            'userType' => $request->userType,
+        ]);
+    }
 }
