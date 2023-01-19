@@ -122,38 +122,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     addAdmin: function addAdmin() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _this$data, fullName, email, password, userType, res, i;
+        var val, res, i;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this$data = _this.data, fullName = _this$data.fullName, email = _this$data.email, password = _this$data.password, userType = _this$data.userType;
-              if (fullName.trim()) {
-                _context.next = 3;
-                break;
+              for (val in _this.data) {
+                _this.checkInput(val);
               }
-              return _context.abrupt("return", _this.e("Full name is required"));
-            case 3:
-              if (email.trim()) {
-                _context.next = 5;
-                break;
-              }
-              return _context.abrupt("return", _this.e("email is required"));
-            case 5:
-              if (password.trim()) {
-                _context.next = 7;
-                break;
-              }
-              return _context.abrupt("return", _this.e("password is required"));
-            case 7:
-              if (userType.trim()) {
-                _context.next = 9;
-                break;
-              }
-              return _context.abrupt("return", _this.e("userType is required"));
-            case 9:
-              _context.next = 11;
+              _context.next = 3;
               return _this.callApi("post", "app/create_user", _this.data);
-            case 11:
+            case 3:
               res = _context.sent;
               if (res.status == 201) {
                 _this.users.unshift(res.data);
@@ -174,7 +152,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.swr();
                 }
               }
-            case 13:
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -2011,6 +1989,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         title: title,
         desc: desc
       });
+    },
+    //check if inputs are empty
+    checkInput: function checkInput(val) {
+      if (!val) {
+        this.i("".concat(val, " is required"));
+      }
     }
   }
 });
