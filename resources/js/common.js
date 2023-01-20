@@ -45,10 +45,19 @@ export default {
             });
         },
         //check if inputs are empty
-        checkInput(val){
-            if(!val){
-                this.i(`${val} is required`)
+        checkInput(val) {
+            if (val !== null && typeof val === "object") {
+                for (let i in val) {
+                    if (
+                        !val[i] ||
+                        (typeof val[i] === "string" && val[i].length < 1)
+                    ) {
+                        return this.e(`${i} is required`);
+                    }
+                }
+            } else if (!val || (typeof val === "string" && val.length < 1)) {
+                return this.i(`${val} is required`);
             }
-        }
+        },
     },
 };
