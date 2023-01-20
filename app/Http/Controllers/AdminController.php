@@ -208,9 +208,17 @@ class AdminController extends Controller
         ]);
 
         //Attemp to login the user
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'userType' => "Admin"])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::user();
+            if ($user->userType == "User") {
+                Auth::logout();
+                return response()->json([
+                    'msg' => 'Invalid credentials'
+                ], 401);
+            }
             return response()->json([
-                'msg' => 'You are logged in!'
+                'msg' => 'You are logged in!',
+                'user' => $user
             ]);
         } else {
             return response()->json([
