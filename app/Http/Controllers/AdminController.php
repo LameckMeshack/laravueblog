@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -194,5 +195,28 @@ class AdminController extends Controller
         return User::where('id', $request->id)->update(
             $data
         );
+    }
+    //login
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|exists:users,email',
+            'password' => 'bail|required|min:6',
+
+        ], [
+            'email.exists' => "Invalid credential"
+        ]);
+
+        //Attemp to login the user
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'userType' => "Admin"])) {
+            return response()->json([
+                'msg' => 'You are logged in!'
+            ]);
+        } else {
+            return response()->json([
+
+                'msg' => 'Invalid credentials'
+            ], 401);
+        }
     }
 }

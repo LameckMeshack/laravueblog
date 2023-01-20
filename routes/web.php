@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\TestController;
 
@@ -41,6 +42,9 @@ Route::post('app/create_user', 'AdminController@addUser');
 Route::get('app/get_users', 'AdminController@getUser');
 Route::post('app/edit_user', 'AdminController@editUser');
 Route::post('app/delete_user', 'AdminController@deleteUser');
+
+//admin
+Route::post('app/admin_login', 'AdminController@login');
 
 Route::get(
     '/',
