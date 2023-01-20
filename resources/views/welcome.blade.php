@@ -22,7 +22,11 @@
 <body>
     <div id="app">
 
-        <mainapp></mainapp>
+        @if (Auth::check())
+        <mainapp :user="{{Auth::user()}}"></mainapp>
+        @else
+        <mainapp :user="false"></mainapp> 
+        @endif
     </div>
     <script src="{{asset('js/app.js')}}"></script>
 </body>

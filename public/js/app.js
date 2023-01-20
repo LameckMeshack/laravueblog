@@ -605,6 +605,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               if (res.status === 200) {
                 _this.s(res.data.msg);
+                window.location = "/";
               } else {
                 if (res.status === 401) {
                   _this.e(res.data.msg);
@@ -820,10 +821,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ["user"],
   data: function data() {
     return {
       isLoggedIn: false
     };
+  },
+  created: function created() {
+    this.$store.commit("updateUser", this.user);
+    // log from the store
+    console.log(this.$store.state.user);
   }
 });
 
@@ -1737,7 +1744,7 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_vm.isLoggedIn ? _c("div", [_c("div", {
+  return _c("div", [_vm.$store.state.user ? _c("div", [_c("div", {
     staticClass: "_1side_menu"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "_1side_menu_content"
@@ -1777,7 +1784,15 @@ var render = function render() {
     attrs: {
       type: "ios-speedometer"
     }
-  }), _vm._v("\n                                Admin")], 1)], 1)])])])]), _vm._v(" "), _c("div", {
+  }), _vm._v("\n                                Admin")], 1)], 1), _vm._v(" "), _c("li", [_c("a", {
+    attrs: {
+      href: "/logout"
+    }
+  }, [_c("Icon", {
+    attrs: {
+      type: "ios-speedometer"
+    }
+  }), _vm._v(" Logout")], 1)])])])])]), _vm._v(" "), _c("div", {
     staticClass: "header"
   }, [_c("div", {
     staticClass: "_2menu _box_shadow"
@@ -2294,7 +2309,8 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_0_
       data: null,
       deletingIndex: -1,
       isDeleted: false
-    }
+    },
+    user: false
   },
   mutations: {
     setDeleteModalObj: function setDeleteModalObj(state, data) {
@@ -2309,6 +2325,9 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_0_
         isDeleted: data
       };
       state.deleteModalObj = deleteModalObj;
+    },
+    updateUser: function updateUser(state, data) {
+      state.user = data;
     }
   },
   getters: {
