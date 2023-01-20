@@ -25,7 +25,15 @@
                     />
                 </div>
                 <div class="login_footer">
-                    <Button long type="primary" @click="login"> Login </Button>
+                    <Button
+                        long
+                        type="primary"
+                        :disabled="isLogging"
+                        :loading="isLogging"
+                        @click="login"
+                    >
+                        {{ isLogging ? "Logging...." : "Login" }}
+                    </Button>
                 </div>
             </div>
         </div>
@@ -39,29 +47,37 @@ export default {
                 email: "",
                 password: "",
             },
-            isLoggedIn: false,
+            isLogging: false,
         };
     },
     methods: {
         async login() {
             this.checkInput(this.loginData);
             if (this.loginData.password.length < 6) {
-                return this.e("Incorrect Login detail");
+                this.e("password");
             }
+            this.isLogging = true;
             const res = await this.callApi(
                 "post",
                 "app/admin_login",
                 this.loginData
             );
+            // console.log(res);
+
             if (res.status === 200) {
-                this.s("Loggin was successfull");
+                this.s(res.data.msg);
             } else {
                 if (res.status === 401) {
                     this.e(res.data.msg);
+                } else if (res.status === 422) {
+                    for (let i in res.data.errors) {
+                        this.e(res.data.errors[i][0]);
+                    }
                 } else {
                     this.swr();
                 }
             }
+            this.isLogging = false;
         },
     },
 };
