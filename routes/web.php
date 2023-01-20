@@ -45,14 +45,18 @@ Route::post('app/delete_user', 'AdminController@deleteUser');
 
 //admin
 Route::post('app/admin_login', 'AdminController@login');
+Route::post('app/logout', 'AdminController@logout');
 
-Route::get(
-    '/',
-    function () {
-        return view('welcome');
-    }
-);
+Route::get('/', 'AdminController@index');
+Route::any('{slug}', 'AdminController@index');
 
-Route::any('{slug}', function () {
-    return view('welcome');
-});
+// Route::get(
+//     '/',
+//     function () {
+//         return view('welcome');
+//     }
+// );
+
+// Route::any('{slug}', function () {
+//     return view('welcome');
+// });

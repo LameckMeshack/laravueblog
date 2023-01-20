@@ -12,7 +12,33 @@ use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
+    public function index(Request $request)
+    {
+        // dd(Auth::check());
 
+        // first check if you are logged in and admin user
+        if (!Auth::check() && $request->path() != 'login') {
+
+            return redirect('/login');
+        }
+        if (!Auth::check() && $request->path() == 'login') {
+
+            return view('welcome');
+        }
+
+        //passed logged in .....now checking if admin
+        $user = Auth::user();
+        if ($user->userType == "User") {
+            return redirect('/login');
+        }
+
+        if ($request->path() == 'login') {
+            return redirect('/');
+        }
+
+        return view('welcome');
+        return $request->path();
+    }
     // Add tag
     public function addTag(Request $request)
     {
@@ -226,5 +252,10 @@ class AdminController extends Controller
                 'msg' => 'Invalid credentials'
             ], 401);
         }
+    }
+    //login
+    public function logout()
+    {
+        Auth::logout();
     }
 }
