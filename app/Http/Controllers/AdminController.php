@@ -223,7 +223,7 @@ class AdminController extends Controller
         );
     }
     //login
-    public function login(Request $request)
+    public function adminlogin(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|exists:users,email',

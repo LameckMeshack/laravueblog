@@ -22,31 +22,34 @@ Route::get('/test', function () {
     return view('welcome');
 });
 
+    Route::prefix('app')->group(function(){
+        Route::post('create_tag', 'AdminController@addTag');
+        Route::get('get_tags', 'AdminController@getTag');
+        Route::post('edit_tag', 'AdminController@editTag');
+        Route::post('delete_tag', 'AdminController@deleteTag');
+        Route::post('upload', 'AdminController@upload');
+        Route::post('delete_image', 'AdminController@deleteImage');
+    
+        // category
+        Route::post('create_category', 'AdminController@addCategory');
+        Route::get('get_categories', 'AdminController@getCategory');
+        Route::post('edit_category', 'AdminController@editCategory');
+        Route::post('delete_category', 'AdminController@deleteCategory');
+    
+        //user
+        Route::post('create_user', 'AdminController@addUser');
+        Route::get('get_users', 'AdminController@getUser');
+        Route::post('edit_user', 'AdminController@editUser');
+        Route::post('delete_user', 'AdminController@deleteUser');
+    
+        //admin
+        Route::post('admin_login', 'AdminController@adminlogin');
+    });
 
 
-Route::post('app/create_tag', 'AdminController@addTag');
-Route::get('app/get_tags', 'AdminController@getTag');
-Route::post('app/edit_tag', 'AdminController@editTag');
-Route::post('app/delete_tag', 'AdminController@deleteTag');
-Route::post('app/upload', 'AdminController@upload');
-Route::post('app/delete_image', 'AdminController@deleteImage');
 
-// category
-Route::post('app/create_category', 'AdminController@addCategory');
-Route::get('app/get_categories', 'AdminController@getCategory');
-Route::post('app/edit_category', 'AdminController@editCategory');
-Route::post('app/delete_category', 'AdminController@deleteCategory');
 
-//user
-Route::post('app/create_user', 'AdminController@addUser');
-Route::get('app/get_users', 'AdminController@getUser');
-Route::post('app/edit_user', 'AdminController@editUser');
-Route::post('app/delete_user', 'AdminController@deleteUser');
-
-//admin
-Route::post('app/admin_login', 'AdminController@login');
-Route::post('app/logout', 'AdminController@logout');
-
+Route::post('/logout', 'AdminController@logout');
 Route::get('/', 'AdminController@index');
 Route::any('{slug}', 'AdminController@index');
 
