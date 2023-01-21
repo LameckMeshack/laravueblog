@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Middleware\AdminCheck;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\TestController;
 
@@ -22,29 +23,29 @@ Route::get('/test', function () {
     return view('welcome');
 });
 
-    Route::prefix('app')->group(function(){
-        Route::post('create_tag', 'AdminController@addTag');
-        Route::get('get_tags', 'AdminController@getTag');
-        Route::post('edit_tag', 'AdminController@editTag');
-        Route::post('delete_tag', 'AdminController@deleteTag');
-        Route::post('upload', 'AdminController@upload');
-        Route::post('delete_image', 'AdminController@deleteImage');
-    
-        // category
-        Route::post('create_category', 'AdminController@addCategory');
-        Route::get('get_categories', 'AdminController@getCategory');
-        Route::post('edit_category', 'AdminController@editCategory');
-        Route::post('delete_category', 'AdminController@deleteCategory');
-    
-        //user
-        Route::post('create_user', 'AdminController@addUser');
-        Route::get('get_users', 'AdminController@getUser');
-        Route::post('edit_user', 'AdminController@editUser');
-        Route::post('delete_user', 'AdminController@deleteUser');
-    
-        //admin
-        Route::post('admin_login', 'AdminController@adminlogin');
-    });
+Route::prefix('/app')->middleware('admin')->group(function () {
+    Route::post('/create_tag', 'AdminController@addTag');
+    Route::get('/get_tags', 'AdminController@getTag');
+    Route::post('/edit_tag', 'AdminController@editTag');
+    Route::post('/delete_tag', 'AdminController@deleteTag');
+    Route::post('/upload', 'AdminController@upload');
+    Route::post('/delete_image', 'AdminController@deleteImage');
+
+    // category
+    Route::post('/create_category', 'AdminController@addCategory');
+    Route::get('/get_categories', 'AdminController@getCategory');
+    Route::post('/edit_category', 'AdminController@editCategory');
+    Route::post('/delete_category', 'AdminController@deleteCategory');
+
+    //user
+    Route::post('/create_user', 'AdminController@addUser');
+    Route::get('/get_users', 'AdminController@getUser');
+    Route::post('/edit_user', 'AdminController@editUser');
+    Route::post('/delete_user', 'AdminController@deleteUser');
+
+    //admin
+    Route::post('/admin_login', 'AdminController@adminlogin');
+});
 
 
 
