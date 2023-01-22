@@ -13,14 +13,25 @@ class AdminCheck
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param  \Closure(\Illuminate\Http\Request):redirect('/login'); (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
+
+        Log::info("AdminCheck middleware");
         if (!Auth::check()) {
             //log info return redirect('/login');
-            return redirect('/login');
+            return response()->json([
+                'msg' => "You are not allowed to access this route....."
+            ], 422);
+        }
+
+        $user = Auth::user();
+        if ($user->userType == "User") {
+            return response()->json([
+                'msg' => "You are not allowed to access this route....."
+            ], 422);
         }
         return $next($request);
     }
