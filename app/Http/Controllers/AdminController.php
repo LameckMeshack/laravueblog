@@ -241,7 +241,28 @@ class AdminController extends Controller
         return Role::orderBy('id', 'desc')->get();
     }
 
+    // edit role
+    public function editRole(Request $request)
+    {
+        $this->validate($request, [
+            'roleName' => 'required',
+        ]);
+        Role::where('id', $request->id)->update([
+            'roleName' => $request->roleName,
+        ]);
+    }
 
+    // delete role
+    public function deleteRole(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        Role::where('id', $request->id)->delete();
+        return response()->json([
+            'msg' => 'Role deleted successfully'
+        ]);
+    }
 
 
     //login
