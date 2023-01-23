@@ -782,7 +782,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return _this3.callApi("get", "app/get_tags");
+            return _this3.callApi("get", "app/get_roles");
           case 2:
             res = _context3.sent;
             if (res.status == 200) {

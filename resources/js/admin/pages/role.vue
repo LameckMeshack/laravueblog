@@ -208,7 +208,7 @@ export default {
         },
     },
     async created() {
-        const res = await this.callApi("get", "app/get_tags");
+        const res = await this.callApi("get", "app/get_roles");
         if (res.status == 200) {
             this.tags = res.data;
         } else {
