@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('roleName');
             $table->string('permission')->nullable();
+            $table->boolean('isAdmin');
             $table->timestamps();
         });
     }
