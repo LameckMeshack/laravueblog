@@ -17,7 +17,7 @@
                             <!-- TABLE TITLE -->
                             <tr>
                                 <th>ID</th>
-                                <th>Tag name</th>
+                                <th>Role Type</th>
                                 <th>Created at</th>
                                 <th>Action</th>
                             </tr>
@@ -32,7 +32,7 @@
                                 >
                                     <td>{{ tag.id }}</td>
                                     <td class="_table_name">
-                                        {{ tag.tagName }}
+                                        {{ tag.roleName }}
                                     </td>
                                     <td>{{ tag.created_at }}</td>
                                     <td>
@@ -54,18 +54,18 @@
                         </table>
                     </div>
                 </div>
-                <!-- tag adding modal -->
+                <!-- role adding modal -->
                 <Modal
                     v-model="addModal"
-                    title="Add Tag"
+                    title="Add Role"
                     :mask-closable="false"
                     :closable="false"
                 >
                     <Input
-                        v-model="data.tagName"
-                        placeholder="Add a tag name"
+                        v-model="data.roleName"
+                        placeholder="Role Name"
                         class="modal_input"
-                        @on-keyup.enter="addTag"
+                        @on-keyup.enter="addRole"
                     ></Input>
                     <div slot="footer">
                         <Button type="default" @click="addModal = false"
@@ -73,10 +73,10 @@
                         >
                         <Button
                             type="primary"
-                            @click="addTag"
+                            @click="addRole"
                             :disabled="isAdding"
                             :loading="isAdding"
-                            >{{ isAdding ? "Adding" : "Add Tag" }}</Button
+                            >{{ isAdding ? "Adding" : "Add Role" }}</Button
                         >
                     </div>
                 </Modal>
@@ -89,8 +89,8 @@
                     :closable="false"
                 >
                     <Input
-                        v-model="editData.tagName"
-                        placeholder="Edit a tag name"
+                        v-model="editData.roleName"
+                        placeholder="Edit a role name"
                         class="modal_input"
                         @on-keyup.enter="editTag"
                     ></Input>
@@ -121,7 +121,7 @@ export default {
     data() {
         return {
             data: {
-                tagName: "",
+                roleName: "",
             },
             addModal: false,
             isAdding: false,
@@ -129,7 +129,7 @@ export default {
             showEditModal: false,
             tags: [],
             editData: {
-                tagName: "",
+                roleName: "",
             },
             index: -1,
             isDeleting: false,
@@ -140,19 +140,23 @@ export default {
     },
     components: { DeleteModal },
     methods: {
-        async addTag() {
-            if (this.data.tagName.trim() == "")
-                return this.e("Tag name is required");
-            const res = await this.callApi("post", "app/create_tag", this.data);
+        async addRole() {
+            if (this.data.roleName.trim() == "")
+                return this.e("Role name is required");
+            const res = await this.callApi(
+                "post",
+                "app/create_role",
+                this.data
+            );
             if (res.status == 201) {
                 this.tags.unshift(res.data);
-                this.s("Tag added successfully");
+                this.s("Role added successfully");
                 this.addModal = false;
-                this.data.tagName = "";
+                this.data.roleName = "";
             } else {
                 if (res.status == 422) {
-                    if (res.data.errors.tagName) {
-                        this.i(res.data.errors.tagName);
+                    if (res.data.errors.roleName) {
+                        this.i(res.data.errors.roleName);
                     }
                 } else {
                     this.swr();
@@ -161,22 +165,22 @@ export default {
         },
         //edit tags
         async editTag() {
-            if (this.editData.tagName.trim() == "")
-                return this.e("Tag name is required");
+            if (this.editData.roleName.trim() == "")
+                return this.e("Role name is required");
             const res = await this.callApi(
                 "post",
                 "app/edit_tag",
                 this.editData
             );
             if (res.status == 200) {
-                this.tags[this.index].tagName = this.editData.tagName;
+                this.tags[this.index].roleName = this.editData.roleName;
                 this.s("Tag edited successfully");
                 this.showEditModal = false;
-                this.editData.tagName = "";
+                this.editData.roleName = "";
             } else {
                 if (res.status == 422) {
-                    if (res.data.errors.tagName)
-                        this.i(res.data.errors.tagName);
+                    if (res.data.errors.roleName)
+                        this.i(res.data.errors.roleName);
                 } else {
                     this.swr();
                 }
@@ -186,7 +190,7 @@ export default {
         showEditingModal(tag, index) {
             let obj = {
                 id: tag.id,
-                tagName: tag.tagName,
+                roleName: tag.roleName,
             };
             this.showEditModal = true;
             this.index = index;

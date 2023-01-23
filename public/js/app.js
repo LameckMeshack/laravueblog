@@ -658,7 +658,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       data: {
-        tagName: ""
+        roleName: ""
       },
       addModal: false,
       isAdding: false,
@@ -666,7 +666,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showEditModal: false,
       tags: [],
       editData: {
-        tagName: ""
+        roleName: ""
       },
       index: -1,
       isDeleting: false,
@@ -679,32 +679,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     DeleteModal: _components_deleteModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
-    addTag: function addTag() {
+    addRole: function addRole() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var res;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (!(_this.data.tagName.trim() == "")) {
+              if (!(_this.data.roleName.trim() == "")) {
                 _context.next = 2;
                 break;
               }
-              return _context.abrupt("return", _this.e("Tag name is required"));
+              return _context.abrupt("return", _this.e("Role name is required"));
             case 2:
               _context.next = 4;
-              return _this.callApi("post", "app/create_tag", _this.data);
+              return _this.callApi("post", "app/create_role", _this.data);
             case 4:
               res = _context.sent;
               if (res.status == 201) {
                 _this.tags.unshift(res.data);
-                _this.s("Tag added successfully");
+                _this.s("Role added successfully");
                 _this.addModal = false;
-                _this.data.tagName = "";
+                _this.data.roleName = "";
               } else {
                 if (res.status == 422) {
-                  if (res.data.errors.tagName) {
-                    _this.i(res.data.errors.tagName);
+                  if (res.data.errors.roleName) {
+                    _this.i(res.data.errors.roleName);
                   }
                 } else {
                   _this.swr();
@@ -725,24 +725,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this2.editData.tagName.trim() == "")) {
+              if (!(_this2.editData.roleName.trim() == "")) {
                 _context2.next = 2;
                 break;
               }
-              return _context2.abrupt("return", _this2.e("Tag name is required"));
+              return _context2.abrupt("return", _this2.e("Role name is required"));
             case 2:
               _context2.next = 4;
               return _this2.callApi("post", "app/edit_tag", _this2.editData);
             case 4:
               res = _context2.sent;
               if (res.status == 200) {
-                _this2.tags[_this2.index].tagName = _this2.editData.tagName;
+                _this2.tags[_this2.index].roleName = _this2.editData.roleName;
                 _this2.s("Tag edited successfully");
                 _this2.showEditModal = false;
-                _this2.editData.tagName = "";
+                _this2.editData.roleName = "";
               } else {
                 if (res.status == 422) {
-                  if (res.data.errors.tagName) _this2.i(res.data.errors.tagName);
+                  if (res.data.errors.roleName) _this2.i(res.data.errors.roleName);
                 } else {
                   _this2.swr();
                 }
@@ -757,7 +757,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     showEditingModal: function showEditingModal(tag, index) {
       var obj = {
         id: tag.id,
-        tagName: tag.tagName
+        roleName: tag.roleName
       };
       this.showEditModal = true;
       this.index = index;
@@ -1767,7 +1767,7 @@ var render = function render() {
       key: i
     }, [_vm.tags.length ? [_c("td", [_vm._v(_vm._s(tag.id))]), _vm._v(" "), _c("td", {
       staticClass: "_table_name"
-    }, [_vm._v("\n                                    " + _vm._s(tag.tagName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(tag.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
+    }, [_vm._v("\n                                    " + _vm._s(tag.roleName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(tag.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
       attrs: {
         type: "info",
         size: "small"
@@ -1790,7 +1790,7 @@ var render = function render() {
     }, [_vm._v("Delete")])], 1)] : _vm._e()], 2);
   })], 2)])]), _vm._v(" "), _c("Modal", {
     attrs: {
-      title: "Add Tag",
+      title: "Add Role",
       "mask-closable": false,
       closable: false
     },
@@ -1804,20 +1804,20 @@ var render = function render() {
   }, [_c("Input", {
     staticClass: "modal_input",
     attrs: {
-      placeholder: "Add a tag name"
+      placeholder: "Role Name"
     },
     on: {
       "on-keyup": function onKeyup($event) {
         if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.addTag.apply(null, arguments);
+        return _vm.addRole.apply(null, arguments);
       }
     },
     model: {
-      value: _vm.data.tagName,
+      value: _vm.data.roleName,
       callback: function callback($$v) {
-        _vm.$set(_vm.data, "tagName", $$v);
+        _vm.$set(_vm.data, "roleName", $$v);
       },
-      expression: "data.tagName"
+      expression: "data.roleName"
     }
   }), _vm._v(" "), _c("div", {
     attrs: {
@@ -1840,9 +1840,9 @@ var render = function render() {
       loading: _vm.isAdding
     },
     on: {
-      click: _vm.addTag
+      click: _vm.addRole
     }
-  }, [_vm._v(_vm._s(_vm.isAdding ? "Adding" : "Add Tag"))])], 1)], 1), _vm._v(" "), _c("Modal", {
+  }, [_vm._v(_vm._s(_vm.isAdding ? "Adding" : "Add Role"))])], 1)], 1), _vm._v(" "), _c("Modal", {
     attrs: {
       title: "Edit Tag",
       "mask-closable": false,
@@ -1858,7 +1858,7 @@ var render = function render() {
   }, [_c("Input", {
     staticClass: "modal_input",
     attrs: {
-      placeholder: "Edit a tag name"
+      placeholder: "Edit a role name"
     },
     on: {
       "on-keyup": function onKeyup($event) {
@@ -1867,11 +1867,11 @@ var render = function render() {
       }
     },
     model: {
-      value: _vm.editData.tagName,
+      value: _vm.editData.roleName,
       callback: function callback($$v) {
-        _vm.$set(_vm.editData, "tagName", $$v);
+        _vm.$set(_vm.editData, "roleName", $$v);
       },
-      expression: "editData.tagName"
+      expression: "editData.roleName"
     }
   }), _vm._v(" "), _c("div", {
     attrs: {
@@ -1901,7 +1901,7 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Tag name")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
+  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Role Type")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
 }];
 render._withStripped = true;
 
