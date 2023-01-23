@@ -44,7 +44,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 3:
               res = _context.sent;
               if (res.status == 200) {
-                _this.s("category deleted successfully");
+                _this.s("Deleted successfully");
                 _this.$store.commit("setDeleteModal", true);
               } else {
                 _this.swr();
@@ -664,7 +664,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isAdding: false,
       isEditing: false,
       showEditModal: false,
-      tags: [],
+      roles: [],
       editData: {
         roleName: ""
       },
@@ -697,7 +697,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               res = _context.sent;
               if (res.status == 201) {
-                _this.tags.unshift(res.data);
+                _this.roles.unshift(res.data);
                 _this.s("Role added successfully");
                 _this.addModal = false;
                 _this.data.roleName = "";
@@ -717,8 +717,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    //edit tags
-    editTag: function editTag() {
+    //edit roles
+    editRole: function editRole() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var res;
@@ -732,12 +732,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return _context2.abrupt("return", _this2.e("Role name is required"));
             case 2:
               _context2.next = 4;
-              return _this2.callApi("post", "app/edit_tag", _this2.editData);
+              return _this2.callApi("post", "app/edit_role", _this2.editData);
             case 4:
               res = _context2.sent;
               if (res.status == 200) {
-                _this2.tags[_this2.index].roleName = _this2.editData.roleName;
-                _this2.s("Tag edited successfully");
+                _this2.roles[_this2.index].roleName = _this2.editData.roleName;
+                _this2.s("Role edited successfully");
                 _this2.showEditModal = false;
                 _this2.editData.roleName = "";
               } else {
@@ -754,20 +754,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    showEditingModal: function showEditingModal(tag, index) {
+    showEditingModal: function showEditingModal(role, index) {
       var obj = {
-        id: tag.id,
-        roleName: tag.roleName
+        id: role.id,
+        roleName: role.roleName
       };
       this.showEditModal = true;
       this.index = index;
       this.editData = obj;
     },
-    showDeletingModal: function showDeletingModal(tag, index) {
+    showDeletingModal: function showDeletingModal(role, index) {
       var deleteModalObj = {
         showDeleteModal: true,
-        deleteUrl: "app/delete_tag",
-        data: tag,
+        deleteUrl: "app/delete_role",
+        data: role,
         deletingIndex: index,
         isDeleted: false
       };
@@ -786,7 +786,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           case 2:
             res = _context3.sent;
             if (res.status == 200) {
-              _this3.tags = res.data;
+              _this3.roles = res.data;
             } else {
               _this3.swr();
             }
@@ -801,7 +801,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   watch: {
     getDeleteModalObj: function getDeleteModalObj(obj) {
       if (obj.isDeleted) {
-        this.tags.splice(this.deletingIndex, 1);
+        this.roles.splice(this.deletingIndex, 1);
       }
     }
   }
@@ -1084,7 +1084,7 @@ var render = function render() {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_c("p", [_vm._v("Are you sure you want to delete category?")])])]);
+  }, [_c("p", [_vm._v("Are you sure you want to delete?")])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -1762,19 +1762,19 @@ var render = function render() {
     staticClass: "_overflow _table_div"
   }, [_c("table", {
     staticClass: "_table"
-  }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.tags, function (tag, i) {
+  }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.roles, function (role, i) {
     return _c("tr", {
       key: i
-    }, [_vm.tags.length ? [_c("td", [_vm._v(_vm._s(tag.id))]), _vm._v(" "), _c("td", {
+    }, [_vm.roles.length ? [_c("td", [_vm._v(_vm._s(role.id))]), _vm._v(" "), _c("td", {
       staticClass: "_table_name"
-    }, [_vm._v("\n                                    " + _vm._s(tag.roleName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(tag.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
+    }, [_vm._v("\n                                    " + _vm._s(role.roleName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(role.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
       attrs: {
         type: "info",
         size: "small"
       },
       on: {
         click: function click($event) {
-          return _vm.showEditingModal(tag, i);
+          return _vm.showEditingModal(role, i);
         }
       }
     }, [_vm._v("Edit")]), _vm._v(" "), _c("Button", {
@@ -1784,7 +1784,7 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.showDeletingModal(tag, i);
+          return _vm.showDeletingModal(role, i);
         }
       }
     }, [_vm._v("Delete")])], 1)] : _vm._e()], 2);
@@ -1844,7 +1844,7 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.isAdding ? "Adding" : "Add Role"))])], 1)], 1), _vm._v(" "), _c("Modal", {
     attrs: {
-      title: "Edit Tag",
+      title: "Edit Role",
       "mask-closable": false,
       closable: false
     },
@@ -1863,7 +1863,7 @@ var render = function render() {
     on: {
       "on-keyup": function onKeyup($event) {
         if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        return _vm.editTag.apply(null, arguments);
+        return _vm.editRole.apply(null, arguments);
       }
     },
     model: {
@@ -1894,9 +1894,9 @@ var render = function render() {
       loading: _vm.isEditing
     },
     on: {
-      click: _vm.editTag
+      click: _vm.editRole
     }
-  }, [_vm._v(_vm._s(_vm.isEditing ? "Editing" : "Edit Tag"))])], 1)], 1), _vm._v(" "), _c("DeleteModal")], 1)])]);
+  }, [_vm._v(_vm._s(_vm.isEditing ? "Editing" : "Edit Role"))])], 1)], 1), _vm._v(" "), _c("DeleteModal")], 1)])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,

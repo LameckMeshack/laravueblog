@@ -25,27 +25,27 @@
 
                             <!-- ITEMS -->
 
-                            <tr v-for="(tag, i) in tags" :key="i">
+                            <tr v-for="(role, i) in roles" :key="i">
                                 <template
                                     style="position: inherit"
-                                    v-if="tags.length"
+                                    v-if="roles.length"
                                 >
-                                    <td>{{ tag.id }}</td>
+                                    <td>{{ role.id }}</td>
                                     <td class="_table_name">
-                                        {{ tag.roleName }}
+                                        {{ role.roleName }}
                                     </td>
-                                    <td>{{ tag.created_at }}</td>
+                                    <td>{{ role.created_at }}</td>
                                     <td>
                                         <Button
                                             type="info"
                                             size="small"
-                                            @click="showEditingModal(tag, i)"
+                                            @click="showEditingModal(role, i)"
                                             >Edit</Button
                                         >
                                         <Button
                                             type="error"
                                             size="small"
-                                            @click="showDeletingModal(tag, i)"
+                                            @click="showDeletingModal(role, i)"
                                             >Delete</Button
                                         >
                                     </td>
@@ -80,11 +80,11 @@
                         >
                     </div>
                 </Modal>
-                <!-- tag editing modal -->
+                <!-- role editing modal -->
 
                 <Modal
                     v-model="showEditModal"
-                    title="Edit Tag"
+                    title="Edit Role"
                     :mask-closable="false"
                     :closable="false"
                 >
@@ -92,7 +92,7 @@
                         v-model="editData.roleName"
                         placeholder="Edit a role name"
                         class="modal_input"
-                        @on-keyup.enter="editTag"
+                        @on-keyup.enter="editRole"
                     ></Input>
                     <div slot="footer">
                         <Button type="default" @click="showEditModal = false"
@@ -100,14 +100,14 @@
                         >
                         <Button
                             type="primary"
-                            @click="editTag"
+                            @click="editRole"
                             :disabled="isEditing"
                             :loading="isEditing"
-                            >{{ isEditing ? "Editing" : "Edit Tag" }}</Button
+                            >{{ isEditing ? "Editing" : "Edit Role" }}</Button
                         >
                     </div>
                 </Modal>
-                <!-- tag deleting modal -->
+                <!-- role deleting modal -->
                 <DeleteModal />
             </div>
         </div>
@@ -127,7 +127,7 @@ export default {
             isAdding: false,
             isEditing: false,
             showEditModal: false,
-            tags: [],
+            roles: [],
             editData: {
                 roleName: "",
             },
@@ -149,7 +149,7 @@ export default {
                 this.data
             );
             if (res.status == 201) {
-                this.tags.unshift(res.data);
+                this.roles.unshift(res.data);
                 this.s("Role added successfully");
                 this.addModal = false;
                 this.data.roleName = "";
@@ -163,18 +163,18 @@ export default {
                 }
             }
         },
-        //edit tags
-        async editTag() {
+        //edit roles
+        async editRole() {
             if (this.editData.roleName.trim() == "")
                 return this.e("Role name is required");
             const res = await this.callApi(
                 "post",
-                "app/edit_tag",
+                "app/edit_role",
                 this.editData
             );
             if (res.status == 200) {
-                this.tags[this.index].roleName = this.editData.roleName;
-                this.s("Tag edited successfully");
+                this.roles[this.index].roleName = this.editData.roleName;
+                this.s("Role edited successfully");
                 this.showEditModal = false;
                 this.editData.roleName = "";
             } else {
@@ -187,20 +187,20 @@ export default {
             }
         },
 
-        showEditingModal(tag, index) {
+        showEditingModal(role, index) {
             let obj = {
-                id: tag.id,
-                roleName: tag.roleName,
+                id: role.id,
+                roleName: role.roleName,
             };
             this.showEditModal = true;
             this.index = index;
             this.editData = obj;
         },
-        showDeletingModal(tag, index) {
+        showDeletingModal(role, index) {
             const deleteModalObj = {
                 showDeleteModal: true,
-                deleteUrl: "app/delete_tag",
-                data: tag,
+                deleteUrl: "app/delete_role",
+                data: role,
                 deletingIndex: index,
                 isDeleted: false,
             };
@@ -210,7 +210,7 @@ export default {
     async created() {
         const res = await this.callApi("get", "app/get_roles");
         if (res.status == 200) {
-            this.tags = res.data;
+            this.roles = res.data;
         } else {
             this.swr();
         }
@@ -221,7 +221,7 @@ export default {
     watch: {
         getDeleteModalObj(obj) {
             if (obj.isDeleted) {
-                this.tags.splice(this.deletingIndex, 1);
+                this.roles.splice(this.deletingIndex, 1);
             }
         },
     },
