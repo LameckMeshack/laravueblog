@@ -15,7 +15,6 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
-        // dd(Auth::check());
 
         // first check if you are logged in and admin user
         if (!Auth::check() && $request->path() != 'login') {
@@ -279,7 +278,7 @@ class AdminController extends Controller
         //Attemp to login the user
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
-            if ($user->userType == "User") {
+            if ($user->role->isAdmin === 0) {
                 Auth::logout();
                 return response()->json([
                     'msg' => 'Invalid credentials'
