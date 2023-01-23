@@ -12,7 +12,7 @@
             </p>
         </template>
         <div style="text-align: center">
-            <p>Are you sure you want to delete category?</p>
+            <p>Are you sure you want to delete?</p>
         </div>
         <template #footer>
             <Button size="large" @click="closeModal()">Close</Button>
@@ -48,7 +48,7 @@ export default {
                 this.getDeleteModalObj.data
             );
             if (res.status == 200) {
-                this.s("category deleted successfully");
+                this.s("Deleted successfully");
                 this.$store.commit("setDeleteModal", true);
             } else {
                 this.swr();
