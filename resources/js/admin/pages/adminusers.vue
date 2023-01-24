@@ -37,7 +37,7 @@
                                         {{ user.fullName }}
                                     </td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.userType }}</td>
+                                    <td>{{ user.role && user.role.roleName }}</td>
                                     <td>{{ user.created_at }}</td>
 
                                     <td>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="space">
                         <Select
-                            v-model="data.userType"
+                            v-model="data.role_id"
                             placeholder="select user type"
                         >
                             <Option
@@ -134,7 +134,7 @@
                         <Input type="password" v-model="editData.password" />
                     </div>
                     <div class="space">
-                        <Select v-model="editData.userType">
+                        <Select v-model="editData.role_id">
                             <Option value="Admin">Admin</Option>
                             <Option value="Editor">Editor</Option>
                         </Select>
@@ -169,7 +169,7 @@ export default {
                 fullName: "",
                 email: "",
                 password: "",
-                userType: "",
+                role_id: null,
             },
             addModal: false,
             isAdding: false,
@@ -180,7 +180,7 @@ export default {
                 fullName: "",
                 email: "",
                 password: "",
-                userType: "",
+                role_id: null,
             },
             editIndex: -1,
             index: -1,
@@ -189,7 +189,6 @@ export default {
             showDeleteModal: false,
             deletingIndex: -1,
             roles: [],
-            role_id: null,
         };
     },
     components: { DeleteModal },
@@ -211,7 +210,7 @@ export default {
                     fullName: "",
                     email: "",
                     password: "",
-                    userType: "",
+                    role_id: null,
                 };
             } else {
                 if (res.status == 422) {
@@ -243,7 +242,8 @@ export default {
                     fullName: "",
                     email: "",
                     password: "",
-                    userType: "",
+
+                    role_id: null,
                 };
                 //set editIndex
             } else {
@@ -262,7 +262,7 @@ export default {
                 id: user.id,
                 fullName: user.fullName,
                 email: user.email,
-                userType: user.userType,
+                role_id: user.role_id,
             };
             this.showEditModal = true;
             this.editIndex = index;
