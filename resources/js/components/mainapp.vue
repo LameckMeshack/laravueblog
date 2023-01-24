@@ -49,6 +49,11 @@
                                 >
                             </li>
                             <li>
+                                <a href="/assignrole"
+                                    ><Icon type="ios-speedometer" /> Assign Role</a
+                                >
+                            </li>
+                            <li>
                                 <a href="/logout"
                                     ><Icon type="ios-speedometer" /> Logout</a
                                 >

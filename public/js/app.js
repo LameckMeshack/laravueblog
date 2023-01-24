@@ -2532,6 +2532,14 @@ var render = function render() {
     }
   }), _vm._v(" Role\n                                Management")], 1)], 1), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
+      href: "/assignrole"
+    }
+  }, [_c("Icon", {
+    attrs: {
+      type: "ios-speedometer"
+    }
+  }), _vm._v(" Assign Role")], 1)]), _vm._v(" "), _c("li", [_c("a", {
+    attrs: {
       href: "/logout"
     }
   }, [_c("Icon", {
