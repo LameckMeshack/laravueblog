@@ -97,7 +97,6 @@
                                 :value="role.id"
                                 v-for="(role, i) in roles"
                                 :key="i"
-                                v-if="roles.length"
                                 >{{ role.roleName }}</Option
                             >
                         </Select>
