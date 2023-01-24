@@ -177,22 +177,23 @@ class AdminController extends Controller
     {
         $this->validate($request, [
             'fullName' => 'required',
-            'email' => 'bail|required|email:rfc,dns|unique:users,email',
+            'email' => 'bail|required|email: rfc,dns|unique:users,email',
             'password' => 'required|min:6',
-            'userType' => 'required',
+            'role_id' => 'required',
         ]);
         return User::create([
             'fullName' => $request->fullName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'userType' => $request->userType,
+
+            'role_id' => $request->role_id,
         ]);
     }
 
     // Get all users
     public function getUser()
     {
-        return User::where('userType', '!=', 'User')->get();
+        return User::with('role')->get();
     }
 
     //Edit user
@@ -206,12 +207,13 @@ class AdminController extends Controller
                 Rule::unique("users")->ignore($user->id),
             ],
             'password' => 'min:6',
-            'userType' => 'required',
+            'role_id' => 'required'
         ]);
         $data = [
             'fullName' => $request->fullName,
             'email' => $request->email,
-            'userType' => $request->userType,
+            'role_id' => $request->role_id,
+
         ];
 
         if ($request->password) {

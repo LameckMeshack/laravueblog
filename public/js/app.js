@@ -104,7 +104,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         fullName: "",
         email: "",
         password: "",
-        userType: ""
+        role_id: null
       },
       addModal: false,
       isAdding: false,
@@ -115,7 +115,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         fullName: "",
         email: "",
         password: "",
-        userType: ""
+        role_id: null
       },
       editIndex: -1,
       index: -1,
@@ -123,8 +123,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       deleteItem: {},
       showDeleteModal: false,
       deletingIndex: -1,
-      roles: [],
-      role_id: null
+      roles: []
     };
   },
   components: {
@@ -153,7 +152,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   fullName: "",
                   email: "",
                   password: "",
-                  userType: ""
+                  role_id: null
                 };
               } else {
                 if (res.status == 422) {
@@ -195,7 +194,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   fullName: "",
                   email: "",
                   password: "",
-                  userType: ""
+                  role_id: null
                 };
                 //set editIndex
               } else {
@@ -219,7 +218,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         id: user.id,
         fullName: user.fullName,
         email: user.email,
-        userType: user.userType
+        role_id: user.role_id
       };
       this.showEditModal = true;
       this.editIndex = index;
@@ -1150,7 +1149,7 @@ var render = function render() {
       key: i
     }, [_vm.users.length ? [_c("td", [_vm._v(_vm._s(user.id))]), _vm._v(" "), _c("td", {
       staticClass: "_table_name"
-    }, [_vm._v("\n                                    " + _vm._s(user.fullName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.userType))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
+    }, [_vm._v("\n                                    " + _vm._s(user.fullName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.role && user.role.roleName))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
       attrs: {
         type: "info",
         size: "small"
@@ -1233,11 +1232,11 @@ var render = function render() {
       placeholder: "select user type"
     },
     model: {
-      value: _vm.data.userType,
+      value: _vm.data.role_id,
       callback: function callback($$v) {
-        _vm.$set(_vm.data, "userType", $$v);
+        _vm.$set(_vm.data, "role_id", $$v);
       },
-      expression: "data.userType"
+      expression: "data.role_id"
     }
   }, _vm._l(_vm.roles, function (role, i) {
     return _vm.roles.length ? _c("Option", {
@@ -1325,11 +1324,11 @@ var render = function render() {
     staticClass: "space"
   }, [_c("Select", {
     model: {
-      value: _vm.editData.userType,
+      value: _vm.editData.role_id,
       callback: function callback($$v) {
-        _vm.$set(_vm.editData, "userType", $$v);
+        _vm.$set(_vm.editData, "role_id", $$v);
       },
-      expression: "editData.userType"
+      expression: "editData.role_id"
     }
   }, [_c("Option", {
     attrs: {
