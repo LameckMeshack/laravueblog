@@ -39,6 +39,7 @@
                                     <td>{{ user.email }}</td>
                                     <td>{{ user.userType }}</td>
                                     <td>{{ user.created_at }}</td>
+
                                     <td>
                                         <Button
                                             type="info"
@@ -92,8 +93,13 @@
                             v-model="data.userType"
                             placeholder="select user type"
                         >
-                            <Option value="Admin">Admin</Option>
-                            <Option value="Editor">Editor</Option>
+                            <Option
+                                :value="role.id"
+                                v-for="(role, i) in roles"
+                                :key="i"
+                                v-if="roles.length"
+                                >{{ role.roleName }}</Option
+                            >
                         </Select>
                     </div>
                     <div slot="footer">
@@ -182,6 +188,8 @@ export default {
             deleteItem: {},
             showDeleteModal: false,
             deletingIndex: -1,
+            roles: [],
+            role_id: null,
         };
     },
     components: { DeleteModal },
@@ -272,9 +280,18 @@ export default {
         },
     },
     async created() {
-        const res = await this.callApi("get", "app/get_users");
+        const [res, resRoles] = await Promise.all([
+            this.callApi("get", "app/get_users"),
+            this.callApi("get", "app/get_roles"),
+        ]);
         if (res.status == 200) {
             this.users = res.data;
+        } else {
+            this.swr();
+        }
+
+        if (resRoles.status == 200) {
+            this.roles = resRoles.data;
         } else {
             this.swr();
         }
