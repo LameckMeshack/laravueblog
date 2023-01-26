@@ -300,7 +300,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         roleName: "",
         role_id: null
       },
-      resources: [],
+      resources: [{
+        resourceName: "Tags",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "Tags"
+      }, {
+        resourceName: "Category",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "Category"
+      }, {
+        resourceName: "Admin users",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "adminusers"
+      }, {
+        resourceName: "home",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "home"
+      }, {
+        resourceName: "Roles",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "role"
+      }, {
+        resourceName: "Assign Role",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "assignrole"
+      }],
       roles: []
     };
   },
@@ -1473,16 +1515,52 @@ var render = function render() {
         value: role.id
       }
     }, [_vm._v(_vm._s(role.roleName))]);
-  }), 1)], 1), _vm._v(" "), _vm._m(0)])])])]);
+  }), 1)], 1), _vm._v(" "), _c("div", {
+    staticClass: "_overflow _table_div"
+  }, [_c("table", {
+    staticClass: "_table"
+  }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.resources, function (r, i) {
+    return _c("tr", {
+      key: i
+    }, [_c("td", [_c("Checkbox", {
+      model: {
+        value: r.read,
+        callback: function callback($$v) {
+          _vm.$set(r, "read", $$v);
+        },
+        expression: "r.read"
+      }
+    })], 1), _vm._v(" "), _c("td", [_c("Checkbox", {
+      model: {
+        value: r.write,
+        callback: function callback($$v) {
+          _vm.$set(r, "write", $$v);
+        },
+        expression: "r.write"
+      }
+    })], 1), _vm._v(" "), _c("td", [_c("Checkbox", {
+      model: {
+        value: r.update,
+        callback: function callback($$v) {
+          _vm.$set(r, "update", $$v);
+        },
+        expression: "r.update"
+      }
+    })], 1), _vm._v(" "), _c("td", [_c("Checkbox", {
+      model: {
+        value: r["delete"],
+        callback: function callback($$v) {
+          _vm.$set(r, "delete", $$v);
+        },
+        expression: "r.delete"
+      }
+    })], 1)]);
+  })], 2)])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "_overflow _table_div"
-  }, [_c("table", {
-    staticClass: "_table"
-  }, [_c("tr", [_c("th", [_vm._v("Resource Name")]), _vm._v(" "), _c("th", [_vm._v("Read")]), _vm._v(" "), _c("th", [_vm._v("Write")]), _vm._v(" "), _c("th", [_vm._v("Update")]), _vm._v(" "), _c("th", [_vm._v("Delete")])]), _vm._v(" "), _c("tr", [_c("td", [_vm._v("Blog")]), _vm._v(" "), _c("td", [_vm._v("yes")]), _vm._v(" "), _c("td", [_vm._v("yes")]), _vm._v(" "), _c("td", [_vm._v("yes")]), _vm._v(" "), _c("td", [_vm._v("yes")])])])]);
+  return _c("tr", [_c("th", [_vm._v("Resource Name")]), _vm._v(" "), _c("th", [_vm._v("Read")]), _vm._v(" "), _c("th", [_vm._v("Write")]), _vm._v(" "), _c("th", [_vm._v("Update")]), _vm._v(" "), _c("th", [_vm._v("Delete")])]);
 }];
 render._withStripped = true;
 
@@ -2797,15 +2875,11 @@ var routes = [{
 }, {
   path: "/role",
   component: _admin_pages_role_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-  name: "login"
+  name: "role"
 }, {
   path: "/assignrole",
   component: _admin_pages_assignRole_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-  name: ""
-}, {
-  path: "/assignrole",
-  component: _admin_pages_assignRole_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-  name: ""
+  name: "assignrole"
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_router__WEBPACK_IMPORTED_MODULE_8__["default"]({
   mode: "history",

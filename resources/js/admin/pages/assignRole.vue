@@ -35,12 +35,19 @@
 
                             <!-- ITEMS -->
 
-                            <tr>
-                                <td>Blog</td>
-                                <td>yes</td>
-                                <td>yes</td>
-                                <td>yes</td>
-                                <td>yes</td>
+                            <tr v-for="(r, i) in resources" :key="i">
+                                <td>
+                                    <Checkbox v-model="r.read" />
+                                </td>
+                                <td>
+                                    <Checkbox v-model="r.write" />
+                                </td>
+                                <td>
+                                    <Checkbox v-model="r.update" />
+                                </td>
+                                <td>
+                                    <Checkbox v-model="r.delete" />
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -51,7 +58,6 @@
     </div>
 </template>
 <script>
-
 export default {
     data() {
         return {
@@ -59,10 +65,61 @@ export default {
                 roleName: "",
                 role_id: null,
             },
-            resources:[],
-            
+            resources: [
+                {
+                    resourceName: "Tags",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "Tags",
+                },
+
+                {
+                    resourceName: "Category",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "Category",
+                },
+
+                {
+                    resourceName: "Admin users",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "adminusers",
+                },
+
+                {
+                    resourceName: "home",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "home",
+                },
+                {
+                    resourceName: "Roles",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "role",
+                },
+                {
+                    resourceName: "Assign Role",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "assignrole",
+                },
+            ],
+
             roles: [],
-            
         };
     },
     methods: {},
