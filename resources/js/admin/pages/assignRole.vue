@@ -7,9 +7,18 @@
                     class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
                 >
                     <p class="_title0">
-                        Role Management<Button @click="addModal = true"
-                            ><Icon type="md-add" />Add a new role</Button
+                        Role Management<Select
+                            v-model="data.role_id"
+                            placeholder="select user type"
+                            style="width: 300px"
                         >
+                            <Option
+                                :value="role.id"
+                                v-for="(role, i) in roles"
+                                :key="i"
+                                >{{ role.roleName }}</Option
+                            >
+                        </Select>
                     </p>
 
                     <div class="_overflow _table_div">
@@ -122,6 +131,7 @@ export default {
         return {
             data: {
                 roleName: "",
+                role_id: "",
             },
             addModal: false,
             isAdding: false,
@@ -139,74 +149,7 @@ export default {
         };
     },
     components: { DeleteModal },
-    methods: {
-        async addRole() {
-            if (this.data.roleName.trim() == "")
-                return this.e("Role name is required");
-            const res = await this.callApi(
-                "post",
-                "app/create_role",
-                this.data
-            );
-            if (res.status == 201) {
-                this.roles.unshift(res.data);
-                this.s("Role added successfully");
-                this.addModal = false;
-                this.data.roleName = "";
-            } else {
-                if (res.status == 422) {
-                    if (res.data.errors.roleName) {
-                        this.i(res.data.errors.roleName);
-                    }
-                } else {
-                    this.swr();
-                }
-            }
-        },
-        //edit roles
-        async editRole() {
-            if (this.editData.roleName.trim() == "")
-                return this.e("Role name is required");
-            const res = await this.callApi(
-                "post",
-                "app/edit_role",
-                this.editData
-            );
-            if (res.status == 200) {
-                this.roles[this.index].roleName = this.editData.roleName;
-                this.s("Role edited successfully");
-                this.showEditModal = false;
-                this.editData.roleName = "";
-            } else {
-                if (res.status == 422) {
-                    if (res.data.errors.roleName)
-                        this.i(res.data.errors.roleName);
-                } else {
-                    this.swr();
-                }
-            }
-        },
-
-        showEditingModal(role, index) {
-            let obj = {
-                id: role.id,
-                roleName: role.roleName,
-            };
-            this.showEditModal = true;
-            this.index = index;
-            this.editData = obj;
-        },
-        showDeletingModal(role, index) {
-            const deleteModalObj = {
-                showDeleteModal: true,
-                deleteUrl: "app/delete_role",
-                data: role,
-                deletingIndex: index,
-                isDeleted: false,
-            };
-            this.$store.commit("setDeleteModalObj", deleteModalObj);
-        },
-    },
+    methods: {},
     async created() {
         const res = await this.callApi("get", "app/get_roles");
         if (res.status == 200) {
@@ -214,16 +157,6 @@ export default {
         } else {
             this.swr();
         }
-    },
-    computed: {
-        ...mapGetters(["getDeleteModalObj"]),
-    },
-    watch: {
-        getDeleteModalObj(obj) {
-            if (obj.isDeleted) {
-                this.roles.splice(this.deletingIndex, 1);
-            }
-        },
     },
 };
 </script>
