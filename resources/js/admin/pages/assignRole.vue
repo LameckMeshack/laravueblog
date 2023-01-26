@@ -81,7 +81,7 @@ export default {
                     write: false,
                     update: false,
                     delete: false,
-                    name: "Category",
+                    name: "category",
                 },
 
                 {
