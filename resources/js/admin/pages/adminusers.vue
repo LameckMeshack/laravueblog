@@ -37,7 +37,9 @@
                                         {{ user.fullName }}
                                     </td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.role && user.role.roleName }}</td>
+                                    <td>
+                                        {{ user.role && user.role.roleName }}
+                                    </td>
                                     <td>{{ user.created_at }}</td>
 
                                     <td>
@@ -133,9 +135,16 @@
                         <Input type="password" v-model="editData.password" />
                     </div>
                     <div class="space">
-                        <Select v-model="editData.role_id">
-                            <Option value="Admin">Admin</Option>
-                            <Option value="Editor">Editor</Option>
+                        <Select
+                            v-model="editData.role_id"
+                            placeholder="select user type"
+                        >
+                            <Option
+                                :value="role.id"
+                                v-for="(role, i) in roles"
+                                :key="i"
+                                >{{ role.roleName }}</Option
+                            >
                         </Select>
                     </div>
                     <div slot="footer">
