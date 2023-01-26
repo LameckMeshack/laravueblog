@@ -19,9 +19,9 @@ const routes = [
     { path: "/admin", component: adminusers, name: "adminusers" },
 
     { path: "/login", component: login, name: "login" },
-    { path: "/role", component: role, name: "login" },
-    { path: "/assignrole", component: assignRole, name: "" },
-    { path: "/assignrole", component: assignRole, name: "" },
+    { path: "/role", component: role, name: "role" },
+    { path: "/assignrole", component: assignRole, name: "assignrole" },
+    
 ];
 
 export default new Router({
