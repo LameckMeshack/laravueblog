@@ -10,13 +10,18 @@ import assignRole from "./admin/pages/assignRole.vue";
 Vue.use(Router);
 
 const routes = [
-    { path: "/", component: home },
-    { path: "/tags", component: tags },
-    { path: "/category", component: category },
-    { path: "/admin", component: adminusers },
-    { path: "/login", component: login },
-    { path: "/role", component: role },
-    { path: "/assignrole", component: assignRole },
+    { path: "/", component: home, name: "home" },
+
+    { path: "/tags", component: tags, name: "tags" },
+
+    { path: "/category", component: category, name: "category" },
+
+    { path: "/admin", component: adminusers, name: "adminusers" },
+
+    { path: "/login", component: login, name: "login" },
+    { path: "/role", component: role, name: "login" },
+    { path: "/assignrole", component: assignRole, name: "" },
+    { path: "/assignrole", component: assignRole, name: "" },
 ];
 
 export default new Router({

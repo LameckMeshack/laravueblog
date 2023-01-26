@@ -2776,25 +2776,36 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_7__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_8__["default"]);
 var routes = [{
   path: "/",
-  component: _components_pages_home_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  component: _components_pages_home_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+  name: "home"
 }, {
   path: "/tags",
-  component: _admin_pages_tags_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  component: _admin_pages_tags_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+  name: "tags"
 }, {
   path: "/category",
-  component: _admin_pages_category_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  component: _admin_pages_category_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+  name: "category"
 }, {
   path: "/admin",
-  component: _admin_pages_adminusers_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _admin_pages_adminusers_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+  name: "adminusers"
 }, {
   path: "/login",
-  component: _admin_pages_login_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _admin_pages_login_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+  name: "login"
 }, {
   path: "/role",
-  component: _admin_pages_role_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  component: _admin_pages_role_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+  name: "login"
 }, {
   path: "/assignrole",
-  component: _admin_pages_assignRole_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+  component: _admin_pages_assignRole_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+  name: ""
+}, {
+  path: "/assignrole",
+  component: _admin_pages_assignRole_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+  name: ""
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_router__WEBPACK_IMPORTED_MODULE_8__["default"]({
   mode: "history",
