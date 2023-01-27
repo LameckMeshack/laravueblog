@@ -138,7 +138,15 @@ export default {
     },
     methods: {
         async assignRoles() {
-            console.log(this.resources);
+            let data = JSON.stringify(this.resources);
+            const res = await this.callApi("method", "app/assign_roles", {
+                permission: data,
+            });
+            if (res.status == 200) {
+                this.i("Role has been assigned successfully");
+            } else {
+                this.swr();
+            }
         },
     },
     async created() {

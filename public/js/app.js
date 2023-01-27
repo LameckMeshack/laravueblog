@@ -351,11 +351,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     assignRoles: function assignRoles() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var data, res;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              console.log(_this.resources);
-            case 1:
+              data = JSON.stringify(_this.resources);
+              _context.next = 3;
+              return _this.callApi("method", "app/assign_roles", {
+                permission: data
+              });
+            case 3:
+              res = _context.sent;
+              if (res.status == 200) {
+                _this.i("Role has been assigned successfully");
+              } else {
+                _this.swr();
+              }
+            case 5:
             case "end":
               return _context.stop();
           }
