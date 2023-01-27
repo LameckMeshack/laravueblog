@@ -8,7 +8,7 @@
                 >
                     <p class="_title0">
                         Role Management<Select
-                            v-model="data.role_id"
+                            v-model="data.id"
                             placeholder="select user type"
                             style="width: 300px"
                         >
@@ -37,6 +37,9 @@
 
                             <tr v-for="(r, i) in resources" :key="i">
                                 <td>
+                                    {{ r.resourceName }}
+                                </td>
+                                <td>
                                     <Checkbox v-model="r.read" />
                                 </td>
                                 <td>
@@ -49,6 +52,17 @@
                                     <Checkbox v-model="r.delete" />
                                 </td>
                             </tr>
+                            <div class="center_button">
+                                <Button
+                                    type="primary"
+                                    :isloading="isSending"
+                                    :disabled="isSending"
+                                    @click="assignRoles"
+                                    >{{
+                                        isSending ? "Loading..." : "Assign"
+                                    }}</Button
+                                >
+                            </div>
                         </table>
                     </div>
                 </div>
@@ -63,7 +77,7 @@ export default {
         return {
             data: {
                 roleName: "",
-                role_id: null,
+                id: null,
             },
             resources: [
                 {
@@ -118,15 +132,22 @@ export default {
                     name: "assignrole",
                 },
             ],
-
+            isSending: false,
             roles: [],
         };
     },
-    methods: {},
+    methods: {
+        async assignRoles() {
+            console.log(this.resources);
+        },
+    },
     async created() {
         const res = await this.callApi("get", "app/get_roles");
         if (res.status == 200) {
             this.roles = res.data;
+            if (res.data) {
+                this.data.id = res.data[0].id;
+            }
         } else {
             this.swr();
         }
