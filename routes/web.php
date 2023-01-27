@@ -50,6 +50,7 @@ Route::prefix('/app')->middleware('admin')->group(function () {
     Route::get('/get_roles', 'AdminController@getRole');
     Route::post('/edit_role', 'AdminController@editRole');
     Route::post('/delete_role', 'AdminController@deleteRole');
+    Route::post('/assign_roles', 'AdminController@assignRole');
 });
 
 

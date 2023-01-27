@@ -265,6 +265,17 @@ class AdminController extends Controller
         ]);
     }
 
+    public function assignRole(Request $request)
+    {
+        $this->validate($request, [
+            'permission' => "required",
+            'id' => 'required',
+        ]);
+        return Role::where('id', $request->id)->update([
+            'permission' => $request->permission
+        ]);
+    }
+
 
     //login
     public function adminlogin(Request $request)
