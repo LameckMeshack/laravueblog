@@ -139,8 +139,9 @@ export default {
     methods: {
         async assignRoles() {
             let data = JSON.stringify(this.resources);
-            const res = await this.callApi("method", "app/assign_roles", {
+            const res = await this.callApi("post", "app/assign_roles", {
                 permission: data,
+                id: this.data.id,
             });
             if (res.status == 200) {
                 this.i("Role has been assigned successfully");
@@ -153,8 +154,11 @@ export default {
         const res = await this.callApi("get", "app/get_roles");
         if (res.status == 200) {
             this.roles = res.data;
-            if (res.data) {
+            if (res.data.length) {
                 this.data.id = res.data[0].id;
+                if (res.data[0].permission) {
+                    this.resources = JSON.parse(res.data[0].permission);
+                }
             }
         } else {
             this.swr();

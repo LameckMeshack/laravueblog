@@ -357,8 +357,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               data = JSON.stringify(_this.resources);
               _context.next = 3;
-              return _this.callApi("method", "app/assign_roles", {
-                permission: data
+              return _this.callApi("post", "app/assign_roles", {
+                permission: data,
+                id: _this.data.id
               });
             case 3:
               res = _context.sent;
@@ -388,8 +389,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             res = _context2.sent;
             if (res.status == 200) {
               _this2.roles = res.data;
-              if (res.data) {
+              if (res.data.length) {
                 _this2.data.id = res.data[0].id;
+                if (res.data[0].permission) {
+                  _this2.resources = JSON.parse(res.data[0].permission);
+                }
               }
             } else {
               _this2.swr();
