@@ -3129,3 +3129,9 @@ p {
 .table_image img{
   width: 40px;
 }
+.center_button{
+  text-align: center;
+  margin-top: 10px;
+  padding-left: 10px;
+ 
+}

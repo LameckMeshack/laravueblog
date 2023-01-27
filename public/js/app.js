@@ -298,7 +298,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       data: {
         roleName: "",
-        role_id: null
+        id: null
       },
       resources: [{
         resourceName: "Tags",
@@ -343,31 +343,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "delete": false,
         name: "assignrole"
       }],
+      isSending: false,
       roles: []
     };
   },
-  methods: {},
+  methods: {
+    assignRoles: function assignRoles() {
+      var _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              console.log(_this.resources);
+            case 1:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }))();
+    }
+  },
   created: function created() {
-    var _this = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+    var _this2 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
       var res;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            _context.next = 2;
-            return _this.callApi("get", "app/get_roles");
+            _context2.next = 2;
+            return _this2.callApi("get", "app/get_roles");
           case 2:
-            res = _context.sent;
+            res = _context2.sent;
             if (res.status == 200) {
-              _this.roles = res.data;
+              _this2.roles = res.data;
+              if (res.data) {
+                _this2.data.id = res.data[0].id;
+              }
             } else {
-              _this.swr();
+              _this2.swr();
             }
           case 4:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
-      }, _callee);
+      }, _callee2);
     }))();
   }
 });
@@ -1502,11 +1521,11 @@ var render = function render() {
       placeholder: "select user type"
     },
     model: {
-      value: _vm.data.role_id,
+      value: _vm.data.id,
       callback: function callback($$v) {
-        _vm.$set(_vm.data, "role_id", $$v);
+        _vm.$set(_vm.data, "id", $$v);
       },
-      expression: "data.role_id"
+      expression: "data.id"
     }
   }, _vm._l(_vm.roles, function (role, i) {
     return _c("Option", {
@@ -1522,7 +1541,7 @@ var render = function render() {
   }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.resources, function (r, i) {
     return _c("tr", {
       key: i
-    }, [_c("td", [_c("Checkbox", {
+    }, [_c("td", [_vm._v("\n                                " + _vm._s(r.resourceName) + "\n                            ")]), _vm._v(" "), _c("td", [_c("Checkbox", {
       model: {
         value: r.read,
         callback: function callback($$v) {
@@ -1555,7 +1574,18 @@ var render = function render() {
         expression: "r.delete"
       }
     })], 1)]);
-  })], 2)])])])])]);
+  }), _vm._v(" "), _c("div", {
+    staticClass: "center_button"
+  }, [_c("Button", {
+    attrs: {
+      type: "primary",
+      isloading: _vm.isSending,
+      disabled: _vm.isSending
+    },
+    on: {
+      click: _vm.assignRoles
+    }
+  }, [_vm._v(_vm._s(_vm.isSending ? "Loading..." : "Assign"))])], 1)], 2)])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
