@@ -239,7 +239,7 @@ class AdminController extends Controller
     // Get all roles
     public function getRole()
     {
-        return Role::orderBy('id', 'desc')->get();
+        return Role::orderBy('id', 'asc')->get();
     }
 
     // edit role
