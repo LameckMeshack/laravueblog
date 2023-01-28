@@ -11,6 +11,7 @@
                             v-model="data.id"
                             placeholder="select user type"
                             style="width: 300px"
+                            @on-change="changeAdmin"
                         >
                             <Option
                                 :value="role.id"
@@ -132,6 +133,59 @@ export default {
                     name: "assignrole",
                 },
             ],
+            defaultResourcesPermission: [
+                {
+                    resourceName: "Tags",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "Tags",
+                },
+
+                {
+                    resourceName: "Category",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "category",
+                },
+
+                {
+                    resourceName: "Admin users",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "adminusers",
+                },
+
+                {
+                    resourceName: "home",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "home",
+                },
+                {
+                    resourceName: "Roles",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "role",
+                },
+                {
+                    resourceName: "Assign Role",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "assignrole",
+                },
+            ],
             isSending: false,
             roles: [],
         };
@@ -145,9 +199,22 @@ export default {
             });
             if (res.status == 200) {
                 this.i("Role has been assigned successfully");
+
+                // let index = this.roles.find((x) => x.id == this.data.id);
+                // index.permission = data;
+                // same code
+                let index = this.roles.findIndex((x) => x.id == this.data.id);
+                console.log(index);
+                this.roles[index].permission = data;
             } else {
                 this.swr();
             }
+        },
+        changeAdmin() {
+            this.resources = JSON.parse(
+                this.roles.find((x) => x.id == this.data.id)?.permission ||
+                    JSON.stringify(this.defaultResourcesPermission)
+            );
         },
     },
     async created() {

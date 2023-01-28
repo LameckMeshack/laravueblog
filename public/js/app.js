@@ -343,6 +343,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "delete": false,
         name: "assignrole"
       }],
+      defaultResourcesPermission: [{
+        resourceName: "Tags",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "Tags"
+      }, {
+        resourceName: "Category",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "category"
+      }, {
+        resourceName: "Admin users",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "adminusers"
+      }, {
+        resourceName: "home",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "home"
+      }, {
+        resourceName: "Roles",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "role"
+      }, {
+        resourceName: "Assign Role",
+        read: false,
+        write: false,
+        update: false,
+        "delete": false,
+        name: "assignrole"
+      }],
       isSending: false,
       roles: []
     };
@@ -351,7 +394,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     assignRoles: function assignRoles() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var data, res;
+        var data, res, index;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -365,6 +408,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               res = _context.sent;
               if (res.status == 200) {
                 _this.i("Role has been assigned successfully");
+
+                // let index = this.roles.find((x) => x.id == this.data.id);
+                // index.permission = data;
+                // same code
+                index = _this.roles.findIndex(function (x) {
+                  return x.id == _this.data.id;
+                });
+                console.log(index);
+                _this.roles[index].permission = data;
               } else {
                 _this.swr();
               }
@@ -374,29 +426,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    changeAdmin: function changeAdmin() {
+      var _this$roles$find,
+        _this2 = this;
+      this.resources = JSON.parse(((_this$roles$find = this.roles.find(function (x) {
+        return x.id == _this2.data.id;
+      })) === null || _this$roles$find === void 0 ? void 0 : _this$roles$find.permission) || JSON.stringify(this.defaultResourcesPermission));
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
       var res;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return _this2.callApi("get", "app/get_roles");
+            return _this3.callApi("get", "app/get_roles");
           case 2:
             res = _context2.sent;
             if (res.status == 200) {
-              _this2.roles = res.data;
+              _this3.roles = res.data;
               if (res.data.length) {
-                _this2.data.id = res.data[0].id;
+                _this3.data.id = res.data[0].id;
                 if (res.data[0].permission) {
-                  _this2.resources = JSON.parse(res.data[0].permission);
+                  _this3.resources = JSON.parse(res.data[0].permission);
                 }
               }
             } else {
-              _this2.swr();
+              _this3.swr();
             }
           case 4:
           case "end":
@@ -1535,6 +1594,9 @@ var render = function render() {
     },
     attrs: {
       placeholder: "select user type"
+    },
+    on: {
+      "on-change": _vm.changeAdmin
     },
     model: {
       value: _vm.data.id,
