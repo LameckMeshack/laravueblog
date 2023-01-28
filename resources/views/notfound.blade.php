@@ -20,7 +20,7 @@
 </head>
 
 <body>
-   <h1>Page Not Found</h1>
+   <h1 class="_text_center">You are not authorized to access this page</h1>
 </body>
 
 </html>
