@@ -140,7 +140,7 @@ export default {
                     write: false,
                     update: false,
                     delete: false,
-                    name: "Tags",
+                    name: "tags",
                 },
 
                 {

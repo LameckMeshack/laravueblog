@@ -349,7 +349,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         write: false,
         update: false,
         "delete": false,
-        name: "Tags"
+        name: "tags"
       }, {
         resourceName: "Category",
         read: false,
