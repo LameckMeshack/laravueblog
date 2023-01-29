@@ -43,8 +43,6 @@ class AdminController extends Controller
 
     public function checkForPermission(Request $request, $user)
     {
-
-
         $permission = json_decode($user->role->permission, true);
         $path = $request->path();
         // $hasPermission = false;
