@@ -32,7 +32,6 @@
                                 </li></template
                             >
 
-                            
                             <li>
                                 <a href="/logout"
                                     ><Icon type="ios-speedometer" /> Logout</a
@@ -71,11 +70,8 @@ export default {
         };
     },
     created() {
-        this.$store.commit("updateUser", this.user);
-        // log from the store
-        // console.log(this.$store.state.user);
-        console.log(this.permissions);
-        console.log(this.user);
+        this.$store.commit("setUser", this.user);
+        this.$store.commit("setPermissions", this.permissions);
     },
 };
 </script>

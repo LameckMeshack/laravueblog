@@ -13,6 +13,7 @@ export default new Vuex.Store({
             isDeleted: false,
         },
         user: false,
+        userPermissions: null,
     },
     mutations: {
         setDeleteModalObj(state, data) {
@@ -28,14 +29,20 @@ export default new Vuex.Store({
             };
             state.deleteModalObj = deleteModalObj;
         },
-        updateUser(state, data) {
+        setUser(state, data) {
             state.user = data;
+        },
+        setPermissions(state, data) {
+            state.userPermissions = data;
         },
     },
     getters: {
         getDeleteModalObj(state) {
             return state.deleteModalObj;
         },
+        getUserPermissions(state){
+            return state.userPermissions
+        }
     },
     actions: {},
 
