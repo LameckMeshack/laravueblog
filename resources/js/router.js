@@ -16,12 +16,11 @@ const routes = [
 
     { path: "/category", component: category, name: "category" },
 
-    { path: "/admin", component: adminusers, name: "adminusers" },
+    { path: "/adminusers", component: adminusers, name: "adminusers" },
 
     { path: "/login", component: login, name: "login" },
     { path: "/role", component: role, name: "role" },
     { path: "/assignrole", component: assignRole, name: "assignrole" },
-    
 ];
 
 export default new Router({

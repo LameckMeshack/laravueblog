@@ -2974,7 +2974,7 @@ var routes = [{
   component: _admin_pages_category_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
   name: "category"
 }, {
-  path: "/admin",
+  path: "/adminusers",
   component: _admin_pages_adminusers_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: "adminusers"
 }, {
