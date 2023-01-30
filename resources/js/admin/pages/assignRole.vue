@@ -82,6 +82,15 @@ export default {
             },
             resources: [
                 {
+                    resourceName: "Home",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "/",
+                },
+
+                {
                     resourceName: "Tags",
                     read: false,
                     write: false,
@@ -89,7 +98,6 @@ export default {
                     delete: false,
                     name: "Tags",
                 },
-
                 {
                     resourceName: "Category",
                     read: false,
@@ -98,7 +106,14 @@ export default {
                     delete: false,
                     name: "category",
                 },
-
+                {
+                    resourceName: "Create Blog",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "createBlog",
+                },
                 {
                     resourceName: "Admin users",
                     read: false,
@@ -106,15 +121,6 @@ export default {
                     update: false,
                     delete: false,
                     name: "adminusers",
-                },
-
-                {
-                    resourceName: "Home",
-                    read: false,
-                    write: false,
-                    update: false,
-                    delete: false,
-                    name: "/",
                 },
                 {
                     resourceName: "Roles",
@@ -135,6 +141,14 @@ export default {
             ],
             defaultResourcesPermission: [
                 {
+                    resourceName: "Home",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "/",
+                },
+                {
                     resourceName: "Tags",
                     read: false,
                     write: false,
@@ -142,7 +156,6 @@ export default {
                     delete: false,
                     name: "tags",
                 },
-
                 {
                     resourceName: "Category",
                     read: false,
@@ -151,7 +164,14 @@ export default {
                     delete: false,
                     name: "category",
                 },
-
+                {
+                    resourceName: "Create Blog",
+                    read: false,
+                    write: false,
+                    update: false,
+                    delete: false,
+                    name: "createBlog",
+                },
                 {
                     resourceName: "Admin users",
                     read: false,
@@ -159,15 +179,6 @@ export default {
                     update: false,
                     delete: false,
                     name: "adminusers",
-                },
-
-                {
-                    resourceName: "Home",
-                    read: false,
-                    write: false,
-                    update: false,
-                    delete: false,
-                    name: "/",
                 },
                 {
                     resourceName: "Roles",

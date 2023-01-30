@@ -2,7 +2,8 @@ import "./bootstrap";
 
 import Vue from "vue";
 import ViewUI from "view-design";
-import Editor from "vue-editor-js";
+// import Editor from "vue-editor-js";
+import Editor from "vue-editor-js/src/index"; 
 import "view-design/dist/styles/iview.css";
 import router from "./router";
 import store from "./store";
