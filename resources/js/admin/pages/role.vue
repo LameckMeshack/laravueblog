@@ -19,7 +19,13 @@
                                 <th>ID</th>
                                 <th>Role Type</th>
                                 <th>Created at</th>
-                                <th>Action</th>
+                                <th
+                                    v-if="
+                                        isDeletePermitted || isUpdatePermitted
+                                    "
+                                >
+                                    Action
+                                </th>
                             </tr>
                             <!-- TABLE TITLE -->
 
@@ -40,9 +46,11 @@
                                             type="info"
                                             size="small"
                                             @click="showEditingModal(role, i)"
+                                            v-if="isUpdatePermitted"
                                             >Edit</Button
                                         >
                                         <Button
+                                            v-if="isDeletePermitted"
                                             type="error"
                                             size="small"
                                             @click="showDeletingModal(role, i)"

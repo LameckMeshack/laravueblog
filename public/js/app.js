@@ -2073,12 +2073,12 @@ var render = function render() {
     staticClass: "_overflow _table_div"
   }, [_c("table", {
     staticClass: "_table"
-  }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.roles, function (role, i) {
+  }, [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Role Type")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _vm.isDeletePermitted || _vm.isUpdatePermitted ? _c("th", [_vm._v("\n                                Action\n                            ")]) : _vm._e()]), _vm._v(" "), _vm._l(_vm.roles, function (role, i) {
     return _c("tr", {
       key: i
     }, [_vm.roles.length ? [_c("td", [_vm._v(_vm._s(role.id))]), _vm._v(" "), _c("td", {
       staticClass: "_table_name"
-    }, [_vm._v("\n                                    " + _vm._s(role.roleName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(role.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
+    }, [_vm._v("\n                                    " + _vm._s(role.roleName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(role.created_at))]), _vm._v(" "), _c("td", [_vm.isUpdatePermitted ? _c("Button", {
       attrs: {
         type: "info",
         size: "small"
@@ -2088,7 +2088,7 @@ var render = function render() {
           return _vm.showEditingModal(role, i);
         }
       }
-    }, [_vm._v("Edit")]), _vm._v(" "), _c("Button", {
+    }, [_vm._v("Edit")]) : _vm._e(), _vm._v(" "), _vm.isDeletePermitted ? _c("Button", {
       attrs: {
         type: "error",
         size: "small"
@@ -2098,7 +2098,7 @@ var render = function render() {
           return _vm.showDeletingModal(role, i);
         }
       }
-    }, [_vm._v("Delete")])], 1)] : _vm._e()], 2);
+    }, [_vm._v("Delete")]) : _vm._e()], 1)] : _vm._e()], 2);
   })], 2)])]), _vm._v(" "), _c("Modal", {
     attrs: {
       title: "Add Role",
@@ -2209,11 +2209,7 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.isEditing ? "Editing" : "Edit Role"))])], 1)], 1), _vm._v(" "), _c("DeleteModal")], 1)])]);
 };
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Role Type")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
