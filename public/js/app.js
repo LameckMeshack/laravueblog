@@ -1205,7 +1205,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["user"],
+  props: ["user", "permissions"],
   data: function data() {
     return {
       isLoggedIn: false
@@ -1214,7 +1214,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.$store.commit("updateUser", this.user);
     // log from the store
-    console.log(this.$store.state.user);
+    // console.log(this.$store.state.user);
+    console.log(this.permissions);
+    console.log(this.user);
   }
 });
 
@@ -2430,55 +2432,19 @@ var render = function render() {
     staticClass: "_1side_menu_list"
   }, [_c("ul", {
     staticClass: "_1side_menu_list_ul"
-  }, [_c("li", [_c("router-link", {
-    attrs: {
-      to: "/"
-    }
-  }, [_c("Icon", {
-    attrs: {
-      type: "ios-speedometer"
-    }
-  }), _vm._v("\n                                Dashboard")], 1)], 1), _vm._v(" "), _c("li", [_c("router-link", {
-    attrs: {
-      to: "tags"
-    }
-  }, [_c("Icon", {
-    attrs: {
-      type: "ios-speedometer"
-    }
-  }), _vm._v("\n                                Tags")], 1)], 1), _vm._v(" "), _c("li", [_c("router-link", {
-    attrs: {
-      to: "category"
-    }
-  }, [_c("Icon", {
-    attrs: {
-      type: "ios-speedometer"
-    }
-  }), _vm._v("\n                                Category")], 1)], 1), _vm._v(" "), _c("li", [_c("router-link", {
-    attrs: {
-      to: "admin"
-    }
-  }, [_c("Icon", {
-    attrs: {
-      type: "ios-speedometer"
-    }
-  }), _vm._v("\n                                Admin")], 1)], 1), _vm._v(" "), _c("li", [_c("router-link", {
-    attrs: {
-      to: "role"
-    }
-  }, [_c("Icon", {
-    attrs: {
-      type: "ios-speedometer"
-    }
-  }), _vm._v(" Role\n                                Management")], 1)], 1), _vm._v(" "), _c("li", [_c("a", {
-    attrs: {
-      href: "/assignrole"
-    }
-  }, [_c("Icon", {
-    attrs: {
-      type: "ios-speedometer"
-    }
-  }), _vm._v(" Assign Role")], 1)]), _vm._v(" "), _c("li", [_c("a", {
+  }, [_vm.permissions.length ? _vm._l(_vm.permissions, function (menuItem, i) {
+    return _c("li", {
+      key: i
+    }, [menuItem.read ? _c("router-link", {
+      attrs: {
+        to: menuItem.name
+      }
+    }, [_c("Icon", {
+      attrs: {
+        type: "ios-speedometer"
+      }
+    }), _vm._v("\n                                    " + _vm._s(menuItem.resourceName))], 1) : _vm._e()], 1);
+  }) : _vm._e(), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
       href: "/logout"
     }
@@ -2486,7 +2452,7 @@ var render = function render() {
     attrs: {
       type: "ios-speedometer"
     }
-  }), _vm._v(" Logout")], 1)])])])])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" Logout")], 1)])], 2)])])]), _vm._v(" "), _c("div", {
     staticClass: "header"
   }, [_c("div", {
     staticClass: "_2menu _box_shadow"

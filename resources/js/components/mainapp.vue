@@ -18,41 +18,21 @@
                     <!--~~~ MENU LIST ~~~~~~-->
                     <div class="_1side_menu_list">
                         <ul class="_1side_menu_list_ul">
-                            <li>
-                                <router-link to="/"
-                                    ><Icon type="ios-speedometer" />
-                                    Dashboard</router-link
+                            <template v-if="permissions.length">
+                                <li
+                                    v-for="(menuItem, i) in permissions"
+                                    :key="i"
                                 >
-                            </li>
-                            <li>
-                                <router-link to="tags"
-                                    ><Icon type="ios-speedometer" />
-                                    Tags</router-link
-                                >
-                            </li>
-                            <li>
-                                <router-link to="category"
-                                    ><Icon type="ios-speedometer" />
-                                    Category</router-link
-                                >
-                            </li>
-                            <li>
-                                <router-link to="admin"
-                                    ><Icon type="ios-speedometer" />
-                                    Admin</router-link
-                                >
-                            </li>
-                            <li>
-                                <router-link to="role"
-                                    ><Icon type="ios-speedometer" /> Role
-                                    Management</router-link
-                                >
-                            </li>
-                            <li>
-                                <a href="/assignrole"
-                                    ><Icon type="ios-speedometer" /> Assign Role</a
-                                >
-                            </li>
+                                    <router-link
+                                        :to="menuItem.name"
+                                        v-if="menuItem.read"
+                                        ><Icon type="ios-speedometer" />
+                                        {{ menuItem.resourceName }}</router-link
+                                    >
+                                </li></template
+                            >
+
+                            
                             <li>
                                 <a href="/logout"
                                     ><Icon type="ios-speedometer" /> Logout</a
@@ -84,8 +64,7 @@
 </template>
 <script>
 export default {
-    props: ["user"],
-
+    props: ["user", "permissions"],
     data() {
         return {
             isLoggedIn: false,
@@ -94,7 +73,9 @@ export default {
     created() {
         this.$store.commit("updateUser", this.user);
         // log from the store
-        console.log(this.$store.state.user);
+        // console.log(this.$store.state.user);
+        console.log(this.permissions);
+        console.log(this.user);
     },
 };
 </script>
