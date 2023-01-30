@@ -7,7 +7,9 @@
                     class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
                 >
                     <p class="_title0">
-                        Tags<Button @click="addModal = true"
+                        Tags<Button
+                            v-if="isWritePermitted"
+                            @click="addModal = true"
                             ><Icon type="md-add" />Add Tag</Button
                         >
                     </p>
@@ -19,7 +21,13 @@
                                 <th>ID</th>
                                 <th>Tag name</th>
                                 <th>Created at</th>
-                                <th>Action</th>
+                                <th
+                                    v-if="
+                                        isDeletePermitted || isUpdatePermitted
+                                    "
+                                >
+                                    Action
+                                </th>
                             </tr>
                             <!-- TABLE TITLE -->
 
@@ -37,12 +45,14 @@
                                     <td>{{ tag.created_at }}</td>
                                     <td>
                                         <Button
+                                            v-if="isUpdatePermitted"
                                             type="info"
                                             size="small"
                                             @click="showEditingModal(tag, i)"
                                             >Edit</Button
                                         >
                                         <Button
+                                            v-if="isDeletePermitted"
                                             type="error"
                                             size="small"
                                             @click="showDeletingModal(tag, i)"
