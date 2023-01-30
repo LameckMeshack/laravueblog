@@ -7,7 +7,9 @@
                     class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
                 >
                     <p class="_title0">
-                        Categories<Button @click="addModal = true"
+                        Categories<Button
+                            v-if="isWritePermitted"
+                            @click="addModal = true"
                             ><Icon type="md-add" />Add Category</Button
                         >
                     </p>
@@ -20,7 +22,13 @@
                                 <th>Icon image</th>
                                 <th>Category name</th>
                                 <th>Created at</th>
-                                <th>Action</th>
+                                <th
+                                    v-if="
+                                        isDeletePermitted || isUpdatePermitted
+                                    "
+                                >
+                                    Action
+                                </th>
                             </tr>
                             <!-- TABLE TITLE -->
 
@@ -41,6 +49,7 @@
                                     <td>{{ category.created_at }}</td>
                                     <td>
                                         <Button
+                                            v-if="isUpdatePermitted"
                                             type="info"
                                             size="small"
                                             @click="
@@ -49,6 +58,7 @@
                                             >Edit</Button
                                         >
                                         <Button
+                                            v-if="isDeletePermitted"
                                             type="error"
                                             size="small"
                                             @click="

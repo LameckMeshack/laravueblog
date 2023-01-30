@@ -1697,7 +1697,7 @@ var render = function render() {
     staticClass: "_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
   }, [_c("p", {
     staticClass: "_title0"
-  }, [_vm._v("\n                    Categories"), _c("Button", {
+  }, [_vm._v("\n                    Categories"), _vm.isWritePermitted ? _c("Button", {
     on: {
       click: function click($event) {
         _vm.addModal = true;
@@ -1707,11 +1707,11 @@ var render = function render() {
     attrs: {
       type: "md-add"
     }
-  }), _vm._v("Add Category")], 1)], 1), _vm._v(" "), _c("div", {
+  }), _vm._v("Add Category")], 1) : _vm._e()], 1), _vm._v(" "), _c("div", {
     staticClass: "_overflow _table_div"
   }, [_c("table", {
     staticClass: "_table"
-  }, [_vm._m(0), _vm._v(" "), _vm._l(_vm.categoryList, function (category, i) {
+  }, [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Icon image")]), _vm._v(" "), _c("th", [_vm._v("Category name")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _vm.isDeletePermitted || _vm.isUpdatePermitted ? _c("th", [_vm._v("\n                                Action\n                            ")]) : _vm._e()]), _vm._v(" "), _vm._l(_vm.categoryList, function (category, i) {
     return _c("tr", {
       key: i
     }, [_vm.categoryList.length ? [_c("td", [_vm._v(_vm._s(category.id))]), _vm._v(" "), _c("td", {
@@ -1722,7 +1722,7 @@ var render = function render() {
       }
     })]), _vm._v(" "), _c("td", {
       staticClass: "_table_name"
-    }, [_vm._v("\n                                    " + _vm._s(category.categoryName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(category.created_at))]), _vm._v(" "), _c("td", [_c("Button", {
+    }, [_vm._v("\n                                    " + _vm._s(category.categoryName) + "\n                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(category.created_at))]), _vm._v(" "), _c("td", [_vm.isUpdatePermitted ? _c("Button", {
       attrs: {
         type: "info",
         size: "small"
@@ -1732,7 +1732,7 @@ var render = function render() {
           return _vm.showEditingModal(category, i);
         }
       }
-    }, [_vm._v("Edit")]), _vm._v(" "), _c("Button", {
+    }, [_vm._v("Edit")]) : _vm._e(), _vm._v(" "), _vm.isDeletePermitted ? _c("Button", {
       attrs: {
         type: "error",
         size: "small"
@@ -1742,7 +1742,7 @@ var render = function render() {
           return _vm.showDeletingModal(category, i);
         }
       }
-    }, [_vm._v("Delete")])], 1)] : _vm._e()], 2);
+    }, [_vm._v("Delete")]) : _vm._e()], 1)] : _vm._e()], 2);
   })], 2)])]), _vm._v(" "), _c("Modal", {
     attrs: {
       title: "Add category",
@@ -1952,11 +1952,7 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.isEditing ? "Editing" : "Edit category"))])], 1)], 1), _vm._v(" "), _c("DeleteModal")], 1)])]);
 };
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Icon image")]), _vm._v(" "), _c("th", [_vm._v("Category name")]), _vm._v(" "), _c("th", [_vm._v("Created at")]), _vm._v(" "), _c("th", [_vm._v("Action")])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
