@@ -109,12 +109,12 @@ export default {
                 },
 
                 {
-                    resourceName: "home",
+                    resourceName: "Home",
                     read: false,
                     write: false,
                     update: false,
                     delete: false,
-                    name: "home",
+                    name: "/",
                 },
                 {
                     resourceName: "Roles",
@@ -162,12 +162,12 @@ export default {
                 },
 
                 {
-                    resourceName: "home",
+                    resourceName: "Home",
                     read: false,
                     write: false,
                     update: false,
                     delete: false,
-                    name: "home",
+                    name: "/",
                 },
                 {
                     resourceName: "Roles",

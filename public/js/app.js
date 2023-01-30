@@ -322,12 +322,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "delete": false,
         name: "adminusers"
       }, {
-        resourceName: "home",
+        resourceName: "Home",
         read: false,
         write: false,
         update: false,
         "delete": false,
-        name: "home"
+        name: "/"
       }, {
         resourceName: "Roles",
         read: false,
@@ -365,12 +365,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         "delete": false,
         name: "adminusers"
       }, {
-        resourceName: "home",
+        resourceName: "Home",
         read: false,
         write: false,
         update: false,
         "delete": false,
-        name: "home"
+        name: "/"
       }, {
         resourceName: "Roles",
         read: false,
