@@ -20,6 +20,7 @@
                             :init-data="initData"
                             @save="onSave"
                             :config="config"
+                            :additionalREquestData="{name:' note note '}"
                         />
                     </div>
                     <div class="_input_field">
@@ -34,7 +35,16 @@
 export default {
     data() {
         return {
-            config: {},
+            config: {
+                image:{
+                    endpoints: {
+                        byFile: '/api/upload_image', // Your backend file uploader endpoint
+                        byUrl: '/api/upload_image', // Your endpoint that provides uploading by Url
+                    },
+                    field:'image',
+                    types:'image/*'
+                }
+            },
             initData: null,
             data: {
                 title : '',
