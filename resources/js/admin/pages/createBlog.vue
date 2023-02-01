@@ -23,7 +23,9 @@
                             :config="config"
                         />
                     </div>
-                    <button @click="save">save</button>
+                    <div class="_input_field">
+						 <Button @click="save" :loading="isCreating" :disabled="isCreating">{{isCreating ? 'Please wait...' : 'Create blog'}}</Button>
+					 </div>
                 </div>
             </div>
         </div>
