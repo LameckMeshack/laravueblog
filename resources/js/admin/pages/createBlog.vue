@@ -6,11 +6,10 @@
                 <div
                     class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
                 >
-                    <p class="_title0">
-                        Role Management<Button @click="addModal = true"
-                            ><Icon type="md-add" />Add a new blog</Button
-                        >
-                    </p>
+                    <p class="_title0">Create blog</p>
+					<div class="_input_field">
+						 <Input type="text" v-model="data.title" placeholder="Title" />
+					 </div>
 
                     <div class="_overflow _table_div blog_editor">
                         <editor
@@ -37,7 +36,15 @@ export default {
         return {
             config: {},
             initData: null,
-            data: {},
+            data: {
+                title : '',
+				post : '',
+				post_excerpt : '',
+				metaDescription : '',
+				category_id : [],
+				tag_id : [],
+				jsonData: null
+                },
         };
     },
     methods: {
