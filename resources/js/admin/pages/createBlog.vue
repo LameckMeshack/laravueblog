@@ -7,9 +7,13 @@
                     class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
                 >
                     <p class="_title0">Create blog</p>
-					<div class="_input_field">
-						 <Input type="text" v-model="data.title" placeholder="Title" />
-					 </div>
+                    <div class="_input_field">
+                        <Input
+                            type="text"
+                            v-model="data.title"
+                            placeholder="Title"
+                        />
+                    </div>
 
                     <div class="_overflow _table_div blog_editor">
                         <editor
@@ -20,12 +24,19 @@
                             :init-data="initData"
                             @save="onSave"
                             :config="config"
-                            :additionalREquestData="{name:' note note '}"
+                            :additionalREquestData="{ name: ' note note ' }"
                         />
                     </div>
                     <div class="_input_field">
-						 <Button @click="save" :loading="isCreating" :disabled="isCreating">{{isCreating ? 'Please wait...' : 'Create blog'}}</Button>
-					 </div>
+                        <Button
+                            @click="save"
+                            :loading="isCreating"
+                            :disabled="isCreating"
+                            >{{
+                                isCreating ? "Please wait..." : "Create blog"
+                            }}</Button
+                        >
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,25 +47,25 @@ export default {
     data() {
         return {
             config: {
-                image:{
+                image: {
                     endpoints: {
-                        byFile: '/api/upload_image', // Your backend file uploader endpoint
-                        byUrl: '/api/upload_image', // Your endpoint that provides uploading by Url
+                        byFile: "/createBlog", // Your backend file uploader endpoint
+                        byUrl: "/createBlog", // Your endpoint that provides uploading by Url
                     },
-                    field:'image',
-                    types:'image/*'
-                }
+                    field: "image",
+                    types: "image/*",
+                },
             },
             initData: null,
             data: {
-                title : '',
-				post : '',
-				post_excerpt : '',
-				metaDescription : '',
-				category_id : [],
-				tag_id : [],
-				jsonData: null
-                },
+                title: "",
+                post: "",
+                post_excerpt: "",
+                metaDescription: "",
+                category_id: [],
+                tag_id: [],
+                jsonData: null,
+            },
         };
     },
     methods: {
