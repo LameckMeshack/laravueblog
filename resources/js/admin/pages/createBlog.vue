@@ -12,7 +12,7 @@
                         >
                     </p>
 
-                    <div class="_overflow _table_div">
+                    <div class="_overflow _table_div blog_editor">
                         <editor
                             ref="editor"
                             autofocus
@@ -74,23 +74,23 @@ export default {
 };
 </script>
 <style>
-	.blog_editor {
-		width: 717px;
-		margin-left: 160px;
-		padding: 4px 7px;
-		font-size: 14px;
-		border: 1px solid #dcdee2;
-		border-radius: 4px;
-		color: #515a6e;
-		background-color: #fff;
-		background-image: none;
-		z-index:  -1;
-	}
-	.blog_editor:hover {
-		border: 1px solid #57a3f3;
-	}
-	._input_field{
-		margin: 20px 0 20px 160px;
-    	width: 717px;
-	}
+.blog_editor {
+    width: 717px;
+    margin-left: 160px;
+    padding: 4px 7px;
+    font-size: 14px;
+    border: 1px solid #dcdee2;
+    border-radius: 4px;
+    color: #515a6e;
+    background-color: #fff;
+    background-image: none;
+    z-index: -1;
+}
+.blog_editor:hover {
+    border: 1px solid #57a3f3;
+}
+._input_field {
+    margin: 20px 0 20px 160px;
+    width: 717px;
+}
 </style>
