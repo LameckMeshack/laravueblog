@@ -300,7 +300,12 @@ class AdminController extends Controller
         ]);
         $picName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('uploads'), $picName);
-        return $picName;
+        return response()->json([
+            'success' => 1,
+            'file' => [
+                'url' => url('uploads/' . $picName)
+            ]
+        ]);
     }
 
     //login
