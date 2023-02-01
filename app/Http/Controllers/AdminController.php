@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Role;
 use App\Models\Tag;
+use App\Models\TempImage;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -300,6 +301,11 @@ class AdminController extends Controller
         ]);
         $picName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('uploads'), $picName);
+        //save the image in the tempImage table
+        $tempImage = TempImage::create([
+            'image' => $picName,
+        ]);
+
         return response()->json([
             'success' => 1,
             'file' => [
@@ -345,3 +351,31 @@ class AdminController extends Controller
         Auth::logout();
     }
 }
+
+
+
+
+
+// hold one
+// class YourResourceController extends Controller
+// {
+//     public function store(Request $request)
+//     {
+//         // Check for existing images in the temp_image table
+//         $tempImages = TempImage::where('resource_id', $request->resource_id)->get();
+//         if ($tempImages->count() > 0) {
+//             foreach ($tempImages as $tempImage) {
+//                 Storage::disk('public')->delete($tempImage->image);
+//                 $tempImage->delete();
+//             }
+//         }
+
+//         // Upload the new images
+//         // ...
+
+//         // Create the resource
+//         $resource = YourResourceModel::create($request->all());
+
+//         return response()->json(['resource' => $resource]);
+//     }
+// }
