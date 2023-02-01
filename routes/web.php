@@ -53,6 +53,8 @@ Route::prefix('/app')->middleware('admin')->group(function () {
     Route::post('/assign_roles', 'AdminController@assignRole');
 });
 
+Route::post('/createBlog', 'AdminController@uploadEditorImage');
+
 
 
 

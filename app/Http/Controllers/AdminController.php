@@ -292,7 +292,16 @@ class AdminController extends Controller
             'permission' => $request->permission
         ]);
     }
-
+    //adding editor image
+    public function uploadEditorImage(Request $request)
+    {
+        $this->validate($request, [
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $picName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('uploads'), $picName);
+        return $picName;
+    }
 
     //login
     public function adminlogin(Request $request)
@@ -325,7 +334,7 @@ class AdminController extends Controller
             ], 401);
         }
     }
-    //login
+    //logout
     public function logout()
     {
         Auth::logout();
