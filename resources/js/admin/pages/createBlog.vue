@@ -95,8 +95,58 @@ export default {
         async save() {
             this.$refs.editor.save();
         },
-        onSave(response) {
-            console.log("resonse", response);
+        async onSave(response) {
+            var data = response;
+            await this.outPutHTML(data.blocks);
+            console.log(this.outPutHTML);
+        },
+        outPutHTML(articleObj) {
+            articleObj.map((obj) => {
+                switch (obj.type) {
+                    case "paragraph":
+                        this.articleHTML += this.makeParagraph(obj);
+                        break;
+                    case "image":
+                        this.articleHTML += this.makeImage(obj);
+                        break;
+                    case "header":
+                        this.articleHTML += this.makeHeader(obj);
+                        break;
+                    case "raw":
+                        this.articleHTML += `<div class="ce-block">
+                        <div class="ce-block__content">
+                            <div class="ce-code">
+                                <code>${obj.data.html}</code>
+                               
+                            </div>
+                            </div>
+                            </div>\n`;
+                        break;
+                    case "code":
+                        this.articleHTML += this.makeCode(obj);
+                        break;
+                    case "list":
+                        this.articleHTML += this.makeList(obj);
+                        break;
+                    case "quote":
+                        this.articleHTML += this.makeQuote(obj);
+                        break;
+                    case "warning":
+                        this.articleHTML += this.makeWarning(obj);
+                        break;
+                    case "checklist":
+                        this.articleHTML += this.makeChecklist(obj);
+                        break;
+                    case "embed":
+                        this.articleHTML += this.makeEmbed(obj);
+                        break;
+                    case "delimiter":
+                        this.articleHTML += this.makeDelimiter(obj);
+                        break;
+                    default:
+                        return "";
+                }
+            });
         },
     },
 };
