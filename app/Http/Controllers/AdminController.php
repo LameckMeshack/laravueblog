@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Role;
 use App\Models\Tag;
@@ -349,6 +350,20 @@ class AdminController extends Controller
     public function logout()
     {
         Auth::logout();
+    }
+
+    //slug
+    public function slug()
+    {
+        $title = 'This a title';
+        return Blog::create([
+            'title' => $title,
+            'post' => 'some post',
+            'post_excerpt' => "aed",
+            'user_id' => 1,
+            'metaDescription' => 'aed'
+        ]);
+        return $title;
     }
 }
 

@@ -54,12 +54,13 @@ Route::prefix('/app')->middleware('admin')->group(function () {
 });
 
 Route::post('/createBlog', 'AdminController@uploadEditorImage');
+Route::post('/slug', 'AdminController@slug');
 
 
 
 
 Route::post('/logout', 'AdminController@logout');
-Route::get('/', 'AdminController@index');
+Route::any('/', 'AdminController@index');
 Route::any('{slug}', 'AdminController@index');
 
 // Route::get(
