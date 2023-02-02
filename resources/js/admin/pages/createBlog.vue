@@ -65,6 +65,7 @@ export default {
                 category_id: [],
                 tag_id: [],
                 jsonData: null,
+                // isCreating: false,
             },
         };
     },
@@ -98,7 +99,7 @@ export default {
         async onSave(response) {
             var data = response;
             await this.outPutHTML(data.blocks);
-            console.log(this.outPutHTML);
+            console.log(this.articleHTML);
         },
         outPutHTML(articleObj) {
             articleObj.map((obj) => {
