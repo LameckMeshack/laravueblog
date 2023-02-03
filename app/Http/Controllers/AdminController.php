@@ -315,6 +315,42 @@ class AdminController extends Controller
         ]);
     }
 
+
+
+    // blogs
+    //slug
+    public function slug()
+    {
+        $title = 'This a title';
+        return Blog::create([
+            'title' => $title,
+            'post' => 'some post',
+            'post_excerpt' => "aed",
+            'user_id' => 1,
+            'metaDescription' => 'aed'
+        ]);
+        return $title;
+    }
+    //create blog
+    public function createBlog(Request $request)
+    {
+        $this->validate($request, [
+            // 'title' => 'required',
+            // 'post' => 'required',
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'category_id' => 'required',
+
+        ]);
+        return Blog::create([
+            'title' => $request->title,
+            'post' => $request->post,
+            'post_excerpt' => $request->post_excerpt,
+            'user_id' => Auth::user()->id,
+            'metaDescription' => $request->metaDescription,
+            'jsonData' => $request->jsonData,
+        ]);
+    }
+
     //login
     public function adminlogin(Request $request)
     {
@@ -350,20 +386,6 @@ class AdminController extends Controller
     public function logout()
     {
         Auth::logout();
-    }
-
-    //slug
-    public function slug()
-    {
-        $title = 'This a title';
-        return Blog::create([
-            'title' => $title,
-            'post' => 'some post',
-            'post_excerpt' => "aed",
-            'user_id' => 1,
-            'metaDescription' => 'aed'
-        ]);
-        return $title;
     }
 }
 

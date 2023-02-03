@@ -152,7 +152,11 @@ export default {
             this.data.post = this.articleHTML;
             this.data.jsonData = JSON.stringify(data);
             this.isCreating = true;
-            const res = await this.callApi("post", "app/create_blog", this.data);
+            const res = await this.callApi(
+                "post",
+                "app/create_blog",
+                this.data
+            );
             if (res.status == 201) {
                 this.s("Blog created successfully");
                 // this.$router.push("/admin/blog");
@@ -180,6 +184,7 @@ export default {
                     this.swr();
                 }
             }
+            this.isCreating = false;
         },
         outPutHTML(articleObj) {
             articleObj.map((obj) => {
