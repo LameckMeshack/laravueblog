@@ -23,6 +23,13 @@ class Blog extends Model
     //slug
     public function setTitleAttribute($title)
     {
-        $this->attributes['slug'] = Str::slug($title, '-');
+        $this->attributes['slug'] = $this->uniqueSlug($title);
+    }
+
+    public function uniqueSlug($title)
+    {
+        $slug = Str::slug($title, '-');
+        $count = Blog::where('slug', 'LIKE', "{$slug}%")->count();
+        return $count ? "{$slug}-{$count}" : $slug;
     }
 }
