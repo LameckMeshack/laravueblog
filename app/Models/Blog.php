@@ -17,7 +17,7 @@ class Blog extends Model
         'user_id',
         'featuredImage',
         'metaDescription',
-        'views'
+        'view'
     ];
 
     //slug
