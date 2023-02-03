@@ -28,6 +28,53 @@
                         />
                     </div>
                     <div class="_input_field">
+                        <Input
+                            type="textarea"
+                            v-model="data.post_excerpt"
+                            :rows="4"
+                            placeholder="Post excerpt "
+                        />
+                    </div>
+                    <div class="_input_field">
+                        <Select
+                            filterable
+                            multiple
+                            placeholder="Select category"
+                            v-model="data.category_id"
+                        >
+                            <Option
+                                v-for="(c, i) in category"
+                                :value="c.id"
+                                :key="i"
+                                >{{ c.categoryName }}</Option
+                            >
+                        </Select>
+                    </div>
+                    <div class="_input_field">
+                        <Select
+                            filterable
+                            multiple
+                            placeholder="Select tag"
+                            v-model="data.tag_id"
+                        >
+                            <Option
+                                v-for="(t, i) in tag"
+                                :value="t.id"
+                                :key="i"
+                                >{{ t.tagName }}</Option
+                            >
+                        </Select>
+                    </div>
+                    <div class="_input_field">
+                        <Input
+                            type="textarea"
+                            v-model="data.metaDescription"
+                            :rows="4"
+                            placeholder="Meta description"
+                        />
+                    </div>
+
+                    <div class="_input_field">
                         <Button
                             @click="save"
                             :loading="isCreating"
@@ -65,8 +112,11 @@ export default {
                 category_id: [],
                 tag_id: [],
                 jsonData: null,
-                // isCreating: false,
             },
+            articleHTML: "",
+            category: [],
+            tag: [],
+            isCreating: false,
         };
     },
     methods: {
@@ -99,7 +149,37 @@ export default {
         async onSave(response) {
             var data = response;
             await this.outPutHTML(data.blocks);
-            console.log(this.articleHTML);
+            this.data.post = this.articleHTML;
+            this.data.jsonData = JSON.stringify(data);
+            this.isCreating = true;
+            const res = await this.callApi("post", "app/create_blog", this.data);
+            if (res.status == 201) {
+                this.s("Blog created successfully");
+                // this.$router.push("/admin/blog");
+            } else {
+                if (res.status == 422) {
+                    if (res.data.errors.title) {
+                        this.i(res.data.errors.title);
+                    }
+                    if (res.data.errors.post) {
+                        this.i(res.data.errors.post);
+                    }
+                    if (res.data.errors.post_excerpt) {
+                        this.i(res.data.errors.post_excerpt);
+                    }
+                    if (res.data.errors.metaDescription) {
+                        this.i(res.data.errors.metaDescription);
+                    }
+                    if (res.data.errors.category_id) {
+                        this.i(res.data.errors.category_id);
+                    }
+                    if (res.data.errors.tag_id) {
+                        this.i(res.data.errors.tag_id);
+                    }
+                } else {
+                    this.swr();
+                }
+            }
         },
         outPutHTML(articleObj) {
             articleObj.map((obj) => {
@@ -150,13 +230,25 @@ export default {
             });
         },
     },
+    async created() {
+        const [cat, tag] = await Promise.all([
+            this.callApi("get", "app/get_categories"),
+            this.callApi("get", "app/get_tags"),
+        ]);
+        if (cat.status == 200) {
+            this.category = cat.data;
+            this.tag = tag.data;
+        } else {
+            this.swr();
+        }
+    },
 };
 </script>
 <style>
 .blog_editor {
-    width: 717px;
+    width: 750px;
     margin-left: 160px;
-    padding: 4px 7px;
+    padding: 4px 30px;
     font-size: 14px;
     border: 1px solid #dcdee2;
     border-radius: 4px;
