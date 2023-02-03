@@ -54,7 +54,7 @@ Route::prefix('/app')->middleware('admin')->group(function () {
 });
 
 Route::post('/createBlog', 'AdminController@uploadEditorImage');
-Route::post('/slug', 'AdminController@slug');
+Route::get('/slug', 'AdminController@slug');
 
 
 
