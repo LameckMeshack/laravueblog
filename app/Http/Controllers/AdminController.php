@@ -12,6 +12,7 @@ use App\Models\Blogcategory;
 use App\Models\Blogtag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -334,38 +335,44 @@ class AdminController extends Controller
     //create blog
     public function createBlog(Request $request)
     {
+        DB::beginTransaction();
+        try {
+            $this->validate($request, [
+                'title' => 'required',
+                'post' => 'required',
+                'post_excerpt' => 'required',
+                'category_id' => 'required|array',
+                'tag_id' => 'required|array',
+                'metaDescription' => 'required',
+                'jsonData' => 'required',
+            ]);
+            $categories = $request->category_id;
+            $blogCategories = [];
+            $tags = $request->tag_id;
+            $blogTags = [];
+            $blog =  Blog::create([
+                'title' => $request->title,
+                'post' => $request->post,
+                'post_excerpt' => $request->post_excerpt,
+                'user_id' => Auth::user()->id,
+                'metaDescription' => $request->metaDescription,
+                'jsonData' => $request->jsonData,
+            ]);
+            foreach ($tags as $t) {
+                array_push($blogTags, ['tag_id' => $t, "blog_id" => $blog->id]);
+            }
 
-        $this->validate($request, [
-            'title' => 'required',
-            'post' => 'required',
-            'post_excerpt' => 'required',
-            'category_id' => 'required|array',
-            'tag_id' => 'required|array',
-            'metaDescription' => 'required',
-            'jsonData' => 'required',
-        ]);
-        $categories = $request->category_id;
-        $blogCategories = [];
-        $tags = $request->tag_id;
-        $blogTags = [];
-        $blog =  Blog::create([
-            'title' => $request->title,
-            'post' => $request->post,
-            'post_excerpt' => $request->post_excerpt,
-            'user_id' => Auth::user()->id,
-            'metaDescription' => $request->metaDescription,
-            'jsonData' => $request->jsonData,
-        ]);
-        foreach ($tags as $t) {
-            array_push($blogTags, ['tag_id' => $t, "blog_id" => $blog->id]);
+            foreach ($categories as $c) {
+                array_push($blogCategories, ['category_id' => $c, "blog_id" => $blog->id]);
+            }
+            Blogtag::insert($blogTags);
+            Blogcategory::insert($blogCategories);
+            DB::commit();
+            return 'done';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return 'not done';
         }
-
-        foreach ($categories as $c) {
-            array_push($blogCategories, ['category_id' => $c, "blog_id" => $blog->id]);
-        }
-        Blogtag::insert($blogTags);
-        Blogcategory::insert($blogCategories);
-        return 'done';
     }
 
     //login
