@@ -165,7 +165,6 @@ class AdminController extends Controller
     public function editCategory(Request $request)
     {
         $this->validate($request, [
-
             'categoryName' => 'required',
             'iconImage' => 'required',
         ]);
@@ -206,7 +205,6 @@ class AdminController extends Controller
             'fullName' => $request->fullName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-
             'role_id' => $request->role_id,
         ]);
     }
@@ -328,7 +326,7 @@ class AdminController extends Controller
             'title' => $title,
             'post' => 'some post',
             'post_excerpt' => "aed",
-            'user_id' => 1,
+            'user_id' => Auth::user()->id,
             'metaDescription' => 'aed'
         ]);
         return $title;
@@ -337,21 +335,19 @@ class AdminController extends Controller
     public function createBlog(Request $request)
     {
 
+        $this->validate($request, [
+            'title' => 'required',
+            'post' => 'required',
+            'post_excerpt' => 'required',
+            'category_id' => 'required|array',
+            'tag_id' => 'required|array',
+            'metaDescription' => 'required',
+            'jsonData' => 'required',
+        ]);
         $categories = $request->category_id;
         $blogCategories = [];
-
-
-
-
         $tags = $request->tag_id;
         $blogTags = [];
-
-
-
-
-
-
-        // ]);
         $blog =  Blog::create([
             'title' => $request->title,
             'post' => $request->post,
