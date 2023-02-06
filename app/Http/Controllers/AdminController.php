@@ -8,6 +8,8 @@ use App\Models\Role;
 use App\Models\Tag;
 use App\Models\TempImage;
 use App\Models\User;
+use App\Models\Blogcategory;
+use App\Models\Blogtag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -334,14 +336,23 @@ class AdminController extends Controller
     //create blog
     public function createBlog(Request $request)
     {
-        $this->validate($request, [
-            // 'title' => 'required',
-            // 'post' => 'required',
-            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            // 'category_id' => 'required',
 
-        ]);
-        return Blog::create([
+        $categories = $request->category_id;
+        $blogCategories = [];
+
+
+
+
+        $tags = $request->tag_id;
+        $blogTags = [];
+
+
+
+
+
+
+        // ]);
+        $blog =  Blog::create([
             'title' => $request->title,
             'post' => $request->post,
             'post_excerpt' => $request->post_excerpt,
@@ -349,6 +360,16 @@ class AdminController extends Controller
             'metaDescription' => $request->metaDescription,
             'jsonData' => $request->jsonData,
         ]);
+        foreach ($tags as $t) {
+            array_push($blogTags, ['tag_id' => $t, "blog_id" => $blog->id]);
+        }
+
+        foreach ($categories as $c) {
+            array_push($blogCategories, ['category_id' => $c, "blog_id" => $blog->id]);
+        }
+        Blogtag::insert($blogTags);
+        Blogcategory::insert($blogCategories);
+        return 'done';
     }
 
     //login
