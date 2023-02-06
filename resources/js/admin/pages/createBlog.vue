@@ -157,7 +157,7 @@ export default {
                 "app/create_blog",
                 this.data
             );
-            if (res.status == 201) {
+            if (res.status == 200) {
                 this.s("Blog created successfully");
                 // this.$router.push("/admin/blog");
             } else {
