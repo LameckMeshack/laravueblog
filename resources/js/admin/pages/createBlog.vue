@@ -120,29 +120,6 @@ export default {
         };
     },
     methods: {
-        async addRole() {
-            if (this.data.roleName.trim() == "")
-                return this.e("Role name is required");
-            const res = await this.callApi(
-                "post",
-                "app/create_role",
-                this.data
-            );
-            if (res.status == 201) {
-                this.roles.unshift(res.data);
-                this.s("Role added successfully");
-                this.addModal = false;
-                this.data.roleName = "";
-            } else {
-                if (res.status == 422) {
-                    if (res.data.errors.roleName) {
-                        this.i(res.data.errors.roleName);
-                    }
-                } else {
-                    this.swr();
-                }
-            }
-        },
         async save() {
             this.$refs.editor.save();
         },
@@ -151,6 +128,33 @@ export default {
             await this.outPutHTML(data.blocks);
             this.data.post = this.articleHTML;
             this.data.jsonData = JSON.stringify(data);
+
+            // validate
+            if (this.data.title == "") {
+                this.i("Title is required");
+                return;
+            }
+            if (this.data.post == "") {
+                this.i("Post is required");
+                return;
+            }
+            if (this.data.post_excerpt == "") {
+                this.i("Post excerpt is required");
+                return;
+            }
+            if (this.data.metaDescription == "") {
+                this.i("Meta description is required");
+                return;
+            }
+            if (this.data.category_id.length == 0) {
+                this.i("Category is required");
+                return;
+            }
+            if (this.data.tag_id.length == 0) {
+                this.i("Tag is required");
+                return;
+            }
+
             this.isCreating = true;
             const res = await this.callApi(
                 "post",
