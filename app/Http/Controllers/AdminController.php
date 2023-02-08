@@ -335,7 +335,7 @@ class AdminController extends Controller
     //create blog
     public function createBlog(Request $request)
     {
-        DB::beginTransaction();
+
         try {
             $this->validate($request, [
                 'title' => 'required',
@@ -350,6 +350,7 @@ class AdminController extends Controller
             $blogCategories = [];
             $tags = $request->tag_id;
             $blogTags = [];
+            DB::beginTransaction();
             $blog =  Blog::create([
                 'title' => $request->title,
                 'post' => $request->post,
