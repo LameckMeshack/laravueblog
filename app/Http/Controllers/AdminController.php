@@ -411,32 +411,9 @@ class AdminController extends Controller
     {
         Auth::logout();
     }
+
+    public function blogData()
+    {
+        return Blog::with(['cat', 'tag'])->get();
+    }
 }
-
-
-
-
-
-// hold one
-// class YourResourceController extends Controller
-// {
-//     public function store(Request $request)
-//     {
-//         // Check for existing images in the temp_image table
-//         $tempImages = TempImage::where('resource_id', $request->resource_id)->get();
-//         if ($tempImages->count() > 0) {
-//             foreach ($tempImages as $tempImage) {
-//                 Storage::disk('public')->delete($tempImage->image);
-//                 $tempImage->delete();
-//             }
-//         }
-
-//         // Upload the new images
-//         // ...
-
-//         // Create the resource
-//         $resource = YourResourceModel::create($request->all());
-
-//         return response()->json(['resource' => $resource]);
-//     }
-// }

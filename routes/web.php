@@ -59,7 +59,7 @@ Route::prefix('/app')->middleware('admin')->group(function () {
 });
 
 Route::post('/createBlog', 'AdminController@uploadEditorImage');
-Route::post('/blogdata', 'AdminController@blogData');
+Route::get('/blogdata', 'AdminController@blogData');
 Route::get('/slug', 'AdminController@slug');
 
 

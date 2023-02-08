@@ -33,4 +33,13 @@ class Blog extends Model
         $count = Blog::where('slug', 'LIKE', "{$slug}%")->count();
         return $count ? "{$slug}-{$count}" : $slug;
     }
+
+    public function tag()
+    {
+        return $this->belongsToMany('App\Models\Tag', 'blogtags');
+    }
+    public function cat()
+    {
+        return $this->belongsToMany('App\Models\Category', 'blogcategories');
+    }
 }
