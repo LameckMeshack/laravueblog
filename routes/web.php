@@ -53,7 +53,7 @@ Route::prefix('/app')->middleware('admin')->group(function () {
     Route::post('/assign_roles', 'AdminController@assignRole');
     //blog
     Route::post('/create_blog', 'AdminController@createBlog');
-    Route::get('/get_blogs', 'AdminController@getBlog');
+    Route::get('/get_blogs', 'AdminController@blogData');
     Route::post('/edit_blog', 'AdminController@editBlog');
     Route::post('/delete_blog', 'AdminController@deleteBlog');
 });
