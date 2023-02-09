@@ -22,7 +22,7 @@ class Blog extends Model
     ];
 
     //slug
-    public function setTitleAttribute($title)
+    public function setSlugAttribute($title)
     {
         $this->attributes['slug'] = $this->uniqueSlug($title);
     }

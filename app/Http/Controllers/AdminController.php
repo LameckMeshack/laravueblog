@@ -353,6 +353,7 @@ class AdminController extends Controller
             DB::beginTransaction();
             $blog =  Blog::create([
                 'title' => $request->title,
+                'slug' => $request->title,
                 'post' => $request->post,
                 'post_excerpt' => $request->post_excerpt,
                 'user_id' => Auth::user()->id,
