@@ -418,4 +418,16 @@ class AdminController extends Controller
     {
         return Blog::with(['cat', 'tag'])->orderBy("id", "desc")->get();
     }
+
+    // delete blog
+    public function deleteBlog(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        Blog::where('id', $request->id)->delete();
+        return response()->json([
+            'msg' => 'Blog deleted successfully'
+        ]);
+    }
 }
