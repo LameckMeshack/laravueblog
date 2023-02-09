@@ -202,10 +202,7 @@ export default {
     components: { DeleteModal },
     methods: {
         async addAdmin() {
-            // for (let val in this.data) {
-            //     this.checkInput(val);
-            // }
-            // validate
+           
             if (this.checkInput(this.data)) return;
             const res = await this.callApi(
                 "post",

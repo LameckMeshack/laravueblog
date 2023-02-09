@@ -144,23 +144,29 @@ export default {
                 this.$router.push("/blogs");
             } else {
                 if (res.status == 422) {
-                    if (res.data.errors.title) {
-                        this.i(res.data.errors.title);
-                    }
-                    if (res.data.errors.post) {
-                        this.i(res.data.errors.post);
-                    }
-                    if (res.data.errors.post_excerpt) {
-                        this.i(res.data.errors.post_excerpt);
-                    }
-                    if (res.data.errors.metaDescription) {
-                        this.i(res.data.errors.metaDescription);
-                    }
-                    if (res.data.errors.category_id) {
-                        this.i(res.data.errors.category_id);
-                    }
-                    if (res.data.errors.tag_id) {
-                        this.i(res.data.errors.tag_id);
+                    // if (res.data.errors.title) {
+                    //     this.i(res.data.errors.title);
+                    // }
+                    // if (res.data.errors.post) {
+                    //     this.i(res.data.errors.post);
+                    // }
+                    // if (res.data.errors.post_excerpt) {
+                    //     this.i(res.data.errors.post_excerpt);
+                    // }
+                    // if (res.data.errors.metaDescription) {
+                    //     this.i(res.data.errors.metaDescription);
+                    // }
+                    // if (res.data.errors.category_id) {
+                    //     this.i(res.data.errors.category_id);
+                    // }
+                    // if (res.data.errors.tag_id) {
+                    //     this.i(res.data.errors.tag_id);
+                    // }
+                    const errors = res.data.errors;
+                    for (let key in errors) {
+                        if (errors.hasOwnProperty(key)) {
+                            this.i(errors[key]);
+                        }
                     }
                 } else {
                     this.swr();
