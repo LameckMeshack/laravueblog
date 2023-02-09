@@ -416,6 +416,6 @@ class AdminController extends Controller
 
     public function blogData()
     {
-        return Blog::with(['cat', 'tag'])->get();
+        return Blog::with(['cat', 'tag'])->orderBy("id", "desc")->get();
     }
 }
