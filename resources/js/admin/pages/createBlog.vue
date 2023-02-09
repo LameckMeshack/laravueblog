@@ -163,7 +163,7 @@ export default {
             );
             if (res.status == 200) {
                 this.s("Blog created successfully");
-                // this.$router.push("/admin/blog");
+                this.$router.push("/blogs");
             } else {
                 if (res.status == 422) {
                     if (res.data.errors.title) {
