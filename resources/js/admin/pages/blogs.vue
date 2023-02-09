@@ -131,7 +131,7 @@ export default {
                 isDeleted: false,
                 msg: "blog",
             };
-            // this.deletingIndex = index;
+            this.deletingIndex = index;
             // remove it from the array
             // this.blogs.splice(index, 1);
 
@@ -152,7 +152,7 @@ export default {
     watch: {
         getDeleteModalObj(obj) {
             if (obj.isDeleted) {
-                this.tags.splice(this.deletingIndex, 1);
+                this.blogs.splice(this.deletingIndex, 1);
             }
         },
     },
