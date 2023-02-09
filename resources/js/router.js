@@ -8,6 +8,7 @@ import adminusers from "./admin/pages/adminusers.vue";
 import login from "./admin/pages/login.vue";
 import role from "./admin/pages/role.vue";
 import assignRole from "./admin/pages/assignRole.vue";
+import blogs from "./admin/pages/blogs.vue";
 Vue.use(Router);
 
 const routes = [
@@ -19,6 +20,7 @@ const routes = [
     { path: "/login", component: login, name: "login" },
     { path: "/role", component: role, name: "role" },
     { path: "/assignrole", component: assignRole, name: "assignrole" },
+    { path: "/blogs", component: blogs, name: "blogs" },
 ];
 
 export default new Router({

@@ -120,7 +120,7 @@ export default {
                     write: false,
                     update: false,
                     delete: false,
-                    name: "Blogs",
+                    name: "blogs",
                 },
                 {
                     resourceName: "Admin users",
@@ -186,7 +186,7 @@ export default {
                     write: false,
                     update: false,
                     delete: false,
-                    name: "Blogs",
+                    name: "blogs",
                 },
                 {
                     resourceName: "Admin users",
@@ -251,8 +251,8 @@ export default {
             if (res.data.length) {
                 this.data.id = res.data[0].id;
                 if (res.data[0].permission) {
-                    // this.resources = JSON.parse(res.data[0].permission);
-                    this.resources = this.defaultResourcesPermission
+                    this.resources = JSON.parse(res.data[0].permission);
+                    // this.resources = this.defaultResourcesPermission;
                 }
             }
         } else {
