@@ -206,10 +206,7 @@ export default {
             //     this.checkInput(val);
             // }
             // validate
-            if (this.data.fullName == "") {
-                this.e("Full name is required");
-                return;
-            }
+            if (this.checkInput(this.data)) return;
             const res = await this.callApi(
                 "post",
                 "app/create_user",

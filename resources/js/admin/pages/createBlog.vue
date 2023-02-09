@@ -125,35 +125,13 @@ export default {
         },
         async onSave(response) {
             var data = response;
-            await this.outPutHTML(data.blocks);
+            this.outPutHTML(data.blocks);
             this.data.post = this.articleHTML;
             this.data.jsonData = JSON.stringify(data);
 
             // validate
-            if (this.data.title == "") {
-                this.i("Title is required");
-                return;
-            }
-            if (this.data.post == "") {
-                this.i("Post is required");
-                return;
-            }
-            if (this.data.post_excerpt == "") {
-                this.i("Post excerpt is required");
-                return;
-            }
-            if (this.data.metaDescription == "") {
-                this.i("Meta description is required");
-                return;
-            }
-            if (this.data.category_id.length == 0) {
-                this.i("Category is required");
-                return;
-            }
-            if (this.data.tag_id.length == 0) {
-                this.i("Tag is required");
-                return;
-            }
+
+            if (this.checkInput(this.data)) return;
 
             this.isCreating = true;
             const res = await this.callApi(
