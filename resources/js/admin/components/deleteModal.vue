@@ -12,7 +12,9 @@
             </p>
         </template>
         <div style="text-align: center">
-            <p>Are you sure you want to delete?</p>
+            <p>
+                Are you sure you want to delete the {{ getDeleteModalObj.msg }}?
+            </p>
         </div>
         <template #footer>
             <Button size="large" @click="closeModal()">Close</Button>
@@ -48,7 +50,7 @@ export default {
                 this.getDeleteModalObj.data
             );
             if (res.status == 200) {
-                this.s("Deleted successfully");
+                this.s(`${this.getDeleteModalObj.msg} Deleted successfully`);
                 this.$store.commit("setDeleteModal", true);
             } else {
                 this.swr();

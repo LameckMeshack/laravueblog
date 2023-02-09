@@ -122,14 +122,19 @@ export default {
     },
     components: { DeleteModal },
     methods: {
-        showDeletingModal(tag, index) {
+        showDeletingModal(blog, index) {
             const deleteModalObj = {
                 showDeleteModal: true,
-                deleteUrl: "app/delete_tag",
-                data: tag,
+                deleteUrl: "app/delete_blog",
+                data: blog,
                 deletingIndex: index,
                 isDeleted: false,
+                msg: "blog",
             };
+            // this.deletingIndex = index;
+            // remove it from the array
+            // this.blogs.splice(index, 1);
+
             this.$store.commit("setDeleteModalObj", deleteModalObj);
         },
     },
