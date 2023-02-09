@@ -48,20 +48,25 @@ export default {
         },
         //check if inputs are empty
         checkInput(val) {
+            let error = false;
             if (val !== null && typeof val === "object") {
                 for (let i in val) {
                     if (
                         !val[i] ||
                         (typeof val[i] === "string" && val[i].length < 1)
                     ) {
-                        return this.e(`${i} is required`);
+                        this.e(`${i} is required`);
+                        error = true;
                     }
                 }
             } else if (!val || (typeof val === "string" && val.length < 1)) {
-                return this.i(`${val} is required`);
+                this.i(`${val} is required`);
+                error = true;
             }
+            return error;
         },
 
+        ///return true ....check if its return
         checkUserPermissions(key) {
             if (!this.userPermission) return true;
             let isPermitted = false;
