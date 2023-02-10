@@ -9,6 +9,8 @@ import login from "./admin/pages/login.vue";
 import role from "./admin/pages/role.vue";
 import assignRole from "./admin/pages/assignRole.vue";
 import blogs from "./admin/pages/blogs.vue";
+import editBlog from "./admin/pages/EditBlog.vue";
+
 Vue.use(Router);
 
 const routes = [
@@ -21,6 +23,7 @@ const routes = [
     { path: "/role", component: role, name: "role" },
     { path: "/assignrole", component: assignRole, name: "assignrole" },
     { path: "/blogs", component: blogs, name: "blogs" },
+    { path: "/editblog/:id", component: editBlog, name: "editBlog" },
 ];
 
 export default new Router({
