@@ -10,7 +10,7 @@
                         Blogs<Button
                             v-if="isWritePermitted"
                             @click="$router.push('/createblog')"
-                            ><Icon type="md-add" />Add Tag</Button
+                            ><Icon type="md-add" />Add Blog</Button
                         >
                     </p>
 
