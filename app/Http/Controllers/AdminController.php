@@ -377,6 +377,12 @@ class AdminController extends Controller
         }
     }
 
+    //get single blog item
+    public function singleBlogItem(Request $request)
+    {
+        return Blog::with(['tag', 'cat'])->where('id', $request->id)->first();
+    }
+
     //login
     public function adminlogin(Request $request)
     {
