@@ -10,6 +10,7 @@ import role from "./admin/pages/role.vue";
 import assignRole from "./admin/pages/assignRole.vue";
 import blogs from "./admin/pages/blogs.vue";
 import editBlog from "./admin/pages/EditBlog.vue";
+import notFound from "./admin/pages/notFound.vue";
 
 Vue.use(Router);
 
@@ -24,6 +25,7 @@ const routes = [
     { path: "/assignrole", component: assignRole, name: "assignrole" },
     { path: "/blogs", component: blogs, name: "blogs" },
     { path: "/editblog/:id", component: editBlog, name: "editBlog" },
+    { path: "*", component: notFound, name: "notfound" },
 ];
 
 export default new Router({
