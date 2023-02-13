@@ -24,7 +24,7 @@
                                     :key="i"
                                 >
                                     <router-link
-                                        :to="menuItem.name"
+                                        :to="'/' + menuItem.name"
                                         v-if="menuItem.read"
                                         ><Icon type="ios-speedometer" />
                                         {{ menuItem.resourceName }}</router-link
