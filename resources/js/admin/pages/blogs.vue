@@ -75,14 +75,17 @@
                                             v-if="isUpdatePermitted"
                                             type="info"
                                             size="small"
-                                            @click="showEditingModal(blog, i)"
                                             >Visit Blog</Button
                                         >
                                         <Button
                                             v-if="isUpdatePermitted"
                                             type="info"
                                             size="small"
-                                            @click="showEditingModal(blog, i)"
+                                            @click="
+                                                $router.push(
+                                                    `/editblog/${blog.id}`
+                                                )
+                                            "
                                             >Edit</Button
                                         >
                                         <Button
