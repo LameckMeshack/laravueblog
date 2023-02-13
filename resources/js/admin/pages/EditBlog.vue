@@ -224,9 +224,16 @@ export default {
         },
     },
     async created() {
-        const [cat, tag] = await Promise.all([
-            this.callApi("get", "app/get_categories"),
-            this.callApi("get", "app/get_tags"),
+        const id = parseInt(this.$route.params.id);
+        console.log(id);
+        if (!id) {
+            return this.$router.push("/notfound");
+        }
+
+        const [blog, cat, tag] = await Promise.all([
+            this.callApi("get", `/app/blog_single/${id}`),
+            this.callApi("get", "/app/get_categories"),
+            this.callApi("get", "/app/get_tags"),
         ]);
         if (cat.status == 200) {
             this.category = cat.data;
