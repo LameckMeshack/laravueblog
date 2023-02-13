@@ -24,7 +24,7 @@ const routes = [
     { path: "/role", component: role, name: "role" },
     { path: "/assignrole", component: assignRole, name: "assignrole" },
     { path: "/blogs", component: blogs, name: "blogs" },
-    { path: "/editblog/:id", component: editBlog, name: "editBlog" },
+    { path: "/editblog/:id", component: editBlog, name: "editblog" },
     {
         path: "*",
         component: notfound,

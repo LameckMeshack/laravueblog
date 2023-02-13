@@ -191,7 +191,7 @@ export default {
                         <div class="ce-block__content">
                             <div class="ce-code">
                                 <code>${obj.data.html}</code>
-                               
+
                             </div>
                             </div>
                             </div>\n`;
@@ -236,8 +236,31 @@ export default {
             this.callApi("get", "/app/get_tags"),
         ]);
         if (cat.status == 200) {
+            if (!blog.data) return this.$router.push("/notfound");
             this.category = cat.data;
             this.tag = tag.data;
+            // assign blog details
+            this.data.title = blog.data.title;
+            this.data.post_excerpt = blog.data.post_excerpt;
+            this.data.metaDescription = blog.data.metaDescription;
+            this.data.jsonData = blog.data.jsonData;
+            this.data.post = blog.data.post;
+            this.initData = JSON.parse(blog.data.jsonData);
+
+            for (let t of tag.data) {
+                for (let i = 0; i < blog.data.tag.length; i++) {
+                    if (t.id == blog.data.tag[i].id) {
+                        this.data.tag_id.push(t.id);
+                    }
+                }
+            }
+            for (let c of cat.data) {
+                for (let i = 0; i < blog.data.cat.length; i++) {
+                    if (c.id == blog.data.cat[i].id) {
+                        this.data.category_id.push(c.id);
+                    }
+                }
+            }
         } else {
             this.swr();
         }
