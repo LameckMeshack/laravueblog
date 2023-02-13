@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('blogtags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('tag_id');
-            $table->unsignedInteger('blog_id');
+            $table->foreignId("tag_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("tag_id")->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
