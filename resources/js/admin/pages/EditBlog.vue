@@ -6,7 +6,7 @@
                 <div
                     class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20"
                 >
-                    <p class="_title0">Create blog</p>
+                    <p class="_title0">Update blog</p>
                     <div class="_input_field">
                         <Input
                             type="text"
@@ -17,6 +17,7 @@
 
                     <div class="_overflow _table_div blog_editor">
                         <editor
+                            v-if="initData"
                             ref="editor"
                             autofocus
                             holder-id="codex-editor"
@@ -80,7 +81,7 @@
                             :loading="isCreating"
                             :disabled="isCreating"
                             >{{
-                                isCreating ? "Please wait..." : "Create blog"
+                                isCreating ? "Please wait..." : "Update blog"
                             }}</Button
                         >
                     </div>
@@ -136,7 +137,7 @@ export default {
             this.isCreating = true;
             const res = await this.callApi(
                 "post",
-                "app/create_blog",
+                `app/edit_blog/${this.$route.params.id}`,
                 this.data
             );
             if (res.status == 200) {
@@ -243,8 +244,6 @@ export default {
             this.data.title = blog.data.title;
             this.data.post_excerpt = blog.data.post_excerpt;
             this.data.metaDescription = blog.data.metaDescription;
-            this.data.jsonData = blog.data.jsonData;
-            this.data.post = blog.data.post;
             this.initData = JSON.parse(blog.data.jsonData);
 
             for (let t of tag.data) {
@@ -285,6 +284,6 @@ export default {
 }
 ._input_field {
     margin: 20px 0 20px 160px;
-    width: 717px;
+    width: 750px;
 }
 </style>
