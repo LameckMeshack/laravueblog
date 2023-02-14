@@ -55,7 +55,7 @@ Route::prefix('/app')->middleware('admin')->group(function () {
     Route::post('/create_blog', 'AdminController@createBlog');
     Route::get('/get_blogs', 'AdminController@blogData');
     Route::get('/blog_single/{id}', 'AdminController@singleBlogItem');
-    Route::post('/edit_blog', 'AdminController@editBlog');
+    Route::post('/edit_blog/{id}', 'AdminController@editBlog');
     Route::post('/delete_blog', 'AdminController@deleteBlog');
 });
 

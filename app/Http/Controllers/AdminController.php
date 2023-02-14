@@ -383,6 +383,51 @@ class AdminController extends Controller
         return Blog::with(['tag', 'cat'])->where('id', $request->id)->first();
     }
 
+    //edit blog
+    public function editBlog(Request $request){
+        try {
+            $this->validate($request, [
+                'title' => 'required',
+                'post' => 'required',
+                'post_excerpt' => 'required',
+                'category_id' => 'required|array',
+                'tag_id' => 'required|array',
+                'metaDescription' => 'required',
+                'jsonData' => 'required',
+            ]);
+            $categories = $request->category_id;
+            $blogCategories = [];
+            $tags = $request->tag_id;
+            $blogTags = [];
+            DB::beginTransaction();
+            $blog =  Blog::where('id', $request->id)->update([
+                'title' => $request->title,
+                'slug' => $request->title,
+                'post' => $request->post,
+                'post_excerpt' => $request->post_excerpt,
+                'user_id' => Auth::user()->id,
+                'metaDescription' => $request->metaDescription,
+                'jsonData' => $request->jsonData,
+            ]);
+            foreach ($tags as $t) {
+                array_push($blogTags, ['tag_id' => $t, "blog_id" => $request->id]);
+            }
+
+            foreach ($categories as $c) {
+                array_push($blogCategories, ['category_id' => $c, "blog_id" => $request->id]);
+            }
+            Blogtag::where('blog_id', $request->id)->delete();
+            Blogcategory::where('blog_id', $request->id)->delete();
+            Blogtag::insert($blogTags);
+            Blogcategory::insert($blogCategories);
+            DB::commit();
+            return 'done';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return 'not done';
+        }
+    }
+
     //login
     public function adminlogin(Request $request)
     {
