@@ -11,6 +11,7 @@ import assignRole from "./admin/pages/assignRole.vue";
 import blogs from "./admin/pages/blogs.vue";
 import editBlog from "./admin/pages/EditBlog.vue";
 import notfound from "./admin/pages/notFound.vue";
+// not cound 
 
 Vue.use(Router);
 
