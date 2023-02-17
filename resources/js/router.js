@@ -27,7 +27,7 @@ const routes = [
     { path: "/blogs", component: blogs, name: "blogs" },
     { path: "/editblog/:id", component: editBlog, name: "editblog" },
     {
-        path: "*",
+        path: "/*",
         component: notfound,
         name: "notfound",
     },

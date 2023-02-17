@@ -69,7 +69,9 @@ Route::get('/slug', 'AdminController@slug');
 Route::post('/logout', 'AdminController@logout');
 Route::any('/', 'AdminController@index');
 Route::any('{slug}', 'AdminController@index')->where('slug', '([A-z\d\-\/_.]+)?');
-
+Route::get('{any}', function () {
+    return view('welcome');
+})->where('any', '.*');
 
 
 // Route::any('{slug}', 'AdminController@index');
